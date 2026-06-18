@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Grupo">
+    <resultMap id="GrupoMap" type="Grupo">
+        <result property="idGrupo" column="grup_id" />        
+        <result property="nombre" column="grup_nombre" />
+        <result property="estado" column="grup_estado" />  
+        <result property="visible" column="grup_visible"/>     
+        
+        
+    </resultMap>
+    
+    
+    <select id="listar" resultMap="GrupoMap">
+select * from administracion.grupo
+        where grup_visible = true and grup_estado = true
+    </select>
+    
+   
+</mapper>

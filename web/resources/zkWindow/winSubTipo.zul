@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    
+    <window id="winVentana" title="Registro de SubTipos" width="780px"  apply="gob.peam.arcdig.view.WinSubTipo" border="normal" position="middle,center" closable="true" >       
+        
+        <div id="gDivVentana" visible="true">
+            <div style="padding:5px;">
+                <div>
+                    <button id="gBtnNuevo" zclass="btn btn-primary btn-xs" iconSclass="z-icon-file-o" label ="Nueva" />
+                    <!--<button id="gBtnEditar" zclass="btn btn-success btn-xs" iconSclass="z-icon-pencil-o" label ="Editar" />-->
+                    <button id="gBtnActualizar" zclass="btn btn-primary btn-xs" iconSclass="z-icon-refresh" label ="Actualizar" />
+                </div>
+                <div style="padding-top:10px;">
+                   
+                    <textbox id="gTxtBuscar" class="gTxtBuscar" width="420px" style="float:left;margin-left:3px;"></textbox>                                 
+
+                    <button id="gBtnBuscar" iconSclass="z-icon-search" label ="Buscar" style="margin-left:5px;" tooltiptext="Buscar"/>
+                </div>                
+            </div>
+            <listbox id="gList" width="100%" nonselectableTags="" emptyMessage="No hay Registros Encontrados" mold="paging" pageSize="10">
+                <listhead>  
+                    <listheader width="8%" label="Nro" align="center"/>
+                    <listheader hflex="3" label="Nombre  " align="left"/>
+                    <listheader label="Opción" width="100px"></listheader>
+                </listhead>
+            </listbox>
+           
+            
+        </div>
+        
+        <div id="nDivVentana" visible="false">                            
+            <div class="box-body">
+                <grid>
+                    <columns>
+                        <column align="right" width="30%"></column>  
+                        <column></column>                                            
+                    </columns>
+                    <rows>
+                        <row >                               
+                            <label>NOMBRE DE SUBTIPO </label>
+                            <textbox id="nTxtNombre" width="100%" rows="2" style="text-transform: uppercase"></textbox>
+                        </row>
+                        <!--<row >                               
+                            <label>Observación: </label>
+                            <textbox id="nTxtObservacion" width="100%" rows="2" style="text-transform: uppercase"></textbox>
+                        </row>-->
+                    </rows>
+                </grid>
+                <div style="border:1px solid #CFCFCF;padding:10px;background-color:#F0F0F0;">
+                    <button id="nBtnGuardar" zclass="btn btn-primary btn-sm" iconSclass="z-icon-save" label ="Guardar" />
+                    <button id="nBtnSalir" zclass="btn btn-success btn-sm" iconSclass="z-icon-times-circle" label ="Atras" />
+                </div>  
+            </div>
+
+            
+            
+        </div>
+        
+        
+    </window>   
+</zk>

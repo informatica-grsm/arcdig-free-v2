@@ -1,0 +1,7 @@
+
+<?page title="ArcDig v2.0"?>
+
+<zk>
+
+  <div apply="gob.peam.arcdig.view.Index" />
+</zk>

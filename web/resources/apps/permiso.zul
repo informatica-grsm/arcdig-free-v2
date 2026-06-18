@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    
+    <panel border="normal" apply="gob.peam.arcdig.view.AppPermisos">
+        <caption iconSclass="icon-pencil" style="float:left">
+            Configuración de los permisos o acceso de los usuarios hacia los modulos.
+        </caption>
+        <panelchildren>
+            <hlayout>
+                <listbox id="listUsuario" emptyMessage="No hay Registros Encontrados" mold="paging" pageSize="9"   checkmark="true"  nonselectableTags="">
+                    <auxhead sclass="category-center">
+                        <auxheader style="text-align:right"  colspan="4">
+                            <bandbox width="550px" id="filtro" instant="true" placeholder="Buscar..." sclass="input-prepend" />
+                        </auxheader>
+                    </auxhead>
+                    <auxhead sclass="category-center">
+                        <auxheader colspan="4">
+                            <button id="nuevo" iconSclass="z-icon-file-o">Nuevo</button>
+                            <button id="edit" iconSclass="z-icon-pencil">Editar</button>
+                            <button id="acceso" iconSclass="z-icon-cog">Acceso</button>&#160;                      
+                            <button id="update" iconSclass="z-icon-refresh">Actualizar</button>
+                        </auxheader>
+                    </auxhead>
+                    <listhead sizable="true">
+                        <listheader hflex="min" label="" align="center"/>
+                        <listheader hflex="min" label="Nro" align="center"/>
+                        <listheader hflex="1" label="D.N.I." align="left"/>
+                        <listheader hflex="6" label="Usuario" align="left"/>
+                    </listhead>
+                </listbox>
+                <vlayout id="formulario" visible="false" >
+                    <hlayout>
+                        <label value="Tipo de Usuario:" />
+                        <listbox mold="select" id="ltipo" height="22px">
+                            <listitem value="1" label="Invitado" selected="true" />
+                            <listitem value="2" label="Operador"/>
+                        </listbox>
+                        <radiogroup id="g1" onCheck="choice1.value = self.selectedItem.label" />
+                        <radio id="ra1" label="Activado" value="true" radiogroup="g1"  />
+                        <radio id="ra2" label="Desactivado" value="false" selected="true" radiogroup="g1" />
+                    </hlayout>
+                    
+                    <a label="Acciones Permitidas" iconSclass="z-icon-list" sclass="blue lighter rcaption"/>
+                    <listbox id="lb" sclass="task"  checkmark="true" multiple="true" width="800px" style="margin-left:50px">
+                        <listhead>
+                            <listheader width="790px"/>
+                        </listhead>
+                        <listitem id="item1" selected="true" sclass="task-green">
+                            <listcell label="" sclass="text" >
+                                <label sclass="green" style="" value="No Esta Permitido Subir Archivos"/>
+                            </listcell>
+                        </listitem>
+                        <listitem id="item2" selected="true" sclass="task-blue">
+                            <listcell label="" sclass="text" >
+                                <label sclass="blue" style="" value="No Esta Permitido ver el Repositorio"/>
+                            </listcell>
+                        </listitem>
+                        <listitem id="item3" selected="true" sclass="task-red">
+                            <listcell label="" sclass="text" >
+                                <label sclass="red" style="" value="No Esta Permitido la Edicion de Archivos"/>
+                            </listcell>
+                        </listitem>
+                        <listitem  id="item4" selected="true" sclass="task-purple">
+                            <listcell label="" sclass="text" >
+                                <label sclass="purple" style="" value="No Esta Permitido Borrar Archivos"/>
+                            </listcell>
+                        </listitem>
+                        <listitem id="item5" selected="true" sclass="task-orange">
+                            <listcell label="" sclass="text" >
+                                <label sclass="orange" style="" value="No Esta Permitido Ver Archivos Originales"/>
+                            </listcell>
+                        </listitem>
+                        
+                        <listitem id="item6" selected="true" sclass="task-green">
+                            <listcell label="" sclass="text" >
+                                <label sclass="green" style="" value="No Esta Permitido Ver Archivos Privados"/>
+                            </listcell>
+                        </listitem>
+                        
+                        <listitem id="item7" selected="false" sclass="task-purple">
+                            <listcell label="" sclass="text" >
+                                <label sclass="purple" style="" value="Solo ver archivos de su Propiedad"/>
+                            </listcell>
+                        </listitem>
+                        
+                        <listitem id="item8" selected="true" sclass="task-green">
+                            <listcell label="" sclass="text" >
+                                <label sclass="green" style="" value="No Esta Permitido Etiquetar Documentos"/>
+                            </listcell>
+                        </listitem>
+                        
+                         <listitem id="item9" selected="true" sclass="task-red">
+                            <listcell label="" sclass="text" >
+                                <label sclass="red" style="" value="No Esta Permitido Consultar en OSINFOR"/>
+                            </listcell>
+                        </listitem>
+                        
+                        <listitem id="item10" selected="true" sclass="task-blue">
+                            <listcell label="" sclass="text" >
+                                <label sclass="blue" style="" value="No Esta Permitido Agregar y quitar Documentos de un Expediente"/>
+                            </listcell>
+                        </listitem>
+                        
+                       
+                    </listbox>
+                </vlayout>
+               
+               
+            </hlayout>
+        </panelchildren>
+        
+    </panel>
+    <hlayout style="float:right; margin-top:10px" id="control" visible="false">
+        <button  label="Guardar" sclass="btn-primary " zclass="btn" iconSclass="z-icon-save"  id="aceptar"/>
+        <button  label="Cancelar" sclass="btn-warning" zclass="btn" iconSclass="z-icon-ban"  id="cancelar"/>
+        <label  value="" />
+    </hlayout>
+    
+</zk>

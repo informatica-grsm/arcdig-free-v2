@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Categoria">
+    <resultMap id="CategoriaMap" type="Categoria">
+        <result property="cateId" column="cate_id" />
+        <result property="cateNombre" column="cate_nombre" />              
+        <result property="cateEstado" column="cate_estado" />              
+        <result property="cateDescripcion" column="cate_descripcion" />
+    </resultMap>
+    
+    <select id="getListCombo" resultMap="CategoriaMap">
+        select * from categoria
+        where cate_estado = true
+        order by cate_nombre;
+    </select>
+    
+    <select id="getList" resultMap="CategoriaMap" parameterType="String">
+        select * from categoria
+        where cate_nombre ilike #{c} or cate_descripcion ilike #{c}
+        order by cate_nombre;
+    </select>
+    
+    <insert id="insert" parameterType="Categoria">
+        <selectKey keyProperty="cateId" resultType="Integer" order="BEFORE">
+            select case when max(cate_id) is null then '1' else max(cate_id)+1 end id 
+            from categoria
+        </selectKey>
+        INSERT INTO categoria(
+        cate_id, cate_nombre, cate_estado, cate_descripcion)
+        VALUES (#{cateId}, #{cateNombre}, #{cateEstado}, #{cateDescripcion});
+
+    </insert>
+    
+    <update id="update" parameterType="Categoria" >
+        UPDATE categoria
+        SET  cate_nombre=#{cateNombre}, cate_estado=#{cateEstado}, cate_descripcion=#{cateDescripcion} 
+
+        WHERE cate_id = #{cateId}
+    </update>
+    
+    <delete id="delete" parameterType="Categoria" >
+        delete from categoria
+        where cate_id = #{cateId}
+    </delete>
+    
+    <select id="getRepetido"  parameterType="Categoria" resultType="Integer">
+        select count(cate_id)::integer from categoria
+        where cate_nombre = #{cateNombre} 
+    </select> 
+    
+    <select id="getRepetidoUpdate"  parameterType="Categoria" resultType="Integer">
+        select count(cate_id)::integer from categoria
+        where cate_nombre = #{cateNombre} and cate_id!=#{cateId}
+    </select> 
+    
+    
+</mapper>
+

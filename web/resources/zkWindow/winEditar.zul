@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"  xmlns:w="client">
+    <window id="winUpload" title="Editar Archivo Subido"  border="normal" width="1024px"          
+            position="top,center" closable="true" apply="gob.peam.arcdig.view.WinEditar"
+             >
+        <style>
+            .attachBtn_doc{
+            overflow: hidden;
+       
+            cursor: pointer;
+            text-align: center;
+            color: #333;
+      
+            width: 256px;
+            height: 256px;
+            border:0px;
+            background: transparent;
+            
+            background-position: 0px 0px;
+            background-repeat: no-repeat;
+            }
+        </style>
+        <separator bar="true"/>
+        <div id="datos" >
+            <grid  style="width:100%;" >
+                <columns>
+                    <column label="" width="20%" />
+                    <column label="" width="50%" />
+                    <column label="" width="30%" />
+                </columns>
+                <rows>
+                    <row>
+                        <label value="Titulo:" />
+                        <textbox id="textTitulo" placeholder="Escriba el titulo del Archivo" hflex="1" />
+                        <label id="tituError" />
+                    </row>
+                    <row>
+                        <label value="Código/Exp/Número/etc:" />
+                        <textbox id="textCodigo" width="100%" placeholder="Escriba el código, expediente, número de trámite u otro identificador único."/>
+                        <label id="codigoError" />
+                    </row>
+                    <row>
+                        <label value="Resumen*:" />
+                        <textbox id="textResumen" placeholder="Escriba el resumen del Archivo" rows="3" hflex="1" height="80px" />
+                    </row>
+                    <row>
+                        <label>Categoria:</label>
+                        <listbox id="cateDocu" style="height:20px; padding:0px" mold="select" />
+                    </row>
+                    <row>
+                        <label value="Tipo de Documento:" />
+                        <listbox id="tipoDocu" style="height:20px; padding:0px" mold="select" />
+                    </row>
+                    <row>
+                        <label value="Fecha del Archivo:" />
+                        <datebox id="fechaDocu" mold="rounded" width="120px"  format="dd/MM/yyyy"/>
+                    </row>
+                    <row>
+                        <label value="Etiquetas:" />
+                        <div id="etiquetas" style="cursor:pointer">
+                            
+                        </div>
+                    </row>
+                    <row>
+                        <label value="Privacidad:" />
+                        <div>
+                            <menupopup id="m1" style="margin-left:0px">
+                                <menuitem label="Público" iconSclass="z-icon-globe" sclass="sub-modu" onClick="privilegio.setIconSclass(self.getIconSclass())"/>
+                                <menuitem label="Privado" iconSclass="z-icon-user" sclass="sub-modu" onClick="privilegio.setIconSclass(self.getIconSclass())"/>
+                                <menuitem label="Personalizado" id="personaliza" sclass="sub-modu" iconSclass="z-icon-cog" onClick="privilegio.setIconSclass(self.getIconSclass())"/>
+                            </menupopup>
+                            <div class="btn-group" style="margin:right:20px">
+                                <button class="btn-info btn btn-sm" id="privilegio" iconSclass="z-icon-globe" style="margin-right:0px; border-bottom-right-radius: 0px; border-top-right-radius: 0px;"> </button>
+                                <button class="btn-info btn btn-sm dropdown-toggle"  style="margin-left:-2px " iconSclass="caret"
+                                        onClick='m1.open(self.previousSibling, "after_start")'>
+                                </button>
+                            </div>
+                        </div>
+                    </row>
+                    
+                    <row>
+                        <label value="Notificar o compatir en:" />
+                        <button class="btn-info btn btn-sm" id="notificar" label="Correo" iconSclass="z-icon-envelope"  />
+                    </row>
+                </rows>
+            </grid>
+            <grid  style="width:100%; " >
+                <columns>
+                    <column label="" width="20%" />
+                    <column label="" width="70%" />
+                    <column label="" width="10%" />
+                </columns>
+                <rows id="rows">
+                </rows>
+            </grid>
+        </div>
+        
+        <hlayout width="100%"  style="text-align:right" >
+            <button id="up" xmlns:w="client" autodisable="self" iconSclass="z-icon-folder-open" sclass="btn btn-sm btn-info"  upload="true,maxsize=245760">Remplazar Archivo</button>
+            <button iconSclass="z-icon-ban" autodisable="self" id="close" sclass="btn btn-sm btn-warning">Cancelar</button>
+            <button id="save" autodisable="self" iconSclass="z-icon-arrow-right"  sclass="btn btn-sm btn-primary">Actualizar</button>
+        </hlayout>
+        <iframe id="viewFrame"  width="1000px" height="500px"  />
+        
+    </window>
+    
+    
+    
+</zk>
+

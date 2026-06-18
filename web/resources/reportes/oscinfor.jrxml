@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ficha_vacacion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1704cb46-b252-4e6e-8310-03df69c7df74">
+	<property name="ireport.zoom" value="1.7715610000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="285"/>
+	<style name="cabecera" forecolor="#000000" backcolor="#000000" fill="Solid">
+		<box>
+			<pen lineStyle="Double"/>
+			<topPen lineWidth="0.5" lineStyle="Solid"/>
+			<leftPen lineWidth="0.5" lineStyle="Solid"/>
+			<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="interlineado">
+		<box>
+			<bottomPen lineWidth="0.25" lineStyle="Dashed" lineColor="#666666"/>
+		</box>
+	</style>
+	<style name="resumen">
+		<box>
+			<bottomPen lineWidth="0.5" lineColor="#333333"/>
+			<rightPen lineWidth="0.5" lineColor="#333333"/>
+		</box>
+	</style>
+	<style name="linea_abajo_doble">
+		<box>
+			<bottomPen lineWidth="0.5" lineStyle="Double" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="linea_abajo">
+		<box>
+			<bottomPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<parameter name="nombre" class="java.lang.String"/>
+	<parameter name="dni" class="java.lang.String"/>
+	<parameter name="fecha" class="java.util.Date"/>
+	<parameter name="dependencia" class="java.lang.String"/>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from log_oscinfor
+where log_id = $P{id} ]]>
+	</queryString>
+	<field name="log_id" class="java.lang.Integer"/>
+	<field name="log_fecha" class="java.sql.Timestamp"/>
+	<field name="NUM_THABILITANTE" class="java.lang.String"/>
+	<field name="TITULAR" class="java.lang.String"/>
+	<field name="MODALIDAD" class="java.lang.String"/>
+	<field name="CADUCADO_TH" class="java.lang.String"/>
+	<field name="NOMBRE_POA" class="java.lang.String"/>
+	<field name="ARESOLUCION_NUM" class="java.lang.String"/>
+	<field name="COD_INFORME" class="java.lang.String"/>
+	<field name="NUM_INFORME" class="java.lang.String"/>
+	<field name="FECHA_SUPERVISION_INI" class="java.lang.String"/>
+	<field name="FECHA_SUPERVISION_FIN" class="java.lang.String"/>
+	<field name="NUM_RESOLUCION_INI" class="java.lang.String"/>
+	<field name="FECHA_EMISION_INI" class="java.lang.String"/>
+	<field name="MED_CAU" class="java.lang.String"/>
+	<field name="INFRACCIONES_INI" class="java.lang.String"/>
+	<field name="NUM_RESOLUCION_AMP" class="java.lang.String"/>
+	<field name="FECHA_EMISION_AMP" class="java.lang.String"/>
+	<field name="INFRACCIONES_AMP" class="java.lang.String"/>
+	<field name="NUM_RESOLUCION_VAIMP" class="java.lang.String"/>
+	<field name="FECHA_EMISION_VAIMP" class="java.lang.String"/>
+	<field name="INFRACCIONES_VAIMP" class="java.lang.String"/>
+	<field name="NUM_RESOLUCION_TER" class="java.lang.String"/>
+	<field name="FECHA_EMISION_TER" class="java.lang.String"/>
+	<field name="DETER_TER" class="java.lang.String"/>
+	<field name="MONTO_MULTA_TER" class="java.lang.String"/>
+	<field name="AMONESTACION" class="java.lang.String"/>
+	<field name="CADUCIDAD" class="java.lang.String"/>
+	<field name="MED_PRECAU" class="java.lang.String"/>
+	<field name="MED_CORREC" class="java.lang.String"/>
+	<field name="NUM_RESOLUCION_RECONS" class="java.lang.String"/>
+	<field name="FECHA_EMISION_RECONS" class="java.lang.String"/>
+	<field name="DETER_RECONS" class="java.lang.String"/>
+	<field name="LEV_CADUCIDAD_RECONS" class="java.lang.String"/>
+	<field name="CAMBIO_MULTA_RECONS" class="java.lang.String"/>
+	<field name="MONTO_MULTA_RECONS" class="java.lang.String"/>
+	<field name="NUM_RESOLUCION_RECTI" class="java.lang.String"/>
+	<field name="FECHA_EMISION_RECTI" class="java.lang.String"/>
+	<field name="MOTIVO_RECTI" class="java.lang.String"/>
+	<field name="MONTO_MULTA_RECTI" class="java.lang.String"/>
+	<field name="NUM_RESOLUCION_TFFS" class="java.lang.String"/>
+	<field name="FECHA_EMISION_TFFS" class="java.lang.String"/>
+	<field name="ESTADO_PAU" class="java.lang.String"/>
+	<field name="FECHA_ACTUALIZACION" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement style="resumen" x="10" y="0" width="534" height="23" uuid="10960bf6-0fba-40f6-adc3-65e68e83c6b6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GOBIERNO REGIONAL DE SAN MARTIN (GRSM) ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="382" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="34" width="144" height="27" uuid="69513da7-c6bc-4c9c-909b-0de769a48655"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Titular(es):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="60" width="144" height="15" uuid="c1ccac87-0c73-4a60-9e73-3465e7e6aedb"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Titulo Habilitante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="74" width="144" height="15" uuid="7df48d4e-b029-4261-b6d4-fd7dda401b2c"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Modalidad de Aprovechamiento:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="153" y="34" width="389" height="26" isPrintWhenDetailOverflows="true" uuid="06ec912d-5aa5-4816-a347-48ebe7839a87"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TITULAR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="153" y="60" width="390" height="15" uuid="678d20ad-fe59-4e9f-a74b-379397baa406"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUM_THABILITANTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="74" width="389" height="15" uuid="26b7c629-c99a-45b7-8e2a-d7de8bf781c4"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MODALIDAD}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="14" width="534" height="20" uuid="c9215c09-0be4-40fb-abdd-442eef780051"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Datos Generales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="89" width="144" height="15" uuid="57c19d85-e1ee-4e96-84a4-a4c788b0a3c1"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plan de Manejo Forestal:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="89" width="388" height="15" uuid="74072cd9-3a75-42ed-b59a-edd844d10409"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE_POA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="104" width="144" height="15" uuid="fe9fe6b3-8dc7-496e-9b23-a8f601d403fd"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Res. de Aprobación del Plan:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="104" width="388" height="15" uuid="141a3153-cf44-4922-843d-d44421c2cbcb"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ARESOLUCION_NUM}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="142" width="534" height="20" uuid="a693c5d2-359a-45c9-9cad-62fc0595f2b0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Estado Actual del Titulo Habilitante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="162" width="144" height="15" uuid="0620f265-c4d3-444c-a029-a39e64874d8d"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Caducado:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="162" width="388" height="15" uuid="f127a68f-56a8-43fe-b1ce-c4a2a1651982"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{CADUCADO_TH}=="0"? "NO" : "SI" )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="189" width="535" height="20" uuid="eaa331a0-b61b-4fda-901d-bae538cad771"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Supervisión y Fiscalización del OSINFOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="209" width="144" height="15" uuid="22b20453-925d-4673-8b8e-681960f03ac5"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Supervisión Inicio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="224" width="144" height="15" uuid="f363644f-297b-46ea-a46a-ff5b0625fd08"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Supervisión Fin:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="239" width="144" height="15" uuid="e8a457c0-97e7-4aaa-9de0-00801eb24750"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro Res. Inicio PAU:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="254" width="144" height="15" uuid="4327a8a9-8342-416f-9507-42e006347c25"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro Res. Término PAU:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="269" width="144" height="15" uuid="a3c39db1-3512-45e0-8790-f8c22e2dae43"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Se resuelve:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="284" width="144" height="20" uuid="cec8e4d7-1d0b-4597-a19c-a191dc1863eb"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Indicaciones:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="304" width="144" height="15" uuid="8dd5a9c7-1095-47ea-9806-c4d664427992"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Multa Determinada:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="209" width="390" height="15" uuid="be5bc060-483f-4cb0-aae8-b19283413ba1"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA_SUPERVISION_INI}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="224" width="390" height="15" uuid="1ec30b56-f2ee-4929-8821-5af19b804c87"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA_SUPERVISION_FIN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="239" width="390" height="15" uuid="d3375cc6-0321-4a1c-a596-7fd222542afc"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUM_RESOLUCION_INI}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="254" width="389" height="15" uuid="18fbcf89-617c-4b09-91ca-293f149e5559"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUM_RESOLUCION_TER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="269" width="390" height="15" uuid="11a34c70-f11d-4f59-a7f4-825cf429c10f"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DETER_TER}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="154" y="284" width="390" height="20" uuid="d4e1267e-560e-4911-a813-58a382ff96da"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INFRACCIONES_INI}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="304" width="390" height="15" uuid="1f762dc1-e6d9-450d-a835-fbcd2823e5db"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONTO_MULTA_TER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="334" width="534" height="20" uuid="30b11bc3-6802-4bc0-a01e-29d1614ff2fc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Estado Actual del Proceso]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="354" width="532" height="20" uuid="f63e6654-59d5-467d-ae1e-59a0371ebc45"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESTADO_PAU}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band/>
+	</detail>
+	<columnFooter>
+		<band height="42">
+			<line>
+				<reportElement x="9" y="14" width="534" height="1" uuid="f1c37b95-3162-4841-bc55-d14c59b13329"/>
+			</line>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="361" y="15" width="101" height="12" uuid="56e410f4-6abe-45f6-9d76-c0ae15d9477d"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="523" y="15" width="28" height="12" uuid="4241583a-4d4f-47db-bdf6-ee411136a5c5"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="462" y="15" width="61" height="12" uuid="e50171fd-0345-4748-991e-c1c536a3f640"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="15" width="351" height="12" uuid="39571a32-7189-44fa-8f36-36e61eccd3f3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[*Esta información es solo de uso informativo brindada por OSCINFOR]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="382" y="0" width="162" height="14" uuid="18030210-d34d-4343-ba5b-93af48109e77"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha de Actualización: "+$F{FECHA_ACTUALIZACION}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

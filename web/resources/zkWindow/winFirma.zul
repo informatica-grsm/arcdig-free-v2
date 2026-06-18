@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window id="winFirma"  border="normal" width="1000px"          
+            position="middle,center" closable="true"
+            title="Historial de Firmas Digitales" apply="gob.peam.arcdig.view.WinFirma" >
+        
+        <vlayout>
+            
+            <listbox id="nListFirmas" width="100%" style="position:relative; border:1px solid #CFCFCF;" emptyMessage="No Contiene Firmas Digitales"  nonselectableTags="*">
+                <listhead>
+                    <listheader hflex="min" label="Item" align="center"/>
+                    <listheader hflex="3" label="Firmado por:" align="center" />                                              
+                    <listheader hflex="1" label="Fecha y Hora" align="center"/> 
+                    <listheader hflex="2" label="Indicación" align="center" />                                     
+                    <listheader hflex="4" label="Firmado desde: " align="center" />
+                </listhead>
+            </listbox>
+            
+            <!-- href="http://172.16.100.236:8084/WebApp/resources/java/connector.jar" target="_BLANK" -->
+            <button label="Aceptar" id="cancelar" iconSclass="z-icon-check" />
+        </vlayout>
+    </window>
+</zk>
+

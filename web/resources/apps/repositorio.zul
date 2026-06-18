@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <hlayout apply="gob.peam.arcdig.view.Repositorio">
+        <hbox spacing="0"   height="100%">
+            <vbox spacing="0" width="100%" >
+                <menupopup id="editPopup">
+                    <menuitem id="menuAdjuntar" image="/resources/img/send.png" label="Adjuntar Otro Documento" />
+                    <menuitem id="menuVerSocio" image="/resources/img/view.png" label="Ver Asociaciones" />
+                    <menuitem id="menuVerFirma" image="/resources/img/firma.png" label="Verificar Firma Digital" />
+                </menupopup>
+                <tree id="explorerTree" width="100%"  height="600px">
+                    <auxhead>
+                        <auxheader style="text-align:right"  colspan="3">
+                            <div>
+                                <menupopup id="m1" style="margin-left:0px">
+                                    <menuitem id="newCarpeta" label="Nueva Carpeta" iconSclass="z-icon-folder-open-o" sclass="sub-modu" />
+                                    <menuitem id="deleteCarpeta" label="Eliminar Carpeta" sclass="sub-modu" iconSclass="z-icon-trash-o" />
+                                    <menuitem id="updateCarpeta" label="Actualizar" sclass="sub-modu" iconSclass="z-icon-refresh" />
+                                </menupopup>
+                                <div class="btn-group" style="margin:right:20px">
+                                    <button class="btn btn-sm"  iconSclass="z-icon-cog" id='opcion1' label="Opciones" style="margin-right:0px; border-bottom-right-radius: 0px; border-top-right-radius: 0px;"> </button>
+                                    <button class=" btn btn-sm dropdown-toggle" id='opcion2' style="margin-left:-2px " iconSclass="caret"
+                                            onClick='m1.open(self.previousSibling, "after_start")'>
+                                    </button>
+                                </div>
+                            </div>
+                        </auxheader>
+                    </auxhead>
+                    <treecols sizable="true" >
+                        <treecol id="rutaVista" label="./" width="100%" />
+                        
+                    </treecols>
+                </tree>
+            </vbox>
+            <splitter id="s2"  collapse="after"/>
+            <vbox>
+                <listbox id="archivos"    multiple="true" checkmark="true"  nonselectableTags="button" >
+                    <auxhead >
+                        <auxheader style="text-align:right"  colspan="4">
+                            <div>
+                                <menupopup id="m2" style="margin-left:0px">
+                                    <menuitem id="newFile" label="Subir Archivo" iconSclass="z-icon-upload" sclass="sub-modu" />
+                                    <menuitem id="editFile" label="Editar Archivo" sclass="sub-modu" iconSclass="z-icon-pencil" />
+                                    <menuitem id="deleteFile" label="Eliminar Archivo" sclass="sub-modu" iconSclass="z-icon-trash-o" />
+                                    <menuitem id="moveFile" label="Mover Archivo A:" sclass="sub-modu" iconSclass="z-icon-share" />
+                                    <menuitem id="viewFile" label="Ver Archivo" sclass="sub-modu" iconSclass="z-icon-eye" />
+                                    <menuitem id="oriFile" label="Ver Original" sclass="sub-modu" iconSclass="z-icon-eye-slash" />
+                                </menupopup>
+                                <div class="btn-group" style="margin:right:20px">
+                                    <button class="btn btn-sm" id="update" iconSclass="z-icon-refresh">Actualizar</button>
+                                    <button class="btn btn-sm" iconSclass="z-icon-cog" label="Opciones" style="margin-right:0px; border-bottom-right-radius: 0px; border-top-right-radius: 0px;"> </button>
+                                    <button class=" btn btn-sm dropdown-toggle"  style="margin-left:-2px " iconSclass="caret"
+                                            onClick='m2.open(self.previousSibling, "after_start")'>
+                                    </button>
+                                </div>
+                            </div>
+                        </auxheader>
+                    </auxhead>
+                    <listhead sizable="true">
+                        <listheader label="" width="30px"></listheader>
+                        <listheader label="" width="30px"></listheader>
+                        <listheader label="" hflex="min">
+                            <bandbox  id="filtro" placeholder="Buscar Archivo"   width="200px" instant="true"/>
+                        </listheader>
+                        <listheader label="info" hflex="max">
+                        </listheader>
+                    </listhead>
+                </listbox>
+                <paging id="pagingData" pageSize="15" visible="true"/>
+            </vbox>
+        </hbox>
+    </hlayout>
+</zk>

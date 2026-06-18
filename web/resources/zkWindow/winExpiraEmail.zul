@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+<window id="WinExpiraEmail" title="Sobre la Notificación"  border="normal" width="600px"          
+            position="middle,center" closable="true" 
+         apply="gob.peam.arcdig.view.WinExpiraEmail">
+    <grid>
+            <columns>
+                <column width="120px" />
+                <column  />
+                <column  width="180px" />
+            </columns>
+            <rows>
+                <row>
+                    <label value="Fecha de Vencimiento:" />
+                    <datebox id="fechaVencimiento" mold="rounded" width="120px" onCreate="self.value = new Date()"   format="dd/MM/yyyy"/>
+                </row>
+                
+                <row >
+                    <label value="Veces al Día" />
+                     <spinner value="1" id="veces" />
+                </row>
+                
+                <row style="text-align:center">
+                    <button  label="Aceptar" autodisable="self" id="save"/>
+                    <button label ="Cancelar" autodisable="self" id="cancelar"/>
+                </row>
+            </rows>
+        </grid>
+</window>
+</zk>

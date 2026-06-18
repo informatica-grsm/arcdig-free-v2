@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EtiquetaDocu">
+    <resultMap id="EtiquetaDocuMap" type="EtiquetaDocu">
+        <result property="id" column="etiq_id" />
+        <result property="nombre" column="etiq_nombre" />   
+        <result property="estado" column="etiq_estado" />   
+    </resultMap>
+    
+    
+    <select id="getList" parameterType="HashMap" resultMap="EtiquetaDocuMap">
+        select * from etiqueta
+        where etiq_nombre ilike  ${c}
+        order by etiq_nombre asc;
+    </select> 
+    
+    <select id="listarEtiquetaDocu" resultMap="EtiquetaDocuMap">
+        select * from etiqueta
+        order by etiq_nombre asc;
+    </select> 
+    
+    
+    <insert id="insert" parameterType="gob.peam.arcdig.beans.DocumentoEtiqueta" >
+        <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+            select case when max(doet_id) is null then '1' else max(doet_id)+1 end id 
+            from documento_etiqueta
+        </selectKey>
+        INSERT INTO documento_etiqueta(
+        doet_id, docu_id, etiq_id)
+        VALUES (#{id}, #{docuId}, #{etiqId});
+    </insert>
+    
+    <delete id="delete"  parameterType="Integer">
+        delete from documento_etiqueta
+        where docu_id = #{id}
+    </delete>
+    
+    <insert id="insertEtiqueta" parameterType="EtiquetaDocu">
+        <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+            select case when max(etiq_id) is null then '1' else max(etiq_id)+1 end id 
+            from etiqueta
+        </selectKey>
+        INSERT INTO etiqueta(
+        etiq_id, etiq_nombre, etiq_estado, etiq_nivel)
+        VALUES (#{id}, #{nombre}, #{estado}, #{nivel});
+
+    </insert>
+    
+    <update id="update" parameterType="EtiquetaDocu" >
+        UPDATE etiqueta
+        SET  etiq_nombre=#{nombre}, etiq_estado=#{estado}, etiq_nivel = #{nivel}
+        WHERE etiq_id = #{id}
+    </update>
+    
+    <delete id="deleteEtiqueta" parameterType="EtiquetaDocu" >
+        delete from etiqueta
+        where etiq_id = #{id}
+    </delete>
+    
+    <select id="getRepetidoUpdate"  parameterType="EtiquetaDocu" resultType="Integer">
+        select count(etiq_id)::integer from etiqueta
+        where etiq_nombre = #{nombre} and etiq_id!=#{id}
+    </select> 
+    
+    <select id="getRepetido"  parameterType="EtiquetaDocu" resultType="Integer">
+        select count(etiq_id)::integer from etiqueta
+        where etiq_nombre = #{nombre} 
+    </select> 
+    
+        
+    <select id="getEtiquetaDocu"  parameterType="Integer" resultMap="EtiquetaDocuMap">
+        select * from etiqueta
+        where etiq_id = #{id} 
+    </select> 
+    
+</mapper>

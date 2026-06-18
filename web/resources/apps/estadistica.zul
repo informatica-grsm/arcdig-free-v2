@@ -1,0 +1,277 @@
+<zk xmlns:n="native">
+    <panel border="normal" sclass="conversation" >
+        <caption iconSclass="z-icon-signal" >
+            <button label="Este A&#241;o" sclass="btn btn-sm btn-primary " 
+                    popup="datepp, position=after_end, type=toggle"/>
+            <popup id="datepp" width="125px" sclass="date">
+                <listbox>
+                    <listitem class="uno" label="Este A&#241;o" selected="true"/>
+                    <listitem class="cinco" label="A&#241;o Pasado" onClick="datepp.close()"/>
+                    <listitem class="dos" label="Semana Pasada" onClick="datepp.close()"/>
+                    <listitem class="tres" label="Este Mes" onClick="datepp.close()"/>
+                    <listitem class="cuatro" label="Mes Pasado" onClick="datepp.close()"/>
+                </listbox>
+            </popup>
+        </caption>
+        <panelchildren>
+            <vlayout>
+                <div class="piechart-placeholder"/>
+                
+            </vlayout>
+        </panelchildren>
+    </panel>
+    <panel border="normal" sclass="conversation" apply="gob.peam.arcdig.view.AppReport1">
+        <caption iconSclass="z-icon-signal" >
+            <button id="bSelect" label="Resumen de Subida de Archivos por Usuario" sclass="btn btn-sm btn-primary " 
+                    popup="dateppp, position=after_end, type=toggle"/>
+            <popup id="dateppp" width="400px" sclass="date">
+                <listbox id="listItem">
+                    <listitem label="Resumen de Subida de Archivos por Usuario" selected="true" onClick="bSelect.setLabel(self.getLabel()); dateppp.close()"/>
+                    <listitem label="Resumen de Subida Por Catalogo y Tipo Documento" onClick="bSelect.setLabel(self.getLabel());  dateppp.close()"/>
+                    <listitem label="Reporte Detallado de Subida de Archivos" onClick="bSelect.setLabel(self.getLabel()); dateppp.close()"/>
+                    <listitem label="Detalle de Subida por Tipo Documento / Campos Extras" onClick="bSelect.setLabel(self.getLabel()); dateppp.close()"/>
+                    <listitem label="Reporte Detallada de Archivos Digitales" onClick="bSelect.setLabel(self.getLabel()); dateppp.close()"/>
+                </listbox>
+            </popup>
+        </caption>
+        <panelchildren>
+            <vlayout>
+                <hlayout >
+                    <listbox id="listUsuario" rows="3" multiple="true"  checkmark="true" >
+                        <listhead sizable="true">
+                            <listheader hflex="1" label="" />
+                            <listheader hflex="2" label="Codigo" />
+                            <listheader hflex="9">
+                                <bandbox width="550px" id="filtro" instant="true" placeholder="Buscar..." sclass="input-prepend" />
+                            </listheader>
+                        </listhead>
+                    </listbox>
+                </hlayout>
+                <grid>
+                    <columns>
+                        <column width="8%"></column>
+                        <column width="30%"></column>
+                        <column width="12%"></column>
+                        <column width="30%"></column>
+                        <column width="20%"></column>
+                    </columns>
+                    <rows>
+                        <row>
+                            <label value="De"  />
+                            <datebox id="fechaInicio1"  format="dd/MM/yyyy"  width="200px"  />
+                            <label value="Hasta" id="hasta"  />
+                            <datebox id="fechaFinal1"  format="dd/MM/yyyy"  width="200px"  />
+                            <button id="aceptar" label="Reportar" />
+                        </row>
+                    </rows>
+                </grid>
+            </vlayout>
+        </panelchildren>
+    </panel>
+    
+    <script src="resources/js/excanvas.min.js" if="${zk.ie lt 9}"/>
+    <script src="resources/js/jquery.easy-pie-chart.min.js"></script>
+    <script src="resources/js/jquery.flot.min.js"/>
+    <script src="resources/js/jquery.flot.pie.js"/>
+    <script src="resources/js/jquery.sparkline.min.js"></script>
+    
+    
+    <script><![CDATA[
+zk.afterMount(function(){
+	// Draw easy pie chart
+	if (!zk.ie || zk.ie > 8) { // Easy pie chart does not work in IE8
+		$('.easy-pie-chart.percentage').each(function(){
+			var $box = $(this).closest('.infobox');
+			var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
+			var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
+			var size = parseInt($(this).data('size')) || 50;
+			$(this).easyPieChart({
+				barColor: barColor,
+				trackColor: trackColor,
+				scaleColor: false,
+				lineCap: 'butt',
+				lineWidth: parseInt(size/10),
+				animate: /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()) ? false : 1000,
+				size: size
+			});
+		});
+	}
+
+	// Draw Sparkline
+	$('.sparkline').each(function(){
+		var $box = $(this).closest('.infobox');
+		var barColor = !$box.hasClass('infobox-dark') ? $box.css('color') : '#FFF';
+		$(this).sparkline('html', {tagValuesAttribute:'data-values', type: 'bar', barColor: barColor , chartRangeMin:$(this).data('min') || 0} );
+	});
+
+	// Draw Traffic Source Pie Chart
+	var placeholder = $('.piechart-placeholder').css({'width':'90%' , 'min-height':'150px', 'text-align': 'center'});
+        
+        var data;
+        var ref = 'uno'
+        
+        $('.dos').click(function(){
+            ref = 'dos'
+            $a();
+        });
+        
+        $('.tres').click(function(){
+            ref = 'tres'
+            $a();
+        });
+        
+        $('.cuatro').click(function(){
+            ref = 'cuatro'
+            $a();
+        });
+        
+        $('.uno').click(function(){
+            ref = 'uno'
+            $a();
+        });
+        
+        $('.cinco').click(function(){
+            ref = 'cinco'
+            $a();
+        });
+        
+        var $a = function(){
+        placeholder.css({'text-align': 'center'});
+        placeholder.html("<img src='./resources/img/ajax-loader.gif' style='margin-top: -200px; ' />");
+        $.ajax({
+        url: "./Graph?action=circle&ref="+ref,
+        dataType:'json',
+        success:function(response){
+        var data = response;
+        placeholder.css({'text-align': 'left'});
+        function drawPieChart(placeholder, data, position) {
+        
+		  $.plot(placeholder, data, {
+		series: {
+			pie: {
+				show: true,
+				tilt:0.8,
+				highlight: {
+					opacity: 0.25
+				},
+				stroke: {
+					color: '#fff',
+					width: 2
+				},
+				startAngle: 2
+			}
+		},
+		legend: {
+			show: true,
+			position: position || "ne", 
+			labelBoxBorderColor: null,
+			margin:[-30,15]
+		}
+		,
+		grid: {
+			hoverable: true,
+			clickable: true
+		}
+	 })
+	}
+	drawPieChart(placeholder, data);
+
+	placeholder.data('chart', data);
+	placeholder.data('draw', drawPieChart);
+
+  var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
+  var previousPoint = null;
+
+  // Show tooltip when hover plot
+  placeholder.on('plothover', function (event, pos, item) {
+	if(item) {
+		if (previousPoint != item.seriesIndex) {
+			previousPoint = item.seriesIndex;
+			var tip = item.series['label'] + " : " + item.series['percent']+'%';
+			$tooltip.show().children(0).text(tip);
+		}
+		$tooltip.css({top:pos.pageY + 10, left:pos.pageX + 10});
+	} else {
+		$tooltip.hide();
+		previousPoint = null;
+	}
+	
+ });
+
+
+	var d1 = [];
+	for (var i = 0; i < Math.PI * 2; i += 0.5) {
+		d1.push([i, Math.sin(i)]);
+	}
+
+	var d2 = [];
+	for (var i = 0; i < Math.PI * 2; i += 0.5) {
+		d2.push([i, Math.cos(i)]);
+	}
+
+	var d3 = [];
+	for (var i = 0; i < Math.PI * 2; i += 0.2) {
+		d3.push([i, Math.tan(i)]);
+	}
+
+	// Draw Sale Stats charts
+	var sales_chart = $('.sales-chart').css({'width':'100%' , 'height':'220px'});
+	$.plot(".sales-chart", [
+		{ label: "Domains", data: d1 },
+		{ label: "Hosting", data: d2 },
+		{ label: "Services", data: d3 }
+	], {
+		hoverable: true,
+		shadowSize: 0,
+		series: {
+			lines: { show: true },
+			points: { show: true }
+		},
+		xaxis: {
+			tickLength: 0
+		},
+		yaxis: {
+			ticks: 10,
+			min: -2,
+			max: 2,
+			tickDecimals: 3
+		},
+		grid: {
+			backgroundColor: { colors: [ "#fff", "#fff" ] },
+			borderWidth: 1,
+			borderColor:'#555'
+		}
+	});
+        }
+        });
+        }
+        $a();
+	var data
+	
+});
+if (zk.ie && zk.ie < 8) { 
+	jq.alert("Your browser is not supported, please use the latest one! (IE8+)");
+}
+	]]></script>
+    <script if='${execution.serverName == "www.zkoss.org" or execution.serverName == "www.potix.com"}'><![CDATA[
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
+var gafn = function () {
+if (window._gat) {
+	gafn = null;
+	try {
+		var pageTracker = _gat._getTracker("UA-121377-3");
+		pageTracker._setDomainName("zkoss.org");
+		pageTracker._initData();
+		pageTracker._trackPageview();
+
+	} catch (e) {
+	}
+} else
+	setTimeout(gafn, 1000);
+};
+gafn();
+]]></script>
+    
+</zk>

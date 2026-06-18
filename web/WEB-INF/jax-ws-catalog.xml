@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://observatorio.osinfor.gob.pe:99/WSDataOSINFOR.asmx?WSDL" uri="wsdl/observatorio.osinfor.gob.pe_99/WSDataOSINFOR.asmx.wsdl"/>
+</catalog>

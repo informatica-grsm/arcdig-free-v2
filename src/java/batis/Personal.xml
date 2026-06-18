@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Personal">
+    <resultMap id="PersonalMap" type="Personal">
+        <id property="id" column="id" />
+        <id property="idRP" column="id_r_p" />
+        <result property="nombreCompletoNPM" column="nombre_completo" />
+        <result property="sexo" column="sexo" />
+        <result property="nombre" column="nombre" />
+        <result property="apellidoPaterno" column="apellido_paterno" />
+        <result property="apellidoMaterno" column="apellido_materno" />
+        <result property="fechaNacimiento" column="fecha_nacimiento" />
+        <result property="estadoCivil" column="estado_civil" />
+        <result property="tipoDocumento" column="tipo_documento" />
+        <result property="emisoDocPais" column="emiso_doc_pais" />
+        <result property="documento" column="documento" />
+        <result property="ruc" column="ruc" />
+        <result property="emailLab" column="email_lab" />
+        <result property="anexo" column="anexo" />
+        <result property="fechaIngresoPublic" column="fecha_ingreso_public" />
+        <result property="fechaIngresoEnti" column="fecha_ingreso_enti" />
+        <result property="nivelEducativo" column="nivel_educativo" />
+        <result property="formProfesional" column="form_profesional" />
+        <result property="emailAlternativo" column="email_alternativo" />
+        <result property="discapacidad" column="discapacidad" />
+        <result property="nacionalidad" column="nacionalidad" />
+        <result property="codigoPostal" column="codigo_postal" />
+        <result property="telefono" column="telefono" />
+        <result property="celular" column="celular" />
+        <result property="domicilio" column="domicilio" />
+        <!--Exclusivo de un Locador -->
+        <result property="tipo" column="tipo" />
+        <result property="RegLaboral" column="reg_laboral" />
+        <result property="RegPensionario" column="reg_pension" />
+        <result property="codigoCussp" column="codigo_cussp" />
+        <result property="nroCuenta" column="nro_cuenta" />
+        <result property="seguro" column="seguro_salud" />
+        <result property="codigoSeguro" column="codigo_seguro" />
+        <result property="codigoColegiado" column="codigo_colegiado" />
+        <result property="idG" column="id_g" />
+        <result property="marca" column="marca" />
+        <result property="comision" column="comision" />
+        <result property="afp" column="afp" />
+        <result property="banco" column="id_b" />
+        <result property="fechaCese" column="fecha_cese" />
+        <result property="fotoPerfil" column="foto_perfil" />
+        <result property="fotoPortada" column="foto_portada" />
+        <result property="idC" column="id_c" />
+        
+    </resultMap>
+    
+    <resultMap id="PersonalMiniMap" type="Personal">
+        <id property="id" column="id" />
+        <id property="idRP" column="id_r_p" />
+        <result property="nombreCompletoNPM" column="nombre_completo" />
+        <result property="documento" column="documento" />
+        <result property="idG" column="id_g" />
+        <result property="marca" column="marca" />
+        
+    </resultMap>
+    
+    
+    
+    <select id="getList" parameterType="HashMap" resultMap="PersonalMap">
+        select t1.documento, t1.id_r_p, t1.id ,t1.reg_laboral, t1.reg_pension, t1.fecha_ingreso_enti , t1.apellido_paterno|| ' '|| t1.apellido_materno||', ' || t1.nombre as nombre_completo, t2.nombre profesion,
+        case when sexo= '1' then 'Masculino'  else
+        case when sexo = '2' then 'Femenino' end end nombreSexo,
+        t3.id cargo, t3.nombre
+        from personal.personal t1 
+        left join formacion t2 on t1.form_profesional = t2.id
+        left join personal.cargo t3 on t1.id_c = t3.id
+        where ( t1.nombre||' '|| t1.apellido_paterno|| ' '|| t1.apellido_materno ILIKE #{c} or t1.documento ILIKE #{c}) and  t1.estado = true   order by nombre_completo asc
+    </select>
+    
+    <select id="getListCombo" parameterType="HashMap" resultMap="PersonalMiniMap">
+        select t1.id, t1.id_r_p,  t1.apellido_paterno|| ' '|| t1.apellido_materno||', ' || t1.nombre) as nombre_completo, documento, id_g, marca
+        from personal.personal t1 
+        where t1.estado = true and marca = true  and t1.tipo = #{tipo} and t1.nombre||' '|| t1.apellido_paterno|| ' '|| t1.apellido_materno ILIKE #{c}
+        order by t1.apellido_paterno asc
+    </select>
+    <select id="getListComboTodo" parameterType="HashMap" resultMap="PersonalMiniMap">
+        select t1.id, t1.id_r_p,  t1.apellido_paterno|| ' '|| t1.apellido_materno||', ' || t1.nombre  nombre_completo, documento, id_g, marca
+        from personal.personal t1 
+        where t1.estado = true   and t1.tipo = #{tipo} and t1.nombre||' '|| t1.apellido_paterno|| ' '|| t1.apellido_materno ILIKE #{c}
+        order by t1.apellido_paterno asc
+    </select>
+    
+  
+    <select id="getMisDatos" parameterType="HashMap" resultMap="PersonalMiniMap">
+        select t1.id, t1.id_r_p, t1.nombre||' '|| t1.apellido_paterno|| ' '|| t1.apellido_materno as nombre_completo, documento, id_g, marca
+        from personal.personal t1 
+        where t1.estado = true and marca = true  and t1.tipo = #{tipo} and t1.id = #{idP}
+        order by t1.apellido_paterno asc
+    </select>
+    
+    <select id="getMisDatosTodo" parameterType="HashMap" resultMap="PersonalMiniMap">
+        select t1.id, t1.id_r_p, t1.nombre||' '|| t1.apellido_paterno|| ' '|| t1.apellido_materno as nombre_completo, documento, id_g, marca
+        from personal.personal t1 
+        where t1.estado = true  and t1.tipo = #{tipo} and t1.id = #{idP}
+        order by t1.apellido_paterno asc
+    </select>
+    
+    <select id="get" parameterType="String" resultMap="PersonalMap">
+        select t1.*, t1.nombre||' '|| t1.apellido_paterno|| ' '|| t1.apellido_materno as nombre_completo, t2.id codigo, t2.nombre profesion, 
+        t3.nombre nombre
+        from personal.personal t1
+        left join formacion t2 on t1.form_profesional = t2.id
+        left join personal.cargo t3 on t1.id_c = t3.id
+        where t1.id = #{id}
+    </select>
+    
+        
+    <select id="getDatos" parameterType="String" resultMap="PersonalMap">
+        select t1.documento, t1.id_r_p, t1.id ,t1.reg_laboral, t1.reg_pension, t1.fecha_ingreso_enti ,  t1.apellido_paterno|| ' '|| t1.apellido_materno||', ' || t1.nombre as nombre_completo, t2.nombre profesion,
+        case when sexo= '1' then 'Masculino'  else
+        case when sexo = '2' then 'Femenino' end end nombreSexo,
+        t3.id cargo, t3.nombre, foto_portada, foto_perfil, sexo, fecha_nacimiento,  email_lab, telefono, domicilio,
+        t1.nivel_educativo, t1.fecha_ingreso_enti, t1.reg_pension,
+        t1.apellido_paterno
+        from personal.personal t1
+        left join formacion t2 on t1.form_profesional = t2.id
+        left join personal.cargo t3 on t1.id_c = t3.id
+        where t1.documento = #{documento}
+    </select>
+    
+    <insert id="insert" parameterType="Personal">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select case when max(id) is null then '000001' else lpad(cast(((cast((max(id)) as integer))+1) as varchar ), 6, '0') end id 
+            from personal.personal
+        </selectKey>
+        INSERT INTO personal.personal(
+        id, nombre, apellido_paterno, apellido_materno, sexo, estado_civil, 
+        fecha_nacimiento, tipo_documento, emiso_doc_pais, documento, 
+        ruc, email_lab, anexo, fecha_ingreso_public, fecha_ingreso_enti, 
+        nivel_educativo, form_profesional, email_alternativo, discapacidad, 
+        nacionalidad, codigo_postal, telefono, celular, domicilio, estado, 
+        reg_laboral, reg_pension, codigo_cussp,  nro_cuenta, seguro_salud, 
+        codigo_seguro, tipo, codigo_colegiado, id_g, marca, id_b, afp, comision, id_c, fecha_cese )
+        VALUES (#{id},#{nombre}, #{apellidoPaterno} , #{apellidoMaterno}, #{sexo}, cast(#{estadoCivil} as integer), #{fechaNacimiento}, 
+        cast(#{tipoDocumento} as integer), #{emisoDocPais}, #{documento}, #{ruc}, 
+        #{emailLab}, #{anexo}, #{fechaIngresoPublic}, #{fechaIngresoEnti}, #{nivelEducativo}, 
+        #{formProfesional}, #{emailAlternativo}, #{discapacidad}, #{nacionalidad}, 
+        #{codigoPostal}, #{telefono}, #{celular}, #{domicilio}, 'true', #{RegLaboral}, #{RegPensionario},
+        #{codigoCussp},  #{nroCuenta}, cast(#{seguro} as integer), #{codigoSeguro}, #{tipo} ,#{codigoColegiado}, #{idG}, #{marca}, cast(#{banco} as integer), cast(#{afp} as integer), #{comision}, cast(#{idC} as Integer), #{fechaCese});
+    </insert>
+    
+    <update id="update" parameterType="Personal">
+        UPDATE personal.personal
+        SET  nombre=#{nombre}, apellido_paterno= #{apellidoPaterno}, apellido_materno= #{apellidoMaterno}, sexo=#{sexo}, 
+        estado_civil=cast(#{estadoCivil} as integer), fecha_nacimiento=cast(#{fechaNacimiento} as DATE), tipo_documento=cast(#{tipoDocumento} as integer), emiso_doc_pais=#{emisoDocPais}, 
+        documento=#{documento}, ruc=#{ruc}, email_lab=#{emailLab}, anexo=#{anexo}, fecha_ingreso_public=cast(#{fechaIngresoPublic} as DATE), 
+        fecha_ingreso_enti=cast(#{fechaIngresoEnti} as DATE), nivel_educativo=#{nivelEducativo}, form_profesional=#{formProfesional}, 
+        email_alternativo=#{emailAlternativo}, discapacidad=#{discapacidad}, nacionalidad=#{nacionalidad}, codigo_postal=#{codigoPostal}, 
+        telefono=#{telefono}, celular=#{celular}, domicilio=#{domicilio}, id_g= #{idG}, marca=#{marca},
+        id_b=cast(#{banco} as integer), afp=cast(#{afp} as integer), comision=#{comision}, reg_pension = #{RegPensionario},
+        id_c=cast(#{idC} as integer), fecha_cese = #{fechaCese}
+        WHERE id = #{id}
+    </update>
+    
+    <update id="anular" parameterType="String">
+        update
+        personal.personal
+        set estado = 'false'
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="String">
+        delete from personal.personal
+        where id=#{id}
+    </delete>
+    <select id="getMaxId" resultType="String">
+        select max(id) from personal.personal
+    </select>
+    
+    <select id="getRepetido" parameterType="HashMap"  resultType="Integer">
+        select count (id) from personal.personal 
+        where documento = #{doc} 
+    </select>
+    <select id="getRepetidoUpdate" parameterType="HashMap"  resultType="Integer">
+        select count (id) from personal.personal 
+        where (documento = #{doc} ) and id != #{id}
+    </select>
+    
+    <select id="getDni" parameterType="String" resultMap="PersonalMiniMap">
+        select documento, nombre||' '|| apellido_paterno|| ' '|| apellido_materno as nombre_completo
+        from personal.personal where id = #{idP}
+    </select>
+    
+     <select id="getCorreo" parameterType="HashMap"  resultType="String">
+        select email_lab from personal.personal 
+        where (documento = #{dni} )
+    </select>
+    
+    <select id="getNombreCompleto" parameterType="String" resultMap="PersonalMiniMap">
+        select documento, nombre||' '|| apellido_paterno|| ' '|| apellido_materno as nombre_completo
+        from personal.personal where documento = #{dni}
+    </select>
+    
+    <select id="getReporte" parameterType="String" resultMap="PersonalMiniMap">
+        select t1.documento, t1.nombre_completo, t2.id, t2.id_g
+        from
+        asistencia.detalle_reporte t1
+        inner join personal.personal t2 on t1.documento = t2.documento
+        where (t2.nombre||' '|| t2.apellido_paterno|| ' '|| t2.apellido_materno ILIKE #{c})  ${query} 
+        group by t1.documento, t1.nombre_completo, t2.id
+        order by t1.nombre_completo desc 
+    </select>
+    
+    <select id="getDependencia" parameterType="String" resultType="Integer" >
+        select count(id)
+        from personal.contrato
+        where id_p = #{id}
+    </select>
+    
+    <select id="getRutaServer" resultType="String">
+        select ruta_server from config limit 1 offset 0;
+    </select>
+    
+    <select id="getSeguidores" resultType="Integer" parameterType="HashMap">
+        select count(seguido) from social.seguidos
+        where seguido = #{documento}
+    </select>
+    
+    <update id="updateFotoPerfil" parameterType="HashMap">
+        UPDATE personal.personal
+        SET foto_perfil=#{foto}
+        WHERE documento = #{documento}
+    </update>
+    
+    <update id="updateFotoPortada" parameterType="HashMap">
+        UPDATE personal.personal
+        SET foto_portada=#{foto}
+        WHERE documento = #{documento}
+    </update>
+    
+    
+   
+</mapper>
+    
+
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"  xmlns:w="client">
+    <window id="winRepositorio" title="Finalizar!"  border="normal" width="1024px"          
+            position="top,center" closable="true" 
+             apply="gob.peam.arcdig.view.WinRepositorio">
+        <label value="Paso 3 de 3: Elegir Carpeta donde se guardará el Archivo" style="font-size:14pt " />
+        <separator bar="true"/>
+        <hlayout>
+            <hbox spacing="0" width="1000px" height="100%">
+                <vbox spacing="0" width="100%"  height="400px">
+                    <tree id="explorerTree" width="500px"  height="310px">
+                        <treecols sizable="true" >
+                            <treecol id="rutaVista" label="./" width="100%" />
+                            
+                        </treecols>
+                    </tree>
+                    
+                    <splitter id="s1" collapse="before"/>
+                    
+                    <listbox id="listTmpDir" rows="4" height="200px"  checkmark="true"   emptyMessage="Aun no hay Registros Encontrados">
+                        <listhead sizable="true">
+                            <listheader label="" hflex="1" />
+                            <listheader label="Rutas Rápidas" hflex="10" />
+                        </listhead>
+                    </listbox>
+                    
+                </vbox>
+                <splitter id="s2"  collapse="after"/>
+                <listbox id="archivos"  mold="paging"  pageSize="8"  multiple="true" checkmark="true"  nonselectableTags="button" >
+                    <listhead sizable="true">
+                        <listheader label="" width="30px"></listheader>
+                        <listheader label="" width="450px">
+                            <bandbox  id="filtro" placeholder="Buscar Archivo"   width="200px" instant="true"/>
+                        </listheader>
+                    </listhead>
+                </listbox>
+                <paging id="pagingData" pageSize="8" visible="true"/>
+            </hbox>
+        </hlayout>
+        <hlayout   style="text-align:right">
+            <button autodisable="self" iconSclass="z-icon-ban" id="cancel" sclass="btn btn-sm btn-warning">Cancelar</button>
+            <button autodisable="self" id="before"   iconSclass="z-icon-arrow-left"  sclass="btn btn-sm btn-info">Anterior</button>
+            <button autodisable="self" id="ok"  iconSclass="z-icon-check" disabled="true" sclass="btn btn-sm btn-success">Finalizar</button>
+        </hlayout>
+    </window>
+</zk>
+

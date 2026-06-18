@@ -1,0 +1,192 @@
+
+<?component name="button" extends="button" width="44px" height="44px"?>
+
+<zk xmlns:n="native" >
+    
+    <style >
+        @-moz-document url-prefix() {
+        .sistema{
+        margin-left:-190px !important; 
+        }
+        }
+        .sistema{
+        margin-left:-190px !important; 
+        }
+    </style>
+    
+        
+    <grid onClientInfo="onClientInfo(event)">
+        <zscript>
+            void onClientInfo(ClientInfoEvent evt) {
+            int height = evt.getDesktopHeight();
+            int width = evt.getDesktopWidth();
+            //org.zkoss.zk.ui.Executions ex;
+            Executions.getCurrent().getDesktop().getSession().setAttribute("width", width);
+            }
+        </zscript>
+    </grid>
+    
+    <div apply="gob.peam.arcdig.view.Permiso">
+        <popup id="btntip" sclass="btn-tip" style="margin-top: 10px">
+            <label id="msg" value=""></label>
+            <attribute name="onOpen">
+                if (event.isOpen()) {
+                msg.setValue(event.getReference().getAttribute("title").toString());
+                }
+            </attribute>
+        </popup>
+        
+        <popup id="tipSearch"  style=" width:450px; height:260px;">
+            <grid>
+                <columns>
+                    <column label="" width="30%" align="right" />
+                    <column label="" width="70%" align="left" />
+                </columns>
+                <rows>
+                    <row>
+                        <label value="Buscar Hace: " />
+                        <listbox id="tiempoSearch" mold="select" width="280px"  height="28px" />
+                    </row>
+                    <row>
+                        <label value="Catalogo:" />
+                        <listbox id="catalogoSearch" mold="select"  width="280px" height="28px" />
+                    </row>
+                    <row>
+                        <label value="Categoria:" />
+                        <listbox id="categoriaSearch" mold="select"  width="280px" height="28px" />
+                    </row>
+                    <row>
+                        <label value="Tipo de Documento:" />
+                        <listbox id="tipoSearch" mold="select"  width="280px" height="28px" />
+                    </row>
+                    
+                    <row>
+                        <label value="Fecha Inicio Doc.:" />
+                        <datebox id="fechaInicio" style="border-bottom-right-radius: 0px; border-top-right-radius: 0px; " height="25px"  width="120px"  format="dd/MM/yyyy"/>
+                    </row>
+                    
+                    <row>
+                        <label value="Fecha Final Doc.:" />
+                        <datebox id="fechaFinal" style="border-bottom-right-radius: 0px; border-top-right-radius: 0px; " height="25px"   width="120px" onCreate="self.value = new Date()" format="dd/MM/yyyy"/>
+                    </row>
+                </rows> 
+            </grid>
+        </popup>
+
+        <div sclass="header" id="header" style="cursor:pointer">
+            <n:h1 style="float:left; margin-top:-10px">
+                <a id="link">Dig v2</a>        
+            </n:h1>
+            <label id="sistema" class="sistema" style="color: #d0d0d0;    position:absolute;  margin-top:60px; font-size:12pt;" >Sistema de Gesti&#243;n de Archivos Digitales </label>
+            
+            <label id="nombre" style="color: #d0d0d0; float:right; margin-right:25px;  Margin-top:55px; font-size:9pt;">Bienvenido</label>
+        </div>
+       
+        <div sclass="user-nav" apply="gob.peam.arcdig.view.Navbar, gob.peam.arcdig.view.SideBar" id="nav" visible="false">
+            <menubar id="menubar">
+                <menuitem id="Inicio" label="Inicio" href="./zul?url=inicio" iconSclass="icon icon-white icon-home"/>
+                <menuitem id="firts" label="Repositorio" href="./zul?url=repositorio&amp;id=113" iconSclass="icon icon-white icon-inbox"/>
+                <menuitem label="Estadisticas" href="./zul?url=estadistica&amp;id=113" iconSclass="icon icon-white icon-signal"/>
+                <menuitem id="oscinfor" label="Consulta OSINFOR"  iconSclass="icon icon-white icon-search"/>
+                <menuitem id="salir" label="Salir" iconSclass="icon icon-white icon-share-alt"/>
+            </menubar>
+        </div>
+
+        
+        <div sclass="style-switcher">
+            <n:i class="icon-arrow-left icon-white"></n:i> 
+            <label>Tema:</label>
+            <a id="grey" href="javascript: changeTheme('grey');"
+               style="background-color: #555555; border-color: #AAAAAA;">
+            </a>
+            <a id="light-blue" href="javascript: changeTheme('light-blue');"
+               style="background-color: #8399b0;">
+            </a>
+            <a id="red" href="javascript: changeTheme('red');"
+               style="background-color: #673232;">
+            </a>
+        </div>
+        
+	
+        <div sclass="content" apply="gob.peam.arcdig.view.Content">
+            <div sclass="content-header" visible="true">
+                <div  style="float:right; margin-right: px; font-size:8pt; ">
+                    <label id="credito"></label>
+                    <label>Rev(20190424)</label>
+                </div>
+                <n:h1>
+                    <label  style="font-size:18px;" id="subModulo"></label>
+                </n:h1>
+                
+            </div>
+            <div sclass="breadcrumb" >
+                <div style="float:right">
+                    <a href="./zul?url=inicio"  tooltip="btntip,after_center" iconSclass="icon-home">Inicio
+                        <custom-attributes  title="Ir a Inicio" />
+                    </a>
+                    <a href="#" id="subModu" ></a>
+                </div>
+                <div class="btn-group" >
+                    <textbox id="buscar" style="height:40px; font-size:12pt; margin-top:-0px" width="400px" instant="true" placeholder="Buscar..." />
+                    <button zclass="btn" style="margin-top:-2px; height:40px !important;" iconSclass="icon-search" popup="tipSearch,after_center" tooltip="tipSearch,after_center">
+                    </button>
+                    
+                    <menupopup id="m2" >
+                        <menuitem id="all" label="Todos" iconSclass="z-icon-globe" sclass="sub-modu" onClick="privilegio.setIconSclass(self.getIconSclass())"/>
+                        <menuitem id="solo" label="Solo de Propiedad" iconSclass="z-icon-user" sclass="sub-modu" onClick="privilegio.setIconSclass(self.getIconSclass())"/>
+                        <menuitem id="share" label="Asignación/Personalizada"  sclass="sub-modu" iconSclass="z-icon-cog" onClick="privilegio.setIconSclass(self.getIconSclass())"/>
+                        <menuitem id="soloexp" label="Sin Expediente"  sclass="sub-modu" iconSclass="z-icon-book" onClick="privilegio.setIconSclass(self.getIconSclass())"/>
+                    </menupopup>
+                    <div class="btn-group" style="right:0px !important;">
+                        <button id="privilegio" class="btn btn-sm" iconSclass="z-icon-globe" style="margin-top:-2px; height:40px !important;" > </button>
+                        <button class="btn btn-sm dropdown-toggle"  style="margin-top:-2px; height:40px !important;" iconSclass="caret"
+                                onClick='m2.open(self.previousSibling, "after_start")'>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <include id="contenido" visible="false" />
+        </div>
+    </div>
+    <script><![CDATA[
+$(window).bind("popstate", function(e) {
+    var theme;
+    e = e.originalEvent;
+    if (e.state && (theme = e.state.theme)) {
+    	changeTheme(theme, true);
+    }
+});
+function changeTheme(theme, ignore) {
+	var $jq = jq('#theme'),
+		href = $jq.attr('href'),
+		lastIndex = href.lastIndexOf('/'),
+		
+		elem = zk.Widget.$('$' + theme).$n();
+	$jq.attr('href', href.substring(0, lastIndex + 1) + theme + '.css.dsp');
+
+	$(elem).siblings('a').css({'border-color':'transparent'});
+	$(elem).css({'border-color':'#aaaaaa'});
+	
+    if (!ignore) {
+    	if (history.pushState)
+    		history.pushState({theme: theme}, null, '?theme=' + theme);
+    
+	    $('.style-switcher').animate({marginRight:'-=140'}).find(':first-child')
+	    	.toggleClass('icon-arrow-left').toggleClass('icon-arrow-right');
+    }
+}
+              
+zk.afterMount(function(){
+
+	// === Style switcher === //
+	$('.style-switcher i').click(function() {
+		if($(this).hasClass('icon-arrow-right')) {
+			$(this).parent().animate({marginRight:'-=140'});
+		} else {
+			$(this).parent().animate({marginRight:'+=140'});
+		}
+		$(this).toggleClass('icon-arrow-left').toggleClass('icon-arrow-right');
+	});
+});
+]]></script>
+</zk>

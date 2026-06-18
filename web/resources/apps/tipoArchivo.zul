@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    
+    <panel border="normal" apply="gob.peam.arcdig.view.AppMineType">
+        <caption iconSclass="icon-pencil" style="float:left">
+            Configuración de los Tipos de Archivo que son permitidos para subir a los Catalogos. 
+        </caption>
+        <panelchildren>
+            <hlayout>
+                <listbox id="listMineType" emptyMessage="No hay Registros Encontrados" mold="paging" pageSize="9"   checkmark="true"  nonselectableTags="">
+                    <auxhead sclass="category-center">
+                        
+                        <auxheader style="text-align:right"  colspan="5">
+                            <bandbox width="550px" id="filtro" instant="true" placeholder="Buscar..." sclass="input-prepend" />
+                        </auxheader>
+                    </auxhead>
+                    <auxhead sclass="category-center">
+                        <auxheader colspan="5">
+                            <button id="nuevo" iconSclass="z-icon-file">Nuevo</button>&#160;
+                            <button id="editar"  iconSclass="z-icon-pencil" >Editar</button>&#160;
+                            <button id="eliminar" iconSclass="z-icon-trash-o">Borrar</button>&#160;                      
+                            <button id="update" iconSclass="z-icon-refresh">Actualizar</button>
+                        </auxheader>
+                    </auxhead>
+                    <listhead sizable="true">
+                        <listheader hflex="min" label="" align="center"/>
+                        <listheader hflex="min" label="Nro" align="center"/>
+                        <listheader hflex="max" label="Content-Type" align="left"/>
+                        <listheader hflex="max" label="Extensión" align="left"/>
+                        <listheader hflex="min" label="Estado" align="center"/>
+                    </listhead>
+                </listbox>
+                <grid id="formulario" style="padding:20px" visible="false">
+                    <columns>
+                        <column label="" width="40%" align="right" />
+                        <column label="" width="30%" align="left" />
+                        <column label="" width="30%" align="left" />
+                    </columns>
+                    <rows>
+                        <row>
+                            <label value="Content-Type" />
+                            <textbox id="nombre" width="220px"  maxlength="100" />
+                            <label id="nombError" />
+                        </row>
+                        <row>
+                            <label value="Extensión" />
+                            <textbox id="descripcion" width="220px" maxlength="5"  />
+                            <label id="desError" />
+                        </row>
+                        <row>
+                            <label value="Estado" />
+                            <checkbox id="estado"  />
+                        </row>
+                    </rows>
+                </grid>
+               
+               
+            </hlayout>
+        </panelchildren>
+        
+    </panel>
+    <hlayout style="float:right; margin-top:10px" id="control" visible="false">
+        <button id="aceptar" label="Guardar" zclass="btn btn-primary" iconSclass="z-icon-save"/>
+        <button id="clear" label="Limpiar" zclass="btn btn-warning" iconSclass="z-icon-refresh"/>
+        <button id="cancelar" label="Cancelar" zclass="btn btn-danger" iconSclass="z-icon-reply"/>
+        <label  value="" />
+    </hlayout>
+    
+</zk>

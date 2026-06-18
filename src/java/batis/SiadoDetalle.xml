@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SiadoDetalle">
+    
+    <resultMap id="SiadoDetalleMap" type="SiadoDetalle">
+        <result property="sideId" column="side_id" />
+        <!--<result property="TipoDocId" column="side_tipodoc_id" />             --> 
+        <!--<result property="subTipoDocId" column="side_subtipodoc_id" />       -->       
+        <!-- <result property="detSubTipoDocId" column="side_det_subtipodoc_id" />-->
+        <result property="bRegente" column="side_bregente" />
+        <result property="NumZafra" column="side_num_zafra" />
+        <result property="Numero" column="side_numero" />
+        <result property="descripcion" column="side_description" />
+        <result property="observacion" column="side_observacion" />
+        <result property="sRegente" column="side_sregente" />
+        <result property="anhoAprobacion" column="side_anho_aprobacion" />
+        <result property="anhoFin" column="side_anho_fin" />
+        <result property="usuarioEnvio" column="side_usuario_envio" />
+        <result property="fechaEnvio" column="side_fecha_envio" />
+        <result property="opcion" column="side_opcion" />
+        
+        <association property="documento" column="side_documento_id" javaType="Documento">
+            <result property="id" column="side_documento_id" />
+            <result property="ruta" column="docu_ruta" />
+            <result property="titulo" column="docu_titulo" />
+        </association>
+        <association property="tipoDoc" column="side_tipodoc_id" javaType="TipoDoc">
+            <result property="idTipoDoc" column="side_tipodoc_id" />
+            <result property="desTipoDoc" column="desTipoDoc" />
+        </association>
+        <association property="subTipoDoc" column="side_tipodoc_id" javaType="SubTipoDoc">
+            <result property="idSubTipoDoc" column="side_subtipodoc_id" />
+        </association>
+        <association property="detSubTipoDoc" column="side_det_subtipodoc_id" javaType="DetSubTipoDoc">
+            <result property="idDetSubTipoDoc" column="side_det_subtipodoc_id" />
+        </association>
+    </resultMap>
+    
+    <insert id="insert" parameterType="SiadoDetalle">
+        <selectKey keyProperty="sideId" resultType="Integer" order="BEFORE">
+            select case when max(side_id) is null then '1' else max(side_id)+1 end id 
+            from siado_detalle
+        </selectKey>
+        INSERT INTO siado_detalle(
+        side_id, side_documento_id,side_tipodoc_id,side_subtipodoc_id,side_det_subtipodoc_id,side_bregente,side_num_zafra,side_numero,side_description,side_observacion,
+        side_sregente,side_anho_aprobacion,side_anho_fin,side_usuario_envio,side_fecha_envio,side_opcion,side_siado_id)
+         
+        VALUES (#{sideId}, #{documento.id}, #{tipoDoc.idTipoDoc}, #{subTipoDoc.idSubTipoDoc}, #{detSubTipoDoc.idDetSubTipoDoc},
+        #{bRegente}, #{NumZafra}, #{Numero}, #{descripcion}, #{observacion}, #{sRegente}, #{anhoAprobacion}, #{anhoFin}, #{usuarioEnvio}, #{fechaEnvio}
+        ,#{opcion},#{siado.siadId});
+    </insert>
+       
+       
+    <select id="getRelacionById" resultMap="SiadoDetalleMap"  parameterType="HashMap"> 
+        select sd.*,doc.* from siado_detalle sd inner join documento doc on
+        sd.side_documento_id=doc.docu_id  
+        where side_siado_id=#{id}
+    </select>
+    
+</mapper>
+

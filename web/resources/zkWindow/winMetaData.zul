@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"  xmlns:w="client">
+    <window id="winMetaData" title="Edición de Datos"  border="normal" width="800px"          
+            position="top,center" closable="true" apply="gob.peam.arcdig.view.WinMetaData"
+    >
+        <vlayout width="100%" >
+            <separator bar="true"/>
+            <grid width="100%" >
+                <columns>
+                    <column label="" width="30%" />
+                    <column label="" width="70%" />
+                </columns>
+                <rows>
+                    <row>
+                        <label value="TIPO DE DOCUMENTO :" />
+                        <listbox id="tipoDocu" style="height:20px; padding:0px" mold="select" />
+                    </row>
+                </rows>
+            </grid>
+            <grid id="datos" width="100%" >
+                <columns>
+                    <column label="" width="30%" />
+                    <column label="" width="70%" />
+                </columns>
+                <rows id="rows">
+                </rows>
+            </grid>
+        </vlayout>
+       
+        
+        <hlayout width="100%" style="text-align:right" >
+            <button autodisable="self" iconSclass="z-icon-ban" id="cancel" sclass="btn btn-sm btn-warning">Cancelar</button>
+            <button autodisable="self" id="ok" iconSclass="z-icon-arrow-right"  sclass="btn btn-sm btn-primary">Guardar</button>            
+        </hlayout>
+    </window>
+   
+</zk>
+

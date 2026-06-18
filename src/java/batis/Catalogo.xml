@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Catalogo">
+    <resultMap id="CatalogoMap" type="Catalogo">
+        <result property="cataId" column="cata_id" />
+        <result property="cataNombre" column="cata_nombre" />              
+        <result property="cataEstado" column="cata_estado" />              
+        <result property="cataDescripcion" column="cata_descripcion" />
+        <result property="cataCarpeta" column="cata_carpeta" />
+        <result property="cataEliminado" column="cata_eliminado" />
+    </resultMap>
+    
+    <resultMap id="CatalogoUsuarioMap" type="CatalogoUsuario">
+        <result property="persId" column="pers_id" />
+        <result property="cataId" column="cata_id" />
+    </resultMap>
+    
+    <resultMap id="CarpetaMap" type="Carpeta">
+        <result property="id" column="carp_id" />
+        <result property="tipo" column="carp_tipo" />
+        <result property="ruta" column="carp_ruta" />
+        <result property="propietario" column="carp_propietario" />
+    </resultMap>
+    
+    
+    <select id="getListCatalogo" resultMap="CatalogoMap">
+        select * from catalogo
+        where cata_eliminado=false and (cata_nombre ilike #{c} or cata_descripcion ilike #{c})
+        order by cata_nombre;
+    </select>
+    
+    <select id="getListComboCatalogo" resultMap="CatalogoMap">
+        select * from catalogo
+        where cata_eliminado = false
+        order by cata_nombre;
+    </select>
+    
+    <select id="getListCatalogoUsuario" resultMap="CatalogoUsuarioMap" parameterType="Catalogo">
+        select * from usuario_catalogo
+        where cata_id = #{cataId} 
+    </select>
+
+    <select id="getUsuaCatalogo" parameterType="Integer" resultMap="CatalogoMap">
+        select t1.* from catalogo t1
+        inner join usuario_catalogo t2 on  t1.cata_id = t2.cata_id
+        where t2.pers_id = #{usuaId} 
+    </select>
+    
+    <select id="getIdCatalogo" parameterType="String" resultType="Integer">
+        select cata_id from catalogo
+        where cata_carpeta = #{carpeta}
+    </select>
+    
+    <insert id="insert" parameterType="Catalogo">
+        <selectKey keyProperty="cataId" resultType="Integer" order="BEFORE">
+            select case when max(cata_id) is null then '1' else max(cata_id)+1 end id 
+            from catalogo
+        </selectKey>
+        INSERT INTO catalogo(
+        cata_id, cata_nombre, cata_estado, cata_descripcion, cata_carpeta)
+        VALUES (#{cataId}, #{cataNombre}, #{cataEstado}, #{cataDescripcion}, #{cataCarpeta});
+    </insert>
+    
+    <insert id="insertCarpeta" parameterType="Carpeta">
+        <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+            select case when max(carp_id) is null then '1' else max(carp_id)+1 end id 
+            from carpeta
+        </selectKey>
+        INSERT INTO carpeta(
+        carp_id, carp_tipo, carp_ruta, carp_propietario)
+        VALUES (#{id}, #{tipo}, #{ruta}, #{propietario})
+    </insert>
+    
+    <update id="update" parameterType="Catalogo" >
+        UPDATE catalogo
+        SET  cata_nombre=#{cataNombre}, cata_estado=#{cataEstado}, cata_descripcion=#{cataDescripcion}, 
+        cata_carpeta=#{cataCarpeta}
+        WHERE cata_id = #{cataId}
+    </update>
+    
+    <delete id="delete" parameterType="Catalogo" >
+        UPDATE catalogo
+        set cata_eliminado = true, cata_ruta = ''
+        where cata_id = #{cataId}
+    </delete>
+    
+    <delete id="deleteUsuario" parameterType="Catalogo" >
+        delete from usuario_catalogo
+        where cata_id = #{cataId}
+    </delete>
+    
+    <insert id="insertUsuario" parameterType="CatalogoUsuario">
+        INSERT INTO usuario_catalogo(
+        pers_id, cata_id)
+        VALUES (#{persId}, #{cataId});
+    </insert>
+    
+    <select id="getRepetido"  parameterType="Catalogo" resultType="Integer">
+        select count(cata_id)::integer from catalogo
+        where cata_nombre = #{cataNombre} 
+    </select>
+    
+    <select id="getRepetidoUpdate"  parameterType="Catalogo" resultType="Integer">
+        select count(cata_id)::integer from catalogo
+        where cata_nombre = #{cataNombre} and cata_id!=#{cataId}
+    </select>
+    
+    <select id="getCarpeta"  parameterType="String" resultMap="CarpetaMap">
+        select * from carpeta
+        where carp_ruta = #{nombre}
+    </select>
+    <delete id="deleteCarpeta"  parameterType="String" >
+        select * from carpeta
+        where carp_ruta = #{nombre}
+    </delete>
+    
+</mapper>
+

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Persona">
+    <resultMap id="PersonaMap" type="Persona">
+        <id property="idPersona" column="pers_id" />
+        <result property="dni" column="pers_dni" />
+        <result property="nombre" column="pers_nombre" />
+        <result property="apellidoPaterno" column="pers_apellido_paterno" />
+        <result property="apellidoMaterno" column="pers_apellido_materno" />
+        <result property="estado" column="pers_estado" />		
+        <result property="cargo" column="pers_cargo" />
+        <result property="charId" column="char_id" />
+        <result property="idGlobal" column="pers_global_id" />
+        <association property="usuario" column="pers_id" javaType="Usuario">
+            <id property="idUsuario" column="usua_id"  />
+            <result property="login" column="usua_login" />
+            <result property="usuaFechaCaducidad" column="usua_fecha_caducidad" />
+            <result property="estado" column="usua_estado" />
+            <association property="grupo" column="grup_id" javaType="Grupo">
+                <id property="idGrupo" column="grup_id" />
+                <result property="nombre" column="grup_nombre" />
+            </association>
+        </association>
+    </resultMap>
+   
+    <resultMap id="MiniPersonaMap" type="Persona">
+        <id property="idPersona" column="pers_id" />
+        <result property="dni" column="pers_dni" />
+    </resultMap>
+    
+    <select id="getNombrePersona" parameterType="Integer" resultType="String">
+        select pers_nombre from administracion.persona p
+        inner join administracion.usuario u on u.pers_id = p.pers_id
+        where u.usua_id = #{id}
+    </select>
+     
+    <insert id="insertPersona" parameterType="Persona">
+        <selectKey keyProperty="idPersona" resultType="int" order="BEFORE">
+            select cast(((case  when max(pers_id) is null then 0 else max(pers_id) end) +1) as int) from administracion.persona
+        </selectKey>
+        INSERT INTO administracion.persona(
+        pers_id, pers_dni, pers_nombre, pers_apellido_paterno, pers_apellido_materno, pers_estado,pers_iniciales,pers_cargo, pers_global_id)
+        VALUES (#{idPersona}, #{dni}, #{nombre}, #{apellidoPaterno}, #{apellidoMaterno}, true, #{iniciales}, #{cargo}, #{idGlobal})
+    </insert>
+    
+    
+    <select id="listarPersonas" parameterType="HashMap" resultMap="PersonaMap">
+        SELECT  case when u.turn_id is null then 0 else u.turn_id end turn_id, 
+        case when g.grup_nombre is null then 'NO ASIGNADO' else g.grup_nombre end grup_nombre,
+        u.usua_fecha_caducidad, u.usua_estado, u.usua_id,
+        case when u.usua_login is null then 'NO ASIGNADO' else u.usua_login end usua_login ,
+        persona.pers_global_id, persona.pers_id|| '-'||dependencia_persona.depe_id char_id ,persona.pers_dni,
+        persona.pers_id, persona.pers_cargo, persona.pers_apellido_paterno||' '|| persona.pers_apellido_materno|| ', '|| initcap(persona.pers_nombre) pers_nombre ,
+        dependencia_persona.depe_id,
+        case when d.depe_nombre is null then 'NO ASIGNADO' else d.depe_nombre end depe_nombre,
+        persona.pers_estado
+        FROM
+        administracion.persona 
+        left join  administracion.dependencia_persona on dependencia_persona.pers_id = persona.pers_id
+        left join administracion.dependencia d on dependencia_persona.depe_id = d.depe_id 
+        left join administracion.usuario u on u.pers_id = persona.pers_id
+        left join administracion.grupo g on u.grup_id = g.grup_id
+        WHERE 
+        (persona.pers_nombre ilike #{c} or persona.pers_apellido_paterno ilike #{c} or persona.pers_apellido_materno ilike #{c}) 
+        order by persona.pers_apellido_paterno asc 
+    </select>
+    
+    <select id="listarPersonasOficina" parameterType="HashMap" resultMap="PersonaMap">
+        SELECT  case when u.turn_id is null then 0 else u.turn_id end turn_id, 
+        case when g.grup_nombre is null then 'NO ASIGNADO' else g.grup_nombre end grup_nombre,
+        u.usua_fecha_caducidad, u.usua_estado, u.usua_id,
+        case when u.usua_login is null then 'NO ASIGNADO' else u.usua_login end usua_login ,
+        persona.pers_global_id, persona.pers_id|| '-'||dependencia_persona.depe_id char_id ,persona.pers_dni,
+        persona.pers_id, persona.pers_cargo, persona.pers_apellido_paterno||' '|| persona.pers_apellido_materno|| ', '|| initcap(persona.pers_nombre) pers_nombre ,
+        dependencia_persona.depe_id,
+        case when d.depe_nombre is null then 'NO ASIGNADO' else d.depe_nombre end depe_nombre,
+        persona.pers_estado
+        FROM
+        administracion.persona 
+        left join  administracion.dependencia_persona on dependencia_persona.pers_id = persona.pers_id
+        left join administracion.dependencia d on dependencia_persona.depe_id = d.depe_id 
+        left join administracion.usuario u on u.pers_id = persona.pers_id
+        left join administracion.grupo g on u.grup_id = g.grup_id
+        
+        WHERE 
+        (persona.pers_nombre ilike #{c} or persona.pers_apellido_paterno ilike #{c} or persona.pers_apellido_materno ilike #{c})
+        
+        order by persona.pers_apellido_paterno asc 
+    </select>
+    
+    <select id="listarPersonalOficina" parameterType="HashMap" resultMap="PersonaMap">
+        SELECT  p.pers_id as pers_id, p.pers_dni as pers_dni, 
+        p.pers_apellido_paterno||' '||p.pers_apellido_materno||', '||p.pers_nombre as pers_nombre
+        FROM administracion.persona as p    ${c}
+        ORDER BY p.pers_apellido_paterno||' '||p.pers_apellido_materno||', '||p.pers_nombre ASC 
+    </select>
+    
+    <select id="listarNotEmpleados" parameterType="String" resultMap="PersonaMap">
+        select persona.pers_global_id ,persona.pers_dni, persona.pers_id, persona.pers_cargo, persona.pers_nombre|| ' '|| persona.pers_apellido_paterno||' '|| persona.pers_apellido_materno pers_nombre from administracion.persona
+        where pers_id not in (select pers_id from administracion.dependencia_persona) 
+        and  
+        ( persona.pers_nombre ilike #{query} or persona.pers_apellido_paterno ilike #{query} or persona.pers_apellido_materno ilike #{query}) and persona.pers_global_id != '' order by persona.pers_apellido_paterno asc
+    </select> 
+    
+    <select id="listarNotResponsable" parameterType="HashMap" resultMap="PersonaMap">
+        select  case when d.depe_nombre is null then 'AUN NO CUENTA CON DEPENDENCIA' else d.depe_nombre end depe_nombre, 
+        persona.pers_global_id ,persona.pers_dni, persona.pers_id, persona.pers_cargo, 
+        persona.pers_nombre|| ' '|| persona.pers_apellido_paterno||' '|| persona.pers_apellido_materno pers_nombre 
+        from administracion.persona
+        left join administracion.dependencia_persona dp on dp.pers_id = persona.pers_id
+        left join administracion.dependencia d on d.depe_id = dp.depe_id
+        where persona.pers_id not in (select pers_id from administracion.cargo where cargo.depe_id = #{depeId}) 
+        and  
+        ( persona.pers_nombre ilike #{query} or persona.pers_apellido_paterno ilike #{query} or persona.pers_apellido_materno ilike #{query}) and persona.pers_global_id != '' order by persona.pers_apellido_paterno asc
+    </select> 
+
+    <delete id="eliminarTrabajadorInDependencia" parameterType="HashMap">
+        DELETE FROM administracion.dependencia_persona
+        WHERE depe_id=cast(#{idDependencia} as int) and pers_id=cast(#{idPersona} as int)
+    </delete>
+    
+    <update id="updatePersona" parameterType="Persona">
+        UPDATE administracion.persona
+        SET  pers_dni=#{dni}, pers_nombre=#{nombre}, pers_apellido_paterno=#{apellidoPaterno}, 
+        pers_apellido_materno=#{apellidoMaterno}
+        WHERE pers_id=#{idPersona};
+    </update> 
+   
+    <select id="getId" parameterType="String" resultType="Integer">
+        select (pers_id) from administracion.persona where pers_global_id = #{globalId}
+    </select>
+   
+    <select id="getNombre" parameterType="String" resultType="String">
+        select pers_nombre||' '|| pers_apellido_paterno||' '|| pers_apellido_materno from administracion.persona
+        where pers_global_id = #{idP} 
+    </select>
+    
+    <select id="get" parameterType="String" resultMap="PersonaMap">
+        select pers_dni, persona.pers_apellido_paterno||' '|| persona.pers_apellido_materno|| ', '|| initcap(persona.pers_nombre) pers_nombre  from administracion.persona
+        where pers_dni = #{dni}
+    </select>
+    
+    <select id="getForId" parameterType="String" resultMap="PersonaMap">
+        select pers_dni, persona.pers_apellido_paterno||' '|| persona.pers_apellido_materno|| ', '|| initcap(persona.pers_nombre) pers_nombre, *  from administracion.persona
+        where pers_id =cast(#{id} as integer)
+    </select>
+   
+    <select id="getDependencia" parameterType="String" resultType="Integer">
+        select count(pers_id) from administracion.dependencia_persona 
+        where pers_id = #{id}
+    </select>
+   
+    <delete id="delete" parameterType="String" >
+        delete from administracion.persona 
+        where pers_global_id=#{id}
+    </delete>
+   
+    <select id="listarEmpleados" resultMap="MiniPersonaMap">
+        select pers_dni, pers_id from administracion.persona
+    </select> 
+    
+    <select id="buscarPersona" parameterType="Integer" resultMap="PersonaMap">
+        SELECT  case when u.turn_id is null then 0 else u.turn_id end turn_id, 
+        case when g.grup_nombre is null then 'NO ASIGNADO' else g.grup_nombre end grup_nombre,
+        u.usua_fecha_caducidad, u.usua_estado,
+        case when u.usua_login is null then 'NO ASIGNADO' else u.usua_login end usua_login ,
+        persona.pers_global_id, persona.pers_id|| '-'||dependencia_persona.depe_id char_id, persona.pers_dni,
+        persona.* ,
+        dependencia_persona.depe_id,
+        g.grup_id, 
+        case when d.depe_nombre is null then 'NO ASIGNADO' else d.depe_nombre end depe_nombre,
+        persona.pers_estado
+        from administracion.persona
+        left join administracion.dependencia_persona on dependencia_persona.pers_id = persona.pers_id
+        left join administracion.dependencia d on dependencia_persona.depe_id = d.depe_id 
+        left join administracion.usuario u on u.pers_id = persona.pers_id
+        left join administracion.grupo g on u.grup_id = g.grup_id
+        where persona.pers_id = #{id}
+    </select>
+    
+    <select id="buscarPersonaUsuario" parameterType="Integer" resultMap="PersonaMap">
+        SELECT  case when u.turn_id is null then 0 else u.turn_id end turn_id, 
+        case when g.grup_nombre is null then 'NO ASIGNADO' else g.grup_nombre end grup_nombre,
+        u.usua_fecha_caducidad, u.usua_estado,
+        case when u.usua_login is null then 'NO ASIGNADO' else u.usua_login end usua_login ,
+        persona.pers_global_id, persona.pers_id|| '-'||dependencia_persona.depe_id char_id, persona.pers_dni,
+        persona.* ,
+        dependencia_persona.depe_id,
+        g.grup_id, 
+        case when d.depe_nombre is null then 'NO ASIGNADO' else d.depe_nombre end depe_nombre,
+        persona.pers_estado
+        from administracion.persona
+        left join administracion.dependencia_persona on dependencia_persona.pers_id = persona.pers_id
+        left join administracion.dependencia d on dependencia_persona.depe_id = d.depe_id 
+        left join administracion.usuario u on u.pers_id = persona.pers_id
+        left join administracion.grupo g on u.grup_id = g.grup_id
+        where u.usua_id = #{id}
+    </select>
+    
+    <select id="buscarDniRepetido" parameterType="Persona" resultType="Integer">
+        select count(pers_id) from administracion.persona
+        where pers_id!=#{idPersona} and pers_dni = #{dni}
+    </select>
+    <select id="buscarDni" parameterType="Persona" resultType="Integer">
+        select count(pers_id) from administracion.persona
+        where  pers_dni = #{dni}
+    </select>
+    <select id="getMaxId" resultType="Integer">
+        select cast(((case  when max(pers_id) is null then 0 else max(pers_id) end)) as int) from administracion.persona
+    </select>
+   
+    <update id="desactivar" parameterType="Integer">
+        update administracion.persona
+        set pers_estado=false
+        where pers_id=#{id}
+    </update>
+    <update id="activar" parameterType="Integer">
+        update administracion.persona
+        set pers_estado=true
+        where pers_id=#{id}
+    </update>
+</mapper>

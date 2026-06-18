@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Notificacion">
+    <resultMap id="NotificacionMap" type="Notificacion">
+        <result property="id" column="id" />
+        <result property="fechaVencimiento" column="fecha_vencimiento" />              
+        <result property="fechaActual" column="fecha_actual" />              
+        <result property="veces" column="veces" />
+        <result property="proceso" column="proceso" />
+        <result property="persDni" column="pers_dni" />
+        <result property="docuId" column="docu_id" />
+    </resultMap>
+    
+    <select id="getListCombo" resultMap="NotificacionMap">
+        select * from notificacion
+        where cate_estado = true
+        order by cate_nombre;
+    </select>
+    
+    <select id="getList" resultMap="NotificacionMap" parameterType="String">
+        select * from notificacion
+        where cate_nombre ilike #{c} or cate_descripcion ilike #{c}
+        order by cate_nombre;
+    </select>
+    
+    <insert id="insert" parameterType="Notificacion">
+        <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+            select case when max(id) is null then '1' else max(id)+1 end id 
+            from notificacion
+        </selectKey>
+        INSERT INTO notificacion(
+        id, fecha_vencimiento,veces, proceso, pers_dni, docu_id)
+        VALUES (#{id}, #{fechaVencimiento}, #{veces}, #{proceso}, #{persDni}, #{docuId});
+    </insert>
+    
+    <update id="update" parameterType="Notificacion" >
+        UPDATE notificacion
+        SET  cate_nombre=#{cateNombre}, cate_estado=#{cateEstado}, cate_descripcion=#{cateDescripcion} 
+
+        WHERE cate_id = #{cateId}
+    </update>
+    
+    <delete id="limpiar" parameterType="Notificacion" >
+        delete from notificacion
+        where docu_id = #{docuId}
+    </delete>
+    
+    <select id="getRepetido"  parameterType="Notificacion" resultType="Integer">
+        select count(cate_id)::integer from notificacion
+        where cate_nombre = #{cateNombre} 
+    </select> 
+    
+    <select id="getRepetidoUpdate"  parameterType="Notificacion" resultType="Integer">
+        select count(cate_id)::integer from notificacion
+        where cate_nombre = #{cateNombre} and cate_id!=#{cateId}
+    </select> 
+    
+    
+</mapper>
+

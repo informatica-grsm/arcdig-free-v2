@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns:n="native" xmlns="http://www.zkoss.org/2005/zul">
+    
+    <window id="dialog" title="Vista detallada del trámite seleccionado"  border="normal" width="90%"          
+            position="top,center" closable="true" apply="gob.peam.arcdig.view.WinVer" >
+        <style>
+            .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+            position: relative;
+            min-height: 1px;
+            padding-right: 15px;
+            padding-left: 15px;
+            }
+           
+            @media (min-width: 768px) {
+            .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+            float: left;
+            }
+            .col-sm-12 {
+            width: 100%;
+            }
+            .col-sm-11 {
+            width: 91.66666667%;
+            }
+            .col-sm-10 {
+            width: 83.33333333%;
+            }
+            .col-sm-9 {
+            width: 75%;
+            }
+            .col-sm-8 {
+            width: 66.66666667%;
+            }
+            .col-sm-7 {
+            width: 58.33333333%;
+            }
+            .col-sm-6 {
+            width: 50%;
+            }
+            .col-sm-5 {
+            width: 41.66666667%;
+            }
+            .col-sm-4 {
+            width: 33.33333333%;
+            }
+            .col-sm-3 {
+            width: 25%;
+            }
+            .col-sm-2 {
+            width: 16.66666667%;
+            }
+            .col-sm-1 {
+            width: 8.33333333%;
+            }
+            .col-sm-pull-12 {
+            right: 100%;
+            }
+            .col-sm-pull-11 {
+            right: 91.66666667%;
+            }
+            .col-sm-pull-10 {
+            right: 83.33333333%;
+            }
+            .col-sm-pull-9 {
+            right: 75%;
+            }
+            .col-sm-pull-8 {
+            right: 66.66666667%;
+            }
+            .col-sm-pull-7 {
+            right: 58.33333333%;
+            }
+            .col-sm-pull-6 {
+            right: 50%;
+            }
+            .col-sm-pull-5 {
+            right: 41.66666667%;
+            }
+            .col-sm-pull-4 {
+            right: 33.33333333%;
+            }
+            .col-sm-pull-3 {
+            right: 25%;
+            }
+            .col-sm-pull-2 {
+            right: 16.66666667%;
+            }
+            .col-sm-pull-1 {
+            right: 8.33333333%;
+            }
+            .col-sm-pull-0 {
+            right: auto;
+            }
+            .col-sm-push-12 {
+            left: 100%;
+            }
+            .col-sm-push-11 {
+            left: 91.66666667%;
+            }
+            .col-sm-push-10 {
+            left: 83.33333333%;
+            }
+            .col-sm-push-9 {
+            left: 75%;
+            }
+            .col-sm-push-8 {
+            left: 66.66666667%;
+            }
+            .col-sm-push-7 {
+            left: 58.33333333%;
+            }
+            .col-sm-push-6 {
+            left: 50%;
+            }
+            .col-sm-push-5 {
+            left: 41.66666667%;
+            }
+            .col-sm-push-4 {
+            left: 33.33333333%;
+            }
+            .col-sm-push-3 {
+            left: 25%;
+            }
+            .col-sm-push-2 {
+            left: 16.66666667%;
+            }
+            .col-sm-push-1 {
+            left: 8.33333333%;
+            }
+            .col-sm-push-0 {
+            left: auto;
+            }
+            .col-sm-offset-12 {
+            margin-left: 100%;
+            }
+            .col-sm-offset-11 {
+            margin-left: 91.66666667%;
+            }
+            .col-sm-offset-10 {
+            margin-left: 83.33333333%;
+            }
+            .col-sm-offset-9 {
+            margin-left: 75%;
+            }
+            .col-sm-offset-8 {
+            margin-left: 66.66666667%;
+            }
+            .col-sm-offset-7 {
+            margin-left: 58.33333333%;
+            }
+            .col-sm-offset-6 {
+            margin-left: 50%;
+            }
+            .col-sm-offset-5 {
+            margin-left: 41.66666667%;
+            }
+            .col-sm-offset-4 {
+            margin-left: 33.33333333%;
+            }
+            .col-sm-offset-3 {
+            margin-left: 25%;
+            }
+            .col-sm-offset-2 {
+            margin-left: 16.66666667%;
+            }
+            .col-sm-offset-1 {
+            margin-left: 8.33333333%;
+            }
+            .col-sm-offset-0 {
+            margin-left: 0;
+            }
+            }
+            
+            span {
+            float: none !important;
+            
+            
+            }
+        </style>
+        <div class="form-horizontal" style="width:100%; float:left" >
+            <div class="box-body">
+                <div class="form-group">
+                    <n:i class="z-icon-info"></n:i>
+                    <n:label class="control-label" > Datos Generales:</n:label>
+                </div>
+                <div style="width:100%; float:left">
+                    <n:label  class="col-sm-2 control-label">Subido Por:</n:label>
+                    <div class="col-sm-4">
+                        <label class="control-label" id="lSubido" ></label>
+                    </div>
+                            
+                    <n:label  class="col-sm-2 control-label">Ruta Fisica: </n:label>
+                    <div class="col-sm-4">
+                        <label class="control-label" id="lRuta" ></label>
+                    </div>
+                </div>
+                <div  style="width:100%; float:left" >
+                    <n:label  class="col-sm-2 control-label">Tipo Documento:</n:label>
+                    <div class="col-sm-4">
+                        <label class="control-label" id="lTipoDocumento" ></label>
+                    </div>
+                            
+                    <n:label  class="col-sm-2 control-label">Fecha: </n:label>
+                    <div class="col-sm-4">
+                        <label class="control-label" id="lFecha" ></label>
+                    </div>
+                </div>
+                
+                <div style="width:100%; float:left">
+                    <n:label  class="col-sm-2 control-label">Resumen: </n:label>
+                    <div class="col-sm-4">
+                        <label class="control-label" id="lResumen" ></label>
+                    </div>
+                    <n:label  class="col-sm-2 control-label">Archivo Digital: </n:label>
+                    <div class="col-sm-4">
+                        <a class="control-label" target="_BLANK" id="lDigital" ></a>
+                    </div>
+                </div>
+                
+                <div style="width:100%; float:left">
+                    <n:label  class="col-sm-2 control-label">Categoria: </n:label>
+                    <div class="col-sm-4">
+                        <label class="control-label" id="lCategoria" ></label>
+                    </div>
+                            
+                    <n:label  class="col-sm-2 control-label">Titulo: </n:label>
+                    <div class="col-sm-4">
+                        <label class="control-label" id="lTitulo" ></label>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <listbox id="list" width="100%"  emptyMessage="No hay Registros Encontrados" mold="paging" pageSize="3"   checkmark="true"  nonselectableTags="">
+            <auxhead sclass="category-center">
+                <auxheader colspan="11" align="right">
+                    <button label="Asociar Documento" sclass="btn-success btn" autodisable="self"  zclass="btn" iconSclass="z-icon-plus" id="add"  />
+                    <button label="Cerrar Ventana" sclass="btn-warning btn" autodisable="self"  zclass="btn" iconSclass="z-icon-ban" id="cerrar"  />
+                </auxheader>
+            </auxhead>
+            <listhead>
+                <listheader  class="colum1" hflex="min" label="" align="left"/>
+                <listheader hflex="min" label="ID"/>
+                <listheader hflex="min" label="*"/>
+                <listheader align="left" label="Titulo" width="15%" />
+                <listheader align="left" label="Detalle" width="30%" />
+                <listheader align="left" label="Tipo Documento" hflex="min" />
+                <listheader align="left" label="Categoria" width="15%" />
+                <listheader align="left" label="*" hflex="min" />
+                <listheader align="left" label="G1" hflex="min" />
+                <listheader align="left" label="G2" hflex="min" />
+                <listheader align="left" label="G3" hflex="min" />
+            </listhead>
+        </listbox>
+        
+        <iframe id="viewFrame"  width="100%" height="600px" />
+        
+        <popup id="popAsociar"  style=" width:260px; height:105px;" >
+            <grid>
+                <columns>
+                    <column label="" width="30%" align="right" />
+                    <column label="" width="70%" align="left" />
+                </columns>
+                <rows>
+                    <row>
+                        <label value="ID del Doc."></label>
+                        <textbox id="txtAsociar"></textbox>
+                    </row>
+                    <row>
+                        <label />
+                        <button id="btnAsociar">Adjuntar</button>
+                    </row>
+                            
+                </rows> 
+            </grid>
+        </popup>
+        
+        
+        <popup id="popSubGrupo"  style=" width:260px; height:105px;" >
+            <grid>
+                <columns>
+                    <column label="" width="30%" align="right" />
+                    <column label="" width="70%" align="left" />
+                </columns>
+                <rows>
+                    <row>
+                        <label value="Nro. Grupo"></label>
+                        <textbox id="txtGrupo"></textbox>
+                    </row>
+                    
+                    <row>
+                        <label />
+                        <button id="btnAgrupar">Agrupar</button>
+                    </row>
+                    
+                </rows> 
+            </grid>
+        </popup>
+        
+        <popup id="popSubGrupo1"  style=" width:260px; height:105px;" >
+            <grid>
+                <columns>
+                    <column label="" width="30%" align="right" />
+                    <column label="" width="70%" align="left" />
+                </columns>
+                <rows>
+                    <row>
+                        <label value="Nro. Grupo"></label>
+                        <textbox id="txtGrupo1"></textbox>
+                    </row>
+                    
+                    <row>
+                        <label />
+                        <button id="btnAgrupar1">Agrupar</button>
+                    </row>
+                    
+                </rows> 
+            </grid>
+        </popup>
+        
+        <popup id="popSubGrupo2"  style=" width:260px; height:105px;" >
+            <grid>
+                <columns>
+                    <column label="" width="30%" align="right" />
+                    <column label="" width="70%" align="left" />
+                </columns>
+                <rows>
+                    <row>
+                        <label value="Nro. Grupo"></label>
+                        <textbox id="txtGrupo2"></textbox>
+                    </row>
+                    <row>
+                        <label />
+                        <button id="btnAgrupar2">Agrupar</button>
+                    </row>
+                </rows> 
+            </grid>
+        </popup>
+    </window>
+</zk>

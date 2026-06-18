@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MineType">
+    <resultMap id="MineTypeMap" type="MineType">
+        <result property="mineId" column="mine_id" />
+        <result property="mineNombre" column="mine_nombre" />              
+        <result property="mineExt" column="mine_ext" />              
+        <result property="mineEstado" column="mine_estado" />              
+    </resultMap>
+    
+    <select id="getListCombo" resultMap="MineTypeMap">
+        select * from mine_type
+        where mine_estado = true
+        order by mine_nombre;
+    </select>    
+    <select id="getList" resultMap="MineTypeMap" parameterType="String">
+        select * from mine_type
+        where mine_nombre ilike #{c} or mine_ext ilike #{c}
+        order by mine_nombre;
+    </select>
+    
+    <insert id="insert" parameterType="MineType">
+        <selectKey keyProperty="mineId" resultType="Integer" order="BEFORE">
+            select case when max(mine_id) is null then '1' else max(mine_id)+1 end id 
+            from mine_type
+        </selectKey>
+        INSERT INTO mine_type(
+        mine_id, mine_nombre, mine_ext, mine_estado)
+        VALUES (#{mineId}, #{mineNombre}, #{mineExt}, #{mineEstado});
+
+    </insert>
+    
+    <update id="update" parameterType="MineType" >
+        UPDATE mine_type
+        SET  mine_nombre=#{mineNombre}, mine_estado=#{mineEstado}, mine_ext=#{mineExt} 
+        
+        WHERE mine_id = #{mineId}
+    </update>
+    
+    <delete id="delete" parameterType="MineType" >
+        delete from mine_type
+        where mine_id = #{mineId}
+    </delete>
+    
+    <select id="getRepetidoUpdate"  parameterType="MineType" resultType="Integer">
+        select count(mine_id)::integer from mine_type
+        where mine_nombre = #{mineNombre} and mine_id!=#{mineId}
+    </select> 
+    
+    <select id="getRepetido"  parameterType="MineType" resultType="Integer">
+        select count(mine_id)::integer from mine_type
+        where mine_nombre = #{mineNombre} 
+    </select> 
+</mapper>
+

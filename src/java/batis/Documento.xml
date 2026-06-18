@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Documento">
+    <resultMap id="DocumentoMap" type="Documento">
+        <result property="id" column="docu_id" />        
+        <result property="titulo" column="docu_titulo" />
+        <result property="resumen" column="docu_resumen"  />
+        <result property="descripcion" column="docu_descripcion"  />
+        <result property="fechaDocx" column="docu_fecha_docx" />   
+        <result property="docuFecha" column="docu_fecha" />   
+        <result property="tidoId" column="tido_id" />    
+        <result property="mimeTypes" column="docu_mime_types" />    
+        <result property="origenArchivo" column="docu_origen_archivo" />        
+        <result property="estado" column="docu_estado"/>
+        <result property="activo" column="docu_activo"/>
+        <result property="metaData" column="docu_metadata" javaType="String"/>
+        <result property="cataId" column="cata_id" />
+        <result property="cateId" column="cate_id" />
+        <result property="ruta" column="docu_ruta" />   
+        <result property="privado" column="docu_privado" />   
+        <result property="publico" column="docu_publico" />   
+        <result property="propietario" column="propietario" />   
+        <result property="personalizado" column="personalizado" />   
+        <result property="remain" column="remain" />
+        <result property="tituloMin" column="docu_mini_titulo" />
+        <result property="resumenMin" column="docu_mini_resumen"  />
+        <result property="usuaId" column="usua_id"  />
+        <result property="docuHora" column="docu_hora"  />
+        <result property="docuGroup" column="docu_group"  />
+        <result property="docuCodigo" column="docu_codigo"  />
+        <result property="orden" column="orden"/>
+        <result property="solo" column="solo"/>
+        <result property="subGrupo" column="sub_group"/>
+        <result property="subGrupo1" column="sub_group1"/>
+        <result property="subGrupo2" column="sub_group2"/>
+        
+        <association property="mineType" column="docu_mime_types" javaType="MineType">
+            <result property="mineId" column="mine_id" />
+            <result property="mineNombre" column="mine_nombre" />
+            <result property="mineExt" column="mine_ext" />        
+            <result property="mineEstado" column="mine_estado" />          
+        </association>
+        
+        <association property="tipoDocumento" column="tido_id" javaType="TipoDocumento">
+            <result property="id" column="tido_id" />
+            <result property="nombre" column="tido_nombre" />
+        </association>
+        
+        <association property="categoria" column="cate_id" javaType="Categoria">
+            <result property="cateId" column="cate_id" />
+            <result property="cateNombre" column="cate_nombre" />
+        </association>
+        
+        <association property="catalogo" column="cata_id" javaType="Catalogo">
+            <id property="cataId" column="cata_id" />
+            <result property="cataNombre" column="cata_nombre" />
+        </association>
+        
+        <collection property="etiquetaDocu" column="etiq_id" javaType="ArrayList" ofType="EtiquetaDocu">
+            <id property="id" column="etiq_id" />
+            <result property="nombre" column="etiq_nombre" />
+        </collection>
+    </resultMap>
+    
+    <resultMap id="ResolMap" type="gob.peam.arcdig.beans.Resol">
+        <result property="numero" column="numero" />
+        <result property="fecha" column="fecha" />
+        <result property="titulo" column="codigo" />
+        <result property="detalle1" column="detalle" />
+        <result property="anho" column="anho" />
+        <result property="path" column="path" />
+    </resultMap>
+    
+    <select id="getList" resultMap="DocumentoMap" parameterType="HashMap">
+        select *
+        from documento
+        left join mine_type on documento.docu_mime_types = mine_type.mine_nombre
+        left join documento_etiqueta on documento_etiqueta.docu_id = documento.docu_id
+        left join etiqueta on etiqueta.etiq_id = documento_etiqueta.etiq_id
+        left join tipo_documento on documento.tido_id = tipo_documento.tido_id
+        left join categoria on categoria.cate_id = documento.cate_id
+        where documento.docu_titulo ilike #{c} or cast(documento.docu_id as character varying)  ilike #{c}
+        order by documento.docu_fecha desc, documento.docu_hora desc
+    </select>
+    
+    <select id="getListDocumentos" resultMap="DocumentoMap" parameterType="HashMap">
+        select *, (#{date} - documento.docu_hora) remain
+        from documento
+        left join mine_type on documento.docu_mime_types = mine_type.mine_nombre
+        left join documento_etiqueta on documento_etiqueta.docu_id = documento.docu_id
+        left join etiqueta on etiqueta.etiq_id = documento_etiqueta.etiq_id
+        left join tipo_documento on documento.tido_id = tipo_documento.tido_id
+        left join categoria on categoria.cate_id = documento.cate_id
+        where documento.docu_estado = true ${c}
+        order by documento.docu_fecha desc, documento.docu_hora desc
+        limit ${limit} offset ${offset}
+    </select>
+    
+    <select id="getListResol" resultMap="ResolMap" >
+        select *, date_part('YEAR', fecha) anho, 'DESARROLLO ECONOMICO' titulo  from acta
+        where  comision = '2'
+    </select>
+    
+    <select id="getListArchivos" resultMap="DocumentoMap" parameterType="HashMap">
+        select * from documento
+        left join mine_type on documento.docu_mime_types = mine_type.mine_nombre
+        left join documento_etiqueta on documento_etiqueta.docu_id = documento.docu_id
+        left join etiqueta on etiqueta.etiq_id = documento_etiqueta.etiq_id
+        where documento.docu_ruta = #{ruta} ${filtro}
+        order by cast(documento.docu_fecha_docx as date) desc, documento.docu_titulo desc
+        limit ${limit} offset ${offset}
+    </select>
+    
+    <select id="getListArchivosTotal" resultType="Integer" parameterType="HashMap">
+        select count(docu_id) from documento
+        where documento.docu_ruta = #{ruta} ${filtro}
+    </select>
+    
+    <select id="getListArchivos1" resultMap="DocumentoMap" parameterType="HashMap">
+        select * from documento
+        left join mine_type on documento.docu_mime_types = mine_type.mine_nombre
+        left join documento_etiqueta on documento_etiqueta.docu_id = documento.docu_id
+        left join etiqueta on etiqueta.etiq_id = documento_etiqueta.etiq_id
+        where docu_estado = true ${filtro}
+        order by cast(documento.docu_fecha_docx as date) desc, documento.docu_titulo desc
+        limit 30 offset 0
+    </select>
+    
+    <select id="getOne" resultMap="DocumentoMap" parameterType="HashMap">
+        select *, (now() - documento.docu_hora) remain from documento
+        left join mine_type on documento.docu_mime_types = mine_type.mine_nombre
+        left join documento_etiqueta on documento_etiqueta.docu_id = documento.docu_id
+        left join etiqueta on etiqueta.etiq_id = documento_etiqueta.etiq_id
+        left join tipo_documento on documento.tido_id = tipo_documento.tido_id
+        left join categoria on categoria.cate_id = documento.cate_id
+        where documento.docu_id = #{id}
+        order by documento.docu_fecha desc, documento.docu_hora desc
+        
+        
+    </select>
+    
+    <select id="getAdjuntos" resultMap="DocumentoMap" parameterType="HashMap">
+        select *, (now() - documento.docu_hora) remain from documento
+        left join mine_type on documento.docu_mime_types = mine_type.mine_nombre
+        left join documento_etiqueta on documento_etiqueta.docu_id = documento.docu_id
+        left join etiqueta on etiqueta.etiq_id = documento_etiqueta.etiq_id
+        left join tipo_documento on documento.tido_id = tipo_documento.tido_id
+        left join categoria on categoria.cate_id = documento.cate_id
+        where docu_group = #{docuGroup}
+        order by documento.orden asc, documento.docu_fecha desc, documento.docu_hora desc
+    </select>
+    
+    <select id="getMaxId" resultType="Integer">
+        select case when max(docu_id) is null then '0' else max(docu_id) end id from documento;
+    </select>
+    
+    <insert id="insert" parameterType="Documento">
+        <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+            select case when max(docu_id) is null then '1' else max(docu_id)+1 end id 
+            from documento
+        </selectKey>
+        INSERT INTO documento(
+        docu_id, usua_id, docu_titulo, docu_resumen, docu_privado, docu_publico, 
+        tido_id, docu_estado,  cata_id,  docu_origen_archivo, 
+        docu_mime_types, cate_id, docu_fecha_docx, docu_data, tido_version, 
+        docu_metadata, docu_ruta, propietario, personalizado,  docu_mini_titulo, docu_mini_resumen, docu_group, docu_codigo, sub_id)
+        VALUES (#{id}, #{usuaId}, #{titulo}, #{resumen}, #{privado}, #{publico}, 
+        #{tidoId}, true,  #{cataId},  #{origen}, 
+        #{mimeTypes}, #{cateId}, #{fechaDocx}, '', 0, #{metaData}, #{ruta}, #{propietario}, #{personalizado}, #{tituloMin},  #{resumenMin}, #{docuGroup}, #{docuCodigo} , #{subTipo});
+    </insert>
+    
+    <delete id="delete"  parameterType="Integer">
+        delete from documento
+        where docu_id = #{id}
+    </delete>
+    
+    <delete id="deletePropiedad"  parameterType="Documento">
+        delete from documento_usuario
+        where docu_id = #{id}
+    </delete>
+    
+    <select id="getDocumento" parameterType="Integer" resultMap="DocumentoMap">
+        select * from documento 
+        left join mine_type on documento.docu_mime_types = mine_type.mine_nombre
+        where (documento.docu_id = #{id})
+    </select>
+    
+    <update id="update" parameterType="Documento" >
+        UPDATE documento
+        SET  docu_titulo=#{titulo}, docu_resumen=#{resumen}, tido_id=#{tidoId}, 
+        docu_mini_titulo=#{tituloMin}, docu_mini_resumen=#{resumenMin},
+        docu_fecha_docx=#{fechaDocx}, docu_metadata = #{metaData}, cate_id= #{cateId},
+        docu_privado=#{privado}, docu_publico=#{publico}, personalizado = #{personalizado},
+        docu_codigo = #{docuCodigo}
+        WHERE docu_id = #{id}
+    </update>
+    
+    <update id="updateRuta" parameterType="HashMap" >
+        UPDATE documento
+        SET  docu_ruta = #{ruta}, cata_id = #{cataId}
+        WHERE docu_id = #{id}
+    </update>
+    
+    <update id="updateRuta1" parameterType="HashMap" >
+        UPDATE documento
+        SET  docu_ruta=#{docuRuta}
+        WHERE docu_id = #{id}
+    </update>
+    
+    <insert id="insertPersonalDocumento" parameterType="DocumentoUsuario">
+        INSERT INTO documento_usuario(
+        pers_dni, docu_id)
+        VALUES (#{dni}, #{docuId});
+    </insert>
+    
+    <select id="getListDocumentosXCatatalogo" resultMap="DocumentoMap" parameterType="HashMap">
+        select * from documento
+        where documento.docu_estado = true and cata_id=#{cataId} ${query}
+    </select>
+    
+    <insert id="insertLog" parameterType="HashMap">
+        INSERT INTO log(
+        log_tabla,  log_dni, log_descripcion, log_tabla_id)
+        VALUES (#{logTabla},  #{logDni}, #{logDescripcion}, #{logTablaId});
+    </insert>
+    
+    <update id="updateSearch" parameterType="Integer">
+        update "public".documento
+        set docu_search= to_tsvector('spanish', 
+        coalesce("public".documento.docu_titulo,'')||' '||
+        coalesce("public".documento.docu_resumen,'')||' '||
+        coalesce("public".categoria.cate_nombre,'')||' '||
+        coalesce("public".catalogo.cata_nombre,'')||' '||
+        coalesce("public".tipo_documento.tido_nombre,'')||' '||
+        coalesce("public".documento.docu_metadata,''))
+
+        FROM
+        "public".categoria, "public".catalogo,  "public".tipo_documento
+        where
+        "public".documento.cate_id = "public".categoria.cate_id
+        and "public".documento.cata_id = "public".catalogo.cata_id 
+        and  "public".documento.tido_id = "public".tipo_documento.tido_id
+        and "public".documento.docu_id = #{id}
+
+    </update>
+    
+    <select id="getListDocs" resultMap="DocumentoMap" parameterType="HashMap">
+        select * from documento
+        left join documento_etiqueta on documento_etiqueta.docu_id = documento.docu_id
+        left join etiqueta on etiqueta.etiq_id = documento_etiqueta.etiq_id
+        left join tipo_documento on documento.tido_id = tipo_documento.tido_id
+        where docu_estado = true  ${query}
+    </select>
+    
+    <insert id="insertReport1" parameterType="HashMap">
+        INSERT INTO tmp_report1(
+        titulo, fecha, personal, tipo_documento)
+        VALUES (#{titulo}, #{fecha}, #{nombre}, #{tipoDocumento});
+    </insert>
+    
+    <update id="truncateReport1">
+        truncate tmp_report1;
+    </update>
+    
+    <select id="listaBoletas" resultMap="DocumentoMap"> 
+        select * from documento t1
+        where (docu_ruta is null or docu_ruta = '')
+        order by docu_id asc 
+    </select>
+    
+    <select id="getRelacion" resultType="Integer" parameterType="HashMap"> 
+        select count(docu_id) from documento t1
+        where docu_group= #{groupId} and docu_group!=0
+    </select>
+    
+    <select id="getRelacionById" resultMap="DocumentoMap"  parameterType="HashMap"> 
+        select * from documento t1
+        where docu_group= (SELECT docu_group FROM documento where docu_id=#{id}) and docu_group!=0
+    </select>
+    
+    <select id="getRelacionSubGrupo" resultMap="DocumentoMap"  parameterType="HashMap">
+        select * from documento
+        where docu_group = #{docuGroup} and (sub_group = #{subGroup} or sub_group = 0 )
+        order by orden asc
+    </select>
+     <select id="getRelacionSubGrupo1" resultMap="DocumentoMap"  parameterType="HashMap">
+        select * from documento
+        where docu_group = #{docuGroup} and (sub_group1 = #{subGroup} or sub_group1 = 0 )
+        order by orden desc
+    </select>
+     <select id="getRelacionSubGrupo2" resultMap="DocumentoMap"  parameterType="HashMap">
+        select * from documento
+        where docu_group = #{docuGroup} and (sub_group2 = #{subGroup} or sub_group2 = 0 )
+        order by orden desc
+    </select>
+    
+    <update id="removeGroup" parameterType="HashMap" >
+        UPDATE documento
+        SET  docu_group = #{groupId}
+        WHERE docu_id = #{id}
+    </update>
+    <!--oscinfor-->
+     
+    <insert id="insertOscinfor" parameterType="gob.peam.arcdig.beans.JSONOscinfor">
+        <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+            select case when max(log_id) is null then '1' else max(log_id)+1 end id 
+            from log_oscinfor
+        </selectKey>
+        INSERT INTO log_oscinfor(
+        log_id, log_fecha, "NUM_THABILITANTE", "TITULAR", "MODALIDAD", 
+        "CADUCADO_TH", "NOMBRE_POA", "ARESOLUCION_NUM", "COD_INFORME", 
+        "NUM_INFORME", "FECHA_SUPERVISION_INI", "FECHA_SUPERVISION_FIN", 
+        "NUM_RESOLUCION_INI", "FECHA_EMISION_INI", "MED_CAU", "INFRACCIONES_INI", 
+        "NUM_RESOLUCION_AMP", "FECHA_EMISION_AMP", "INFRACCIONES_AMP", 
+        "NUM_RESOLUCION_VAIMP", "FECHA_EMISION_VAIMP", "INFRACCIONES_VAIMP", 
+        "NUM_RESOLUCION_TER", "FECHA_EMISION_TER", "DETER_TER", "MONTO_MULTA_TER", 
+        "AMONESTACION", "CADUCIDAD", "MED_PRECAU", "MED_CORREC", "NUM_RESOLUCION_RECONS", 
+        "FECHA_EMISION_RECONS", "DETER_RECONS", "LEV_CADUCIDAD_RECONS", 
+        "CAMBIO_MULTA_RECONS", "MONTO_MULTA_RECONS", "NUM_RESOLUCION_RECTI", 
+        "FECHA_EMISION_RECTI", "MOTIVO_RECTI", "MONTO_MULTA_RECTI", "NUM_RESOLUCION_TFFS", 
+        "FECHA_EMISION_TFFS", "ESTADO_PAU", "FECHA_ACTUALIZACION")
+        VALUES (#{id}, now(), #{NUM_THABILITANTE}, #{TITULAR}, #{MODALIDAD}, 
+        #{CADUCADO_TH}, #{NOMBRE_POA}, #{ARESOLUCION_NUM}, #{COD_INFORME}, 
+        #{NUM_INFORME}, #{FECHA_SUPERVISION_INI}, #{FECHA_SUPERVISION_FIN}, 
+        #{NUM_RESOLUCION_INI}, #{FECHA_EMISION_INI}, #{MED_CAU}, #{INFRACCIONES_INI}, 
+        #{NUM_RESOLUCION_AMP}, #{FECHA_EMISION_AMP}, #{INFRACCIONES_AMP}, 
+        #{NUM_RESOLUCION_VAIMP}, #{FECHA_EMISION_VAIMP}, #{INFRACCIONES_VAIMP}, 
+        #{NUM_RESOLUCION_TER}, #{FECHA_EMISION_TER}, #{DETER_TER}, #{MONTO_MULTA_TER}, 
+        #{AMONESTACION}, #{CADUCIDAD}, #{MED_PRECAU}, #{MED_CORREC}, #{NUM_RESOLUCION_RECONS}, 
+        #{FECHA_EMISION_RECONS}, #{DETER_RECONS}, #{LEV_CADUCIDAD_RECONS}, 
+        #{CAMBIO_MULTA_RECONS}, #{MONTO_MULTA_RECONS}, #{NUM_RESOLUCION_RECTI}, 
+        #{FECHA_EMISION_RECTI}, #{MOTIVO_RECTI}, #{MONTO_MULTA_RECTI}, #{NUM_RESOLUCION_TFFS}, 
+        #{FECHA_EMISION_TFFS}, #{ESTADO_PAU}, #{FECHA_ACTUALIZACION});
+    </insert> 
+    <select id="getMaxOscinforId" resultType="Integer" parameterType="HashMap"> 
+        select case when max(log_id) is null then '1' else max(log_id)+1 end id 
+        from log_oscinfor
+    </select>
+    
+    <update id="adjuntar" parameterType="HashMap" >
+        UPDATE documento
+        SET  docu_group = #{grupo}
+        WHERE docu_id = #{id}
+    </update>
+    
+    <update id="anexoUp" parameterType="Documento">
+        update documento set orden = #{orden}
+        where  docu_id = #{id}
+    </update>
+    
+    <update id="updateSolo" parameterType="HashMap">
+        update documento set solo = #{solo}
+        where  docu_id = #{id}
+    </update>
+    
+    
+    <update id="updateSubgrupo" parameterType="HashMap">
+        update documento set sub_group = #{subgrupo}
+        where  docu_id = #{id}
+    </update>
+    
+    <update id="updateSubgrupo1" parameterType="HashMap">
+        update documento set sub_group1 = #{subgrupo}
+        where  docu_id = #{id}
+    </update>
+    
+    <update id="updateSubgrupo2" parameterType="HashMap">
+        update documento set sub_group2 = #{subgrupo}
+        where  docu_id = #{id}
+    </update>
+    
+    <update id="anexoDown" parameterType="Documento">
+        update documento set orden = #{orden}
+        where  docu_id = #{id}
+    </update>
+</mapper>
+

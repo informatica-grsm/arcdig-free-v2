@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    
+    <panel border="normal" sclass="conversation" apply="gob.peam.arcdig.view.Publicacion">
+        <caption iconSclass="z-icon-book"    apply="gob.peam.arcdig.view.Inicio">
+            <button id="addDocu" label="Subir Archivo" style="font-weight:bold;" iconSclass="z-icon-upload"  autodisable="self" zclass="btn btn-default"></button>
+        </caption>
+        <panelchildren>
+            <hbox spacing="0" >
+                <vbox spacing="0"  id="caja1">
+                    <grid id="gridPublicacion" sclass="comments" >
+                        <columns>
+                            <column width="50px"  />
+                            <column height="50px"/>
+                        </columns>
+                        <rows id="rows">
+                        </rows>
+                    </grid>
+                    <div align="center" style="display:block" id="verMas">
+                        <span sclass="z-icon-book icon-2x blue"/>
+                        <a  label="&#032;Ver Publicaciones Antiguas&#032;" id="siguiente" sclass="link">
+                            <span sclass="z-icon-arrow-right"/>
+                        </a>
+                    </div>
+                </vbox>
+                <splitter id="s1"  collapse="after" visible="false"  open="false"/>
+                <vbox id="caja2"   visible="false">
+                    <div >
+                        <separator height="10px"  />
+                        <a label="INFORMACION" iconSclass="z-icon-list" sclass="green lighter rcaption"/>
+                        <listbox id="lb" sclass="task"  nonselectableTags="*" >
+                            <listhead>
+                                <listheader width="90px"/>
+                                <listheader/>
+                                <listheader width="25px" />
+                            </listhead>
+                            <listitem  sclass="task-blue">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="blue" style="" value="ID:"/>
+                                </listcell>
+                                <listcell id="cellID" sclass="text" >
+                                    <label id="labelID" value=""/>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a visible="true" iconSclass="z-icon-bookmark blue" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            <listitem  sclass="task-blue">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="blue" style="" value="Codigo:"/>
+                                </listcell>
+                                <listcell id="cellCdoigo" sclass="text" >
+                                    <label id="labelCodigo" value=""/>
+                                     <textbox id="tCodigo" width="200px" visible="false" >
+                                        <attribute name="onOK">
+                                            <![CDATA[ iconCodigo.focus(); ]]>
+                                        </attribute>
+                                    </textbox>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a id="iconCodigo"  visible="false" autodisable="self" iconSclass="z-icon-pencil blue" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            <listitem  sclass="task-green">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="green" style="" value="Titulo:"/>
+                                </listcell>
+                                <listcell id="cellTitulo" sclass="text" >
+                                    <label id="labelTitulo"  value="" />
+                                    <textbox id="tTitulo" width="200px" visible="false" >
+                                        <attribute name="onOK">
+                                            <![CDATA[ iconTitulo.focus(); ]]>
+                                        </attribute>
+                                    </textbox>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a id="iconTitulo"  visible="false" autodisable="self" iconSclass="z-icon-pencil green" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            <listitem  sclass="task-blue">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="blue" style="" value="Resumen:"/>
+                                </listcell>
+                                <listcell label="" sclass="text" >
+                                    <label id="labelResumen" value=""/>
+                                    <textbox id="tResumen" width="200px" rows="3" visible="false" />
+                                    
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a id="iconResumen" autodisable="self" visible="false" iconSclass="z-icon-pencil blue" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            <listitem  sclass="task-red">
+                                <listcell  sclass="text" >
+                                    <label sclass="red" style="" value="Tipo Doc.:"/>
+                                </listcell>
+                                <listcell sclass="text" >
+                                    <label id="labelTipoDoc" value=""/>
+                                    <listbox id="lTipoDocu" visible="false" mold="select" width="200px"/>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a id="iconTipoDocu" autodisable="self"  visible="false" iconSclass="z-icon-pencil red" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            <listitem  sclass="task-purple">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="purple" style="" value="Fecha Doc.:"/>
+                                </listcell>
+                                <listcell  sclass="text" >
+                                    <label id="labelFechaDoc" value=""/>
+                                    <datebox id="dFecha" mold="rounded" width="120px" visible="false" format="dd/MM/yyyy">
+                                        <attribute name="onOK">
+                                            <![CDATA[ iconFecha.focus(); ]]>
+                                        </attribute>
+                                    </datebox>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a id="iconFecha" autodisable="self" visible="false" iconSclass="z-icon-pencil purple" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            <listitem  sclass="task-orange">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="orange" style="" value="Categoría:"/>
+                                </listcell>
+                                <listcell label="" sclass="text" >
+                                    <label id="labelCate" value=""/>
+                                    <listbox id="lCateDocu" visible="false" mold="select" width="200px"/>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a id="iconCate" autodisable="self" visible="false" iconSclass="z-icon-pencil orange" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            <listitem  sclass="task-grey">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="grey" style="" value="Etiqueta(s):"/>
+                                </listcell>
+                                <listcell id="cellEtiqueta" sclass="text" >
+                                    <label id="labelEtiqueta" value=""/>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a id="iconEtiqueta" autodisable="self" visible="false" iconSclass="z-icon-pencil grey" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            <listitem  sclass="task-green">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="green" style="" value="Información:"/>
+                                </listcell>
+                                <listcell id="cellInfo" sclass="text" >
+                                    <label id="labelInfo" value=""/>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a visible="true" iconSclass="z-icon-bookmark green" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            <listitem  sclass="task-blue">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="blue" style="" value="Ruta Física:"/>
+                                </listcell>
+                                <listcell id="cellRuta" sclass="text" >
+                                    <label id="labelRuta" value=""/>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a visible="true" iconSclass="z-icon-bookmark blue" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            
+                            <listitem  sclass="task-purple">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="purple" style="" value="Relacion:"/>
+                                </listcell>
+                                <listcell id="cellRelacion" sclass="text" >
+                                    <label id="labelRelacion" value=""/>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a visible="false" id="iconRelacion" iconSclass="z-icon-eye purple" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            
+                            <listitem  sclass="task-red">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="red" style="" value="Link de Descarga:"/>
+                                </listcell>
+                                <listcell id="cellLink" sclass="text" >
+                                    <label id="labelLink" value=""/>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a visible="false" id="iconLink" iconSclass="z-icon-eye red" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            
+                            <listitem  sclass="task-orange">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="orange" style="" value="Descarga (G1)"/>
+                                </listcell>
+                                <listcell id="cellLinkSolo" sclass="text" >
+                                    <label id="labelLinkSolo" value=""/>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a visible="false" id="iconLinkSolo" iconSclass="z-icon-eye orange" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            
+                            <listitem  sclass="task-orange">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="orange" style="" value="Descarga (G2)"/>
+                                </listcell>
+                                <listcell id="cellLinkSolo1" sclass="text" >
+                                    <label id="labelLinkSolo1" value=""/>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a visible="false" id="iconLinkSolo1" iconSclass="z-icon-eye orange" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            
+                            <listitem  sclass="task-orange">
+                                <listcell label="" sclass="text" >
+                                    <label sclass="orange" style="" value="Descarga (G3)"/>
+                                </listcell>
+                                <listcell id="cellLinkSolo2" sclass="text" >
+                                    <label id="labelLinkSolo2" value=""/>
+                                </listcell>
+                                <listcell >
+                                    <div sclass="">
+                                        <a visible="false" id="iconLinkSolo2" iconSclass="z-icon-eye orange" />
+                                    </div>
+                                </listcell>
+                            </listitem>
+                            
+                        </listbox>
+                    </div>
+                    <div id="divMetadata" class="divMetadata" visible="false">
+                        <separator height="10px"  />
+                        <a label="DATOS" iconSclass="z-icon-list" sclass="green lighter rcaption"/>
+                        <span id="iconMetadata" style="float:right; cursor:pointer" sclass="z-icon-pencil icon-2x green rcaption"/>
+                        <listbox id="listMetadata" sclass="task"  nonselectableTags="*" >
+                            <listhead>
+                                
+                                <listheader width="36%"/>
+                                <listheader hflex="min"/>
+                                <listheader width="62%"/>
+                            </listhead>                            
+                        </listbox>
+                    </div>
+                    <hlayout>
+                        
+                        <button label="Ver Copia" id="visor" autodisable="self" iconSclass="z-icon-eye" sclass="btn btn-sm btn-primary"/>
+                        <button label="Ver Original" id="visorOri" autodisable="self" visible="false" disabled="true" iconSclass="z-icon-eye-slash" sclass="btn btn-sm btn-info"/>
+                        <button label="Descargar" id="download" autodisable="self" target="_Blank" iconSclass="z-icon-download" sclass="btn btn-sm btn-success"/>
+                        <button style="color: gray" label="Firma Digital" id="firma" disabled="true" autodisable="self" target="_Blank" iconSclass="z-icon-pencil" sclass="btn btn-sm btn-success"/>
+                        <button  label="Expediente" id="expediente" disabled="true" autodisable="self" target="_Blank" iconSclass="z-icon-book" sclass="btn btn-sm btn-success"/>
+                    </hlayout>
+                    <iframe id="vista" height="500px"></iframe>
+                </vbox>
+            </hbox>
+            
+        </panelchildren>
+    </panel>
+
+</zk>

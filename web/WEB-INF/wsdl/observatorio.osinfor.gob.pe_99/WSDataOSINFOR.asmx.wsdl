@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="getlistaSupervisados">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="varBusqueda" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getlistaSupervisadosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getlistaSupervisadosResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="autenticaUser" type="tns:autenticaUser" />
+      <s:complexType name="autenticaUser">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="getlistaSupervisados2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="varBusqueda" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getlistaSupervisados2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getlistaSupervisados2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getlistaTHCaducados">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="varBusqueda" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getlistaTHCaducadosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getlistaTHCaducadosResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getlistaTHCaducados2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="varBusqueda" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getlistaTHCaducados2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getlistaTHCaducados2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getlistaTHs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getlistaTHsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getlistaTHsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="getlistaSupervisadosSoapIn">
+    <wsdl:part name="parameters" element="tns:getlistaSupervisados" />
+  </wsdl:message>
+  <wsdl:message name="getlistaSupervisadosSoapOut">
+    <wsdl:part name="parameters" element="tns:getlistaSupervisadosResponse" />
+  </wsdl:message>
+  <wsdl:message name="getlistaSupervisadosautenticaUser">
+    <wsdl:part name="autenticaUser" element="tns:autenticaUser" />
+  </wsdl:message>
+  <wsdl:message name="getlistaSupervisados2SoapIn">
+    <wsdl:part name="parameters" element="tns:getlistaSupervisados2" />
+  </wsdl:message>
+  <wsdl:message name="getlistaSupervisados2SoapOut">
+    <wsdl:part name="parameters" element="tns:getlistaSupervisados2Response" />
+  </wsdl:message>
+  <wsdl:message name="getlistaTHCaducadosSoapIn">
+    <wsdl:part name="parameters" element="tns:getlistaTHCaducados" />
+  </wsdl:message>
+  <wsdl:message name="getlistaTHCaducadosSoapOut">
+    <wsdl:part name="parameters" element="tns:getlistaTHCaducadosResponse" />
+  </wsdl:message>
+  <wsdl:message name="getlistaTHCaducadosautenticaUser">
+    <wsdl:part name="autenticaUser" element="tns:autenticaUser" />
+  </wsdl:message>
+  <wsdl:message name="getlistaTHCaducados2SoapIn">
+    <wsdl:part name="parameters" element="tns:getlistaTHCaducados2" />
+  </wsdl:message>
+  <wsdl:message name="getlistaTHCaducados2SoapOut">
+    <wsdl:part name="parameters" element="tns:getlistaTHCaducados2Response" />
+  </wsdl:message>
+  <wsdl:message name="getlistaTHsSoapIn">
+    <wsdl:part name="parameters" element="tns:getlistaTHs" />
+  </wsdl:message>
+  <wsdl:message name="getlistaTHsSoapOut">
+    <wsdl:part name="parameters" element="tns:getlistaTHsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WSDataOSINFORSoap">
+    <wsdl:operation name="getlistaSupervisados">
+      <wsdl:input message="tns:getlistaSupervisadosSoapIn" />
+      <wsdl:output message="tns:getlistaSupervisadosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getlistaSupervisados2">
+      <wsdl:input message="tns:getlistaSupervisados2SoapIn" />
+      <wsdl:output message="tns:getlistaSupervisados2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getlistaTHCaducados">
+      <wsdl:input message="tns:getlistaTHCaducadosSoapIn" />
+      <wsdl:output message="tns:getlistaTHCaducadosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getlistaTHCaducados2">
+      <wsdl:input message="tns:getlistaTHCaducados2SoapIn" />
+      <wsdl:output message="tns:getlistaTHCaducados2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getlistaTHs">
+      <wsdl:input message="tns:getlistaTHsSoapIn" />
+      <wsdl:output message="tns:getlistaTHsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSDataOSINFORSoap" type="tns:WSDataOSINFORSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getlistaSupervisados">
+      <soap:operation soapAction="http://tempuri.org/getlistaSupervisados" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:getlistaSupervisadosautenticaUser" part="autenticaUser" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getlistaSupervisados2">
+      <soap:operation soapAction="http://tempuri.org/getlistaSupervisados2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getlistaTHCaducados">
+      <soap:operation soapAction="http://tempuri.org/getlistaTHCaducados" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:getlistaTHCaducadosautenticaUser" part="autenticaUser" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getlistaTHCaducados2">
+      <soap:operation soapAction="http://tempuri.org/getlistaTHCaducados2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getlistaTHs">
+      <soap:operation soapAction="http://tempuri.org/getlistaTHs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WSDataOSINFORSoap12" type="tns:WSDataOSINFORSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getlistaSupervisados">
+      <soap12:operation soapAction="http://tempuri.org/getlistaSupervisados" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:getlistaSupervisadosautenticaUser" part="autenticaUser" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getlistaSupervisados2">
+      <soap12:operation soapAction="http://tempuri.org/getlistaSupervisados2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getlistaTHCaducados">
+      <soap12:operation soapAction="http://tempuri.org/getlistaTHCaducados" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:getlistaTHCaducadosautenticaUser" part="autenticaUser" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getlistaTHCaducados2">
+      <soap12:operation soapAction="http://tempuri.org/getlistaTHCaducados2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getlistaTHs">
+      <soap12:operation soapAction="http://tempuri.org/getlistaTHs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSDataOSINFOR">
+    <wsdl:port name="WSDataOSINFORSoap" binding="tns:WSDataOSINFORSoap">
+      <soap:address location="http://observatorio.osinfor.gob.pe:99/WSDataOSINFOR.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WSDataOSINFORSoap12" binding="tns:WSDataOSINFORSoap12">
+      <soap12:address location="http://observatorio.osinfor.gob.pe:99/WSDataOSINFOR.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

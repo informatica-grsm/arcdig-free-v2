@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window id="winRepositorio" title="Visor"  border="normal" width="1024px"          
+            position="top,center" closable="true" 
+             apply="gob.peam.arcdig.view.WinVisor">
+        <iframe id="iframe" width="1000px" height="720px"/>
+    </window>
+</zk>

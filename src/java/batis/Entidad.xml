@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Entidad">
+    <resultMap id="EntidadMap" type="Entidad">
+        <result property="idEntidad" column="enti_id" />
+        <result property="nombre" column="enti_nombre" />
+        <result property="abreviatura" column="enti_abreviatura" />
+        <result property="frase" column="enti_frase" />
+        <result property="direccion" column="enti_direccion" />
+        <result property="ruc" column="enti_ruc" />
+        <result property="representanteLegal" column="enti_representante_legal" />
+        <result property="carpetaSiaf" column="enti_carpeta_siaf" />
+        <result property="secuenciaEjecutora" column="enti_secuencia_ejecutora" />
+        <result property="pie" column="enti_pie" />
+        <result property="version" column="enti_version" />
+        <result property="nroDni" column="nro_dni" />
+        <result property="logo" column="enti_logo" />
+    </resultMap>
+    <resultMap id="EntidadLogoMap" type="Entidad">
+        <result property="idEntidad" column="enti_id" />
+        <result property="logo" column="enti_logo" />
+    </resultMap>
+    <select id="get" resultMap="EntidadMap">
+        select * from administracion.entidad limit 1 offset 0
+    </select>
+    
+   
+    
+</mapper>

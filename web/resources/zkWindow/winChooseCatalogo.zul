@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"  xmlns:w="client">
+    <window id="winRepositorio" title="Elegir una Carpeta como Contenedor del Catalogo"  border="normal" width="500px"          
+            position="top,center" closable="true" 
+             apply="gob.peam.arcdig.view.WinChooseCatalogo">
+        <hlayout>
+            <hbox spacing="0" width="1000px" height="100%">
+                <vbox spacing="0" width="100%"  height="130px">
+                    <hbox>
+                        <button id="newCarpeta" autodisable="self" iconSclass="z-icon-folder-open-o" sclass="btn btn-sm btn-primary">Crear Carpeta</button>
+                        <button id="deleteCarpeta" autodisable="self" iconSclass="z-icon-trash-o" sclass="btn btn-sm btn-danger">Borrar Carpeta</button>
+                    </hbox>
+                    <tree id="explorerTree" width="500px"  height="300px">
+                        <treecols sizable="true" >
+                            <treecol id="rutaVista" width="380px" />
+                            <treecol label="Archivos" width="60px"  />
+                        </treecols>
+                    </tree>
+                </vbox>
+            </hbox>
+        </hlayout>
+        <hlayout   style="text-align:right">
+            <button iconSclass="z-icon-ban" id="cancel" autodisable="self" sclass="btn btn-sm btn-warning">Cancelar</button>
+            <button id="ok"  iconSclass="z-icon-check" autodisable="self" disabled="true" sclass="btn btn-sm btn-success">Elegir</button>
+        </hlayout>
+    </window>
+</zk>
+

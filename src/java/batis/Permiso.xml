@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Permiso">
+    <resultMap id="PermisoMap" type="Permiso">
+        <result property="dni" column="dni" />
+        <result property="activo" column="activo" />   
+        <result property="item1" column="item1" />
+        <result property="item2" column="item2" />
+        <result property="item3" column="item3" />
+        <result property="item4" column="item4" />
+        <result property="item5" column="item5" />
+        <result property="item6" column="item6" />
+        <result property="item7" column="item7" />
+        <result property="item8" column="item8" />
+        <result property="item9" column="item9" />
+        <result property="item10" column="item10" />
+        <result property="tipo" column="tipo" />
+    </resultMap>
+    
+    <select id="getList" parameterType="HashMap" resultMap="PermisoMap">
+        select * from permiso
+        where activo = true
+    </select>
+    
+    <select id="getPermisos" parameterType="String" resultMap="PermisoMap">
+        select * from permiso
+        where dni = #{dni}
+    </select>
+        
+    <insert id="insert" parameterType="Permiso" >
+        INSERT INTO permiso(
+        dni, activo, item1, item2, item3, item4, item5, tipo, item6, item7, item8, item9, item10)
+        VALUES (#{dni}, #{activo}, #{item1}, #{item2}, #{item3}, #{item4}, #{item5}, #{tipo}, #{item6}, #{item7}, #{item8}, #{item9}, #{item10});
+    </insert>
+    
+    <delete id="delete"  parameterType="Permiso">
+        delete from permiso
+        where dni = #{dni}
+    </delete>
+    
+    
+    
+</mapper>

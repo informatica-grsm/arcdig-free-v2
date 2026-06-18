@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"  xmlns:w="client">
+    <window id="winUpload" title="Paso 1 de 3: Subir Archivo. "  border="normal" width="1024px"          
+            position="top,center" closable="true" apply="gob.peam.arcdig.view.WinUpload">
+        <style>
+            .attachBtn_doc{
+            overflow: hidden;
+       
+            cursor: pointer;
+            text-align: center;
+            color: #333;
+      
+            width: 256px;
+            height: 256px;
+            border:0px;
+            background: transparent;
+            
+            background-position: 0px 0px;
+            background-repeat: no-repeat;
+            }
+        </style>
+        <label value="Paso 1 de 3: Subir Archivo" style="font-size:14pt " />
+        <separator bar="true"/>
+        <div id="datos" style="display:none">
+            <grid  style="width:100%;" >
+                <columns>
+                    <column label="" width="25%" />
+                    <column label="" width="50%" />
+                    <column label="" width="25%" />
+                </columns>
+                <rows>
+                    <row>
+                        <label value="Titulo(*):" />
+                        <textbox id="textTitulo" placeholder="Escriba el titulo del Archivo"/>
+                        <label id="tituError" />
+                    </row>
+                    <row>
+                        <label value="Código/Exp/Número/etc:" />
+                        <textbox id="textCodigo" width="100%" placeholder="Escriba el código, expediente, número de trámite u otro identificador único."/>
+                        <label id="codigoError" />
+                    </row>
+                    <row>
+                        <label value="Resumen:" />
+                        <textbox id="textResumen" placeholder="Escriba el resumen del Archivo" rows="3" height="80px" />
+                    </row>
+                    <row>
+                        <label>Categoria:</label>
+                        <listbox id="cateDocu" style="height:20px; padding:0px" mold="select" />
+                    </row>
+                    <row>
+                        <label value="Tipo de Documento:" />
+                        <div>
+                            <listbox id="tipoDocu" style="height:20px; padding:0px" mold="select" />
+                            <button class="btn-info btn btn-sm" id="addTipo" iconSclass="z-icon-plus" visible="false"/>
+                        </div>
+                    </row>
+                     <row>
+                        <label value="Sub Tipo de Documento:" />
+                        <div>
+                            <listbox id="subTipoDocu" style="height:20px; padding:0px" mold="select" />
+                            <button class="btn-info btn btn-sm" id="addSubTipo" iconSclass="z-icon-plus" visible="false"/>
+                        </div>
+                    </row>
+                    <row>
+                        <label value="Fecha del Archivo:" />
+                        <datebox id="fechaDocu" readonly="true" width="120px" onCreate="self.value = new Date()" format="dd/MM/yyyy"/>
+                    </row>
+                    <row>
+                        <label value="Privacidad:" />
+                        <div>
+                            <menupopup id="m1" style="margin-left:0px">
+                                <menuitem label="Público" iconSclass="z-icon-globe" sclass="sub-modu" onClick="privilegio.setIconSclass(self.getIconSclass())"/>
+                                <menuitem label="Privado" iconSclass="z-icon-user" sclass="sub-modu" onClick="privilegio.setIconSclass(self.getIconSclass())"/>
+                                <menuitem label="Personalizado" id="personaliza" sclass="sub-modu" iconSclass="z-icon-cog" onClick="privilegio.setIconSclass(self.getIconSclass())"/>
+                            </menupopup>
+                            <div class="btn-group" style="margin:right:20px">
+                                <button class="btn-info btn btn-sm" id="privilegio" iconSclass="z-icon-user" style="margin-right:0px; border-bottom-right-radius: 0px; border-top-right-radius: 0px;"> </button>
+                                <button class="btn-info btn btn-sm dropdown-toggle"  style="margin-left:-2px " iconSclass="caret"
+                                        onClick='m1.open(self.previousSibling, "after_start")'>
+                                </button>
+                            </div>
+                        </div>
+                    </row>
+                    <row>
+                        <label value="Notificar o compatir en:" />
+                        <button class="btn-info btn btn-sm" id="notificar" label="Correo" iconSclass="z-icon-envelope"  />
+                    </row>
+                </rows>
+            </grid>
+            <separator bar="true"/>
+            <div id="gridContent">
+                <grid id="formularioTipo" style="padding:20px" visible="false">
+                    <columns>
+                        <column label="" width="25%" align="right" />
+                        <column label="" width="75%" align="left" />
+                        <column label="" width="0%" align="left" />
+                    </columns>
+                    <rows>
+                        <row>
+                            <label value="Nombre de Tipo Documento(*)" />
+                            <textbox id="textTipoDoc" width="220px"  />
+                            <label id="nombError" />
+                        </row>
+                        <row>
+                            <label value="Agregar Campos Extras" />
+                            <button id="addRowMeta" label="Agregar Campo" />
+                        </row>
+                        <row>
+                            <label value="Campos" />
+                            <grid id="gridY" visible="false">
+                                <columns>
+                                    <column label="Nombre del Campo" width="28%" align="left" />
+                                    <column label="Tipo de Dato" width="20%" align="left" />
+                                    <column label="Valor " width="32%" align="left" />
+                                    <column label="" width="10%" align="center" />
+                                </columns>
+                                <rows id="rowsY">
+                                    <row>
+                                        <label value="DNI" />
+                                        <label value="Texto simple" />
+                                        <label id="metaDNI" />
+                                        <label value="" />
+                                    </row>
+                                    <row>
+                                        <label value="PERSONAL" />
+                                        <label value="Texto simple" />
+                                        <label id="metaNombre" value="" />
+                                        <label value="" />
+                                    </row>
+                                </rows>
+                            </grid>
+                        </row>
+                    
+                    </rows>
+                </grid>
+            </div>
+            <grid  style="width:100%" >
+                <columns>
+                    <column label="" width="25%" />
+                    <column label="" width="65%" />
+                    <column label="" width="10%" />
+                </columns>
+                <rows id="rows">
+                </rows>
+            </grid>
+        </div>
+        <div id="uploaddiv" height="300px" style="text-align:center">
+            <label id="mensaje" style="font-size:12pt; display:none"/>
+            <hlayout style="margin-top:50px" width="100%">
+                <button autodisable="self" id="attachBtn" class="attachBtn_doc" style=" border:0px; background-image: url('./resources/img/file-upload.png'); background-repeat: no-repeat;"  upload="true,maxsize=245760"/>
+            </hlayout>
+            <vlayout id="flist"  sclass="fileList" />
+            <label />
+        </div>
+        <hlayout width="100%"  style="text-align:right" >
+            <button autodisable="self" id="up"  iconSclass="z-icon-folder-open" sclass="btn btn-sm btn-info" style="display:none" upload="true,maxsize=245760">Remplazar Archivo</button>
+            <button autodisable="self" iconSclass="z-icon-ban" id="close" sclass="btn btn-sm btn-warning">Cancelar</button>
+            <button autodisable="self" id="save" disabled="true"  iconSclass="z-icon-arrow-right"  sclass="btn btn-sm btn-primary">Siguiente</button>            
+        </hlayout>
+        <iframe id="viewFrame"  width="1000px" height="500px" style=" display:none" />
+        
+    </window>
+    
+    
+    
+</zk>
+

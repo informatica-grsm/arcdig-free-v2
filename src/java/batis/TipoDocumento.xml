@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TipoDocumento">
+    
+    <resultMap id="TipoDocumentoMap" type="TipoDocumento"> 
+      
+        <result property="id" column="tido_id" /> 
+        <result property="nombre" column="tido_nombre" />
+        <result property="estado" column="tido_estado" />
+        <result property="descripcion" column="tido_descripcion" />
+        <result property="metadata" column="tido_metadata" />              
+        <result property="privacidad" column="tido_privacidad" />
+        <result property="cateId" column="cate_id" />
+        <result property="cateNombre" column="cate_nombre" />
+        
+    </resultMap>
+
+    <resultMap id="SubTipoMap" type="gob.peam.arcdig.beans.SubTipo"> 
+        <result property="id" column="id" /> 
+        <result property="nombre" column="nombre" />
+        <result property="estado" column="estado" />
+    </resultMap>
+
+            
+    <select id="get" parameterType="Integer"  resultMap="TipoDocumentoMap">
+        select * from tipo_documento
+        where tido_id = #{id}
+    </select>
+    
+    <select id="getListCombo"  resultMap="TipoDocumentoMap">
+        select * from tipo_documento
+        where tido_estado = true
+        order by tido_nombre;
+    </select>
+           
+    <select id="getList" resultMap="TipoDocumentoMap" parameterType="String">
+        select * from tipo_documento
+        where tido_nombre ilike #{c} or tido_descripcion ilike #{c}
+        order by tido_nombre;
+    </select>
+    
+    <select id="getListComboCateg" parameterType="HashMap" resultMap="TipoDocumentoMap">
+        select td.tido_id, td.tido_nombre, td.tido_estado, td.tido_descripcion, 
+        td.tido_metadata, td.tido_privacidad, c.cate_id, c.cate_nombre 
+        from tipo_documento as td, categoria as c ${c}
+        order by td.tido_nombre ASC;
+    </select>
+        
+    <select id="getListMeta"  resultMap="TipoDocumentoMap">
+        select distinct(tido_nombre), tipo_documento.tido_id from tipo_documento
+        inner join campos_tipo_documento on tipo_documento.tido_id = campos_tipo_documento.tido_id
+        where tido_estado = true
+    </select>
+    
+    <insert id="insert" parameterType="TipoDocumento">
+        <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+            select case when max(tido_id) is null then '1' else max(tido_id)+1 end id 
+            from tipo_documento
+        </selectKey>
+        INSERT INTO tipo_documento(
+        tido_id, tido_nombre, tido_estado, tido_descripcion, tido_metadata, tido_privacidad, cate_id)
+        VALUES (#{id}, #{nombre}, #{estado}, #{descripcion}, #{metadata}, #{privacidad}, #{cateId});
+    </insert>
+    
+    <update id="update" parameterType="TipoDocumento" >
+        UPDATE tipo_documento
+        SET  tido_nombre = #{nombre}, tido_estado = #{estado}, tido_descripcion = #{descripcion}, 
+        tido_metadata = #{metadata}, tido_privacidad = #{privacidad}, cate_id = #{cateId}
+        WHERE tido_id = #{id}
+    </update>
+    
+    <delete id="delete" parameterType="TipoDocumento" >
+        delete from tipo_documento
+        where tido_id = #{id}
+    </delete>
+    
+    <select id="getRepetido"  parameterType="TipoDocumento" resultType="Integer">
+        select count(tido_id)::integer from tipo_documento
+        where tido_nombre = #{nombre} and cate_id = #{cateId}
+    </select>
+    
+    <select id="getRepetidoUpdate"  parameterType="TipoDocumento" resultType="Integer">
+        select count(tido_id)::integer from tipo_documento
+        where tido_nombre = #{nombre} and tido_id!=#{id} and cate_id = #{cateId}
+    </select> 
+    
+    <select id="getMaxId"  resultType="Integer">
+        select max(tido_id)::integer from tipo_documento
+    </select>     
+    
+    <select id="listarSubTipo" parameterType="HashMap" resultMap="SubTipoMap">
+        select * from sub_tipo
+        where tido_id =#{tidoId} and estado = true or nombre ilike #{c}
+        order by nombre;
+    </select>
+           
+    <insert id="insertSubTipo" parameterType="TipoDocumento">
+        <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+            select case when max(id) is null then '1' else max(id)+1 end id 
+            from sub_tipo
+        </selectKey>
+        INSERT INTO public.sub_tipo(
+        id, nombre, tido_id, estado)
+        VALUES (#{id}, #{nombre}, #{tidoId}, #{estado});
+
+    </insert>
+    
+    <update id="updateSubTipo" parameterType="gob.peam.arcdig.beans.SubTipo" >
+        UPDATE sub_tipo
+        set nombre = #{nombre}
+        WHERE  id = #{id}
+    </update>
+    
+    <delete id="deleteSubTipo" parameterType="gob.peam.arcdig.beans.SubTipo">        
+        UPDATE sub_tipo
+        set estado = false
+        where id = #{id}
+    </delete>
+    
+</mapper>
+    

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dependencia">
+    <resultMap id="DependenciaMap" type="Dependencia">
+        <result property="idDependencia" column="depe_id" />
+        <result property="nombre" column="depe_nombre" />
+        <result property="abreviatura" column="depe_abreviatura" />
+        <result property="estado" column="depe_estado" />
+        <result property="padre" column="depe_padre" />
+        <result property="charId" column="char_id" />
+        <result property="nivel" column="depe_nivel" />
+    </resultMap>
+    
+    <select id="listarDependencias" parameterType="java.util.HashMap" resultMap="DependenciaMap">
+        select * from administracion.dependencia where depe_nivel=#{nivel} and depe_padre=#{padre}
+    </select>
+
+    <select id="listarDependenciasForCombo" resultMap="DependenciaMap">
+        select *, depe_id as char_id from administracion.dependencia order by depe_nombre asc
+    </select>
+
+    <insert id="insertarDependencia" parameterType="Dependencia">
+        <selectKey keyProperty="idDependencia" resultType="int" order="BEFORE">
+            select cast(((case  when max(depe_id) is null then 0 else max(depe_id) end) +1) as int) from administracion.dependencia
+        </selectKey>
+        INSERT INTO administracion.dependencia(
+        depe_nombre, depe_abreviatura, depe_estado, depe_id, depe_padre, 
+        depe_nivel)
+        VALUES ( #{nombre}, #{abreviatura}, #{estado}, #{idDependencia}, #{padre},#{nivel});
+    </insert>
+    <select id="buscarDependencia" parameterType="int" resultMap="DependenciaMap">
+        select * from administracion.dependencia where depe_id=#{id}
+    </select>
+    <select id="existeDependencia" parameterType="Persona" resultType="int">
+        select count(deus_id) from administracion.dependencia_persona where pers_id=#{idPersona}
+    </select>
+    <update id="actualizarDependencia" parameterType="Dependencia">
+        UPDATE administracion.dependencia
+        SET depe_nombre=#{nombre}, depe_abreviatura=#{abreviatura}, depe_padre=#{padre}, depe_nivel=#{nivel}
+        WHERE depe_id=#{idDependencia}
+    </update>
+    <select id="mostrarSubDependencia" parameterType="int" resultMap="DependenciaMap">
+        select * from administracion.dependencia where depe_padre=#{id}
+    </select>
+    <delete id="eliminarDependencia" parameterType="int">
+        DELETE FROM administracion.dependencia
+        WHERE depe_id=#{id}
+    </delete>
+    
+    <insert id="insertarTrabajadorInDependencia" parameterType="Persona">
+        <selectKey keyProperty="charId" resultType="String" order="BEFORE">
+            select cast(((case  when max(deus_id) is null then 0 else max(deus_id) end) +1) as varchar) from administracion.dependencia_persona
+        </selectKey>
+        INSERT INTO administracion.dependencia_persona(
+        deus_id, depe_id, pers_id)
+        VALUES (cast(#{charId} as integer), #{dependencia.idDependencia}, #{idPersona});
+    </insert>
+    
+    <delete id="eliminarTrabajadorInDependencia" parameterType="java.util.HashMap">
+        DELETE FROM administracion.dependencia_persona
+        WHERE depe_id=cast(#{idDependencia} as int) and pers_id=cast(#{idPersona} as int)
+    </delete>
+    
+    <update id="updateDependencia" parameterType="Persona" >
+        update administracion.dependencia_persona
+        set depe_id = #{dependencia.idDependencia}
+        where pers_id = #{idPersona}
+    </update>
+    
+</mapper>

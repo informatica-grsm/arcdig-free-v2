@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window  id="formPersona"  border="normal" width="800px"          
+             position="middle,center" closable="true"
+             title="Formulario de creación de usuarios" 
+             apply="gob.peam.arcdig.beans.Persona">
+        <grid>
+            <columns >
+                <column label="" width="30%" />
+                <column label="" width="45%" />
+                <column label="" width="25%" />
+            </columns>
+            <rows>
+                <row>
+                    <label value="Datos del la Persona" style="font-size: 13pt" />
+                    <separator />
+                    <separator />
+                </row>
+                <row>
+                    <label value="Nombre (*)" width="150px"  />
+                    <textbox  style="text-transform: uppercase;" maxlength="30" id="nombre_p" width="300px"/>
+                    <div>
+                        <label id="nombreError" style="width:100%"></label>
+                    </div>
+                </row>
+                <row>
+                    <label value="Apellido Paterno (*)" width="150px"  />
+                    <textbox  style="text-transform: uppercase;" maxlength="30" id="apellidoPaterno_p" width="300px"/>
+                    <div>
+                        <label id="paternoError" style="width:100%"></label>
+                    </div>
+                </row>
+                <row>
+                    <label value="Apellido Materno (*)" width="150px"  />
+                    <textbox  style="text-transform: uppercase;" maxlength="30" id="apellidoMaterno_p" width="300px"/>
+                    <div>
+                        <label id="maternoError" style="width:100%"></label>
+                    </div>
+                </row>
+                <row>
+                    <label value="Nro D.N.I. (*)" width="150px"  />
+                    <textbox  style="text-transform: uppercase;" instant="true" maxlength="8" id="documento" width="300px"/>
+                    <div>
+                        <label id="documentoError" style="width:100%"></label>
+                    </div>
+                </row>
+                <row visible="false">
+                    <label value="Area/Oficina al que pertenece (*)" width="150px"  />
+                    <listbox mold="select" width="300px" id="area" rows="4" />
+                    <div>
+                        <label id="areaError"  style="width:100%"></label>
+                    </div>
+                </row>
+                <row>
+                    <label value="Datos del la Cuenta" style="font-size: 13pt" />
+                    <separator />
+                    <separator />
+                </row>
+                <row>
+                    <label value="Usuario" width="150px"  />
+                    <textbox  style="text-transform: uppercase;" readonly="true" maxlength="100" id="usuario_p" width="300px"/>
+                    <div>
+                        <hbox>
+                            <button id="btn1" label="Desactivar Usuario" visible="false"/>
+                            <label id="usuarioError" style="width:100%"></label>
+                        </hbox>
+                    </div>
+                </row>
+                <row>
+                    <label value="Contraseña" width="150px"  />
+                    <textbox  type="password" maxlength="100" readonly="true" id="password_p" width="300px"/>
+                    <div>
+                        <label id="passwordError" style="width:100%">La contraseña se genera, es igual al nro de DNI.</label>
+                    </div>
+                </row>
+                <row>
+                    <label value="Grupo de Rol de Permisos al que Pertenece (*)" width="150px"  />
+                    <listbox mold="select" width="300px" id="grupo" />
+                    <div>
+                        <label id="grupoError" style="width:100%"></label>
+                    </div>
+                </row>
+            </rows>
+        </grid>
+        <separator />
+        <hbox width="" style="float:right">
+            <button id="activarPersona" label="Activar Persona" disabled="true" style="display:none" />
+            <button id="activar" label="Activar Usuario" disabled="true" style="display:none" />
+            <button id="savePersona" label="Guardar Solo Persona" iconSclass="z-icon-save" />
+            <button id="save" label="Guardar" iconSclass="z-icon-save" />
+            <button id="close" label="Cerrar" iconSclass="z-icon-close" />
+        </hbox>
+    </window>
+    <!--</div>-->
+    
+</zk>
+

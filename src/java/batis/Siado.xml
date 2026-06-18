@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Siado">
+    <resultMap id="SiadoMap" type="Siado">
+        <result property="siadId" column="siad_id" />
+        <result property="tituloHabilitante" column="siad_tituto_habitante" />              
+        <result property="MesInicio" column="siad_mes_inicio" />              
+        <result property="AnhoInicio" column="siad_anio_inicio" />
+        <result property="AreaUbicacion" column="siad_area_ubicacion" />
+        <result property="NumeroSITD" column="siad_numero_sitd" />
+        <result property="AnhoFin" column="siad_anio_fin" />
+        <result property="descripcion" column="siad_descripcion" />
+        <result property="password" column="siad_contrasenia" />
+        <result property="titular" column="siad_titular" />
+        <result property="mesFin" column="siad_mes_fin" />
+        <result property="observacion" column="siad_observacion" />
+        <result property="estado" column="siad_estado" />
+        <result property="regente" column="siad_regente" />
+        <result property="fechaEnvio" column="siad_fecha_envio" />
+        <result property="estadoTramiteId" column="estado_tramite_id" />
+        <result property="numeroExpediente" column="siad_numero_expediente" />
+        <result property="numeroTramite" column="siad_numero_tramite" />
+        <!--<result property="sectorId" column="siad_sector_id" />-->
+        
+        <association property="serie" column="sedo_id" javaType="Serie">
+            <result property="idSerie" column="sedo_id" />
+            <result property="codSerieDoc" column="codSerieDoc" />
+        </association>
+
+        <association property="sector" column="siad_sector_id" javaType="Sector">
+            <result property="idSec" column="siad_sector_id" />
+            <result property="codSec" column="codSec" />
+        </association>
+        
+        <association property="subSerie" column="sudo_id" javaType="SubSerie">
+            <result property="idSubSerie" column="sudo_id" />
+            <result property="idSistema" column="idSistema" />
+        </association>
+        
+    </resultMap>
+    
+    <select id="getList" resultMap="SiadoMap" parameterType="String">
+        select * from siado
+        where   siad_estado=true and siad_tituto_habitante ilike #{c} order by siad_id desc
+    </select>
+    
+    <insert id="insert" parameterType="Siado">
+        <selectKey keyProperty="siadId" resultType="Integer" order="BEFORE">
+            select case when max(siad_id) is null then '1' else max(siad_id)+1 end id 
+            from siado
+        </selectKey>
+        INSERT INTO siado(
+        siad_id, siad_tituto_habitante, siad_mes_inicio,siad_anio_inicio,siad_area_ubicacion,sedo_id,sudo_id,siad_numero_sitd,siad_anio_fin,siad_descripcion,
+        siad_contrasenia,siad_titular,siad_mes_fin,siad_observacion,siad_estado,siad_regente,siad_fecha_envio,estado_tramite_id,siad_sector_id)
+        VALUES (#{siadId}, #{tituloHabilitante}, #{MesInicio}, #{AnhoInicio}, #{AreaUbicacion}, #{serie.idSerie}, #{subSerie.idSubSerie}, #{NumeroSITD},
+        #{AnhoFin},#{descripcion},#{password},#{titular},#{mesFin},#{observacion},#{estado},#{regente},#{fechaEnvio},#{estadoTramiteId},#{sector.idSec});
+    </insert> 
+        
+    <update id="update" parameterType="Siado" >
+        UPDATE siado
+        SET  siad_tituto_habitante=#{siadTituloHabitante},
+        siad_mes_inicio=#{siadMesInicio},
+        siad_anio_inicio=#{siadAnioInicio},
+        siad_area_ubicacion=#{siadAreaUbicacion},
+        sedo_id=#{sedoId},
+        sudo_id=#{sudoId},
+        siad_numero_sitd=#{siadNumeroSitd},
+        siad_anio_fin=#{siadAnioFin},
+        siad_descripcion=#{siadDescripcion},
+        siad_contrasenia=#{siadContrasenia},
+        siad_titular=#{siadTitular},
+        siad_mes_fin=#{siadMesFin},
+        siad_observacion=#{siadObservacion},
+        
+        WHERE siad_id = #{siadId}
+    </update>
+    
+    <update id="updateNumeros" parameterType="Siado" >
+        UPDATE siado
+        SET  siad_numero_tramite=#{numeroTramite},
+        siad_numero_expediente=#{numeroExpediente},
+        siad_contrasenia = #{password},
+        estado_tramite_id=#{estadoTramiteId}    
+        WHERE siad_id = #{siadId}
+    </update>
+    
+    
+    <delete id="delete" parameterType="Siado" >        
+        UPDATE siado
+        set siad_estado = false
+        where siad_id = #{siadId}
+    </delete>
+    
+    
+</mapper>
+

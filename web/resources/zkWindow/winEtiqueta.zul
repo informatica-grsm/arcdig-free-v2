@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"  xmlns:w="client">
+    <window id="winEtiqueta" title="Paso 2 de 3: Etiquetar Documento"  border="normal" width="1024px"          
+            position="top,center" closable="true" 
+             apply="gob.peam.arcdig.view.WinEtiqueta">
+        <label value="Paso 2 de 3: Etiquetar Documento" style="font-size:14pt " />
+        <separator bar="true"/>
+        <hlayout height="200px" style="padding:10px">
+            <listbox id="candidateLb" hflex="1" vflex="true" multiple="true"  rows="4">
+                <listhead>
+                    <listheader label="" width="30px"></listheader>
+                    <listheader label="" width="420px">
+                        <bandbox  id="filtro" placeholder="Buscar Etiqueta..."   width="200px" instant="true"/>
+                    </listheader>
+                </listhead>
+            </listbox>
+            <zscript><![CDATA[
+    String imgPath = "/resources/img";
+]]></zscript>
+            <vbox spacing="10px" width="24px">
+                <image style="cursor:pointer; border:0px" id="chooseBtn" src="${imgPath}/rightarrow_g.png" />
+                <image style="cursor:pointer; border:0px" id="removeBtn" src="${imgPath}/leftarrow_g.png" />
+            </vbox>
+            <listbox id="chosenLb" hflex="1" vflex="true" multiple="true" checkmark="true" rows="4">
+                <listhead>
+                    <listheader label="" width="30px"></listheader>
+                    <listheader label="Nombre Completo" width="420px"></listheader>
+                </listhead>
+            </listbox>
+        </hlayout>
+        <hlayout  style="text-align:right" >
+            <button iconSclass="z-icon-ban" autodisable="self" id="cancel" sclass="btn btn-sm btn-warning">Cancelar</button>
+            <button id="before" autodisable="self" iconSclass="z-icon-arrow-left"  sclass="btn btn-sm btn-info">Anterior</button>
+            <button id="ok" autodisable="self" iconSclass="z-icon-arrow-right"  sclass="btn btn-sm btn-primary">Siguiente</button>
+        </hlayout>
+        <iframe id="viewFrame"  width="1000px" height="500px"  />
+    </window>
+</zk>
+

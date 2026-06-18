@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window id="winCarpeta" title="Nueva Carpeta"  border="normal" width="800px"          
+            position="middle,center" closable="true" 
+            apply="gob.peam.arcdig.view.WinCarpeta">
+        <grid>
+            <columns>
+                <column width="22%" />
+                <column width="78%" />
+                <column />
+            </columns>
+            <rows>
+                <row>
+                    <label value="RUTA :" />
+                    <label id="lruta"/>
+                    <label  />
+                </row>
+                <row>
+                    <label value="NOMBRE DE LA CARPETA :" />
+                    <textbox id="nombre" width="100%"/>
+                    <label id="nomError" />
+                </row>
+                
+                <row visible="false">
+                    <label value="TIPO DE CARPETA"/>
+                    <listbox mold="select" id="tipo">
+                        <listitem value="1" selected="true" label="NINGUNO"></listitem>
+                        <listitem value="2" label="LEGAJO"></listitem>
+                    </listbox>
+                </row>
+                
+                <row id="rowPropietario" visible="false">
+                    <label value="PROPIETARIO" />
+                    <textbox id="propietario" readonly="false" value="TODOS" width="240px"   />
+                    <button id="add" label="" iconSclass="z-icon-cog" />
+                </row>
+                
+                <row >
+                    <button label="Aceptar" autodisable="self" id="aceptar" iconSclass="z-icon-save"/>
+                    <button label="Cancelar" autodisable="self" id="cerrar" iconSclass="z-icon-reply"/>
+                </row>
+            </rows>
+        </grid>
+    </window>
+</zk>

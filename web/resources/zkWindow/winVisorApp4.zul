@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window id="winRepositorio" title="Visor"  border="normal" width="1024px"          
+            closable="true" 
+            apply="gob.peam.arcdig.view.WinVisorApp4">
+        <button label="Descargar en formato XLS" href="./AppReport4.pdf?format=excel" target="_BLANK"></button>
+        <iframe id="iframe" width="1000px" height="720px"/>
+    </window>
+</zk>

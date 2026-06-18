@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportextipo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="32" bottomMargin="20" uuid="4b5d4432-d9f5-47a4-9520-b3a503327480">
+	<property name="ireport.zoom" value="1.1000000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="resumen">
+		<box>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="derecha">
+		<box>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="puntines" isBlankWhenNull="false" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" isPdfEmbedded="false">
+		<box>
+			<pen lineWidth="0.25" lineStyle="Dashed" lineColor="#333333"/>
+			<topPen lineWidth="0.0" lineStyle="Dashed" lineColor="#333333"/>
+			<leftPen lineWidth="0.0" lineStyle="Dashed" lineColor="#333333"/>
+			<bottomPen lineWidth="0.25" lineStyle="Dashed" lineColor="#666666"/>
+			<rightPen lineWidth="0.0" lineStyle="Dashed" lineColor="#333333"/>
+		</box>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="resumen" uuid="61882b87-0bb1-44e7-bac3-edab52ea36c1">
+		<parameter name="tido_nombre" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="tido_id" class="java.lang.Integer"/>
+		<parameter name="labelTotalTipo" class="java.lang.String" isForPrompting="false">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA["Total tipo documento:"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="query" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+		</parameter>
+		<queryString>
+			<![CDATA[select *, replace(replace(replace (replace (replace (replace (replace (replace (replace (docu_metadata, '</meta_descripcion>', '; </i>'), '<meta_descripcion>', '<i>'), '</meta_nombre>', ': </b>'), '<meta_nombre>', '<b>'), '<meta_id>', '<b>'), '</meta_id>', '. </b>'), '<meta_id>', '<b>'), '</docu_metadata>', '</p>'), '<docu_metadata>', '<p>') campo
+
+ from documento
+where documento.tido_id = $P{tido_id} $P!{query}
+order by documento.tido_id  asc, documento.docu_hora desc]]>
+		</queryString>
+		<field name="docu_id" class="java.lang.Integer"/>
+		<field name="usua_id" class="java.lang.Integer"/>
+		<field name="docu_titulo" class="java.lang.String"/>
+		<field name="docu_resumen" class="java.lang.String"/>
+		<field name="docu_privado" class="java.lang.Boolean"/>
+		<field name="docu_publico" class="java.lang.Boolean"/>
+		<field name="tido_id" class="java.lang.Integer"/>
+		<field name="docu_estado" class="java.lang.Boolean"/>
+		<field name="docu_fecha" class="java.sql.Date"/>
+		<field name="cata_id" class="java.lang.Integer"/>
+		<field name="docu_version" class="java.math.BigDecimal"/>
+		<field name="docu_origen_archivo" class="java.lang.String"/>
+		<field name="docu_mime_types" class="java.lang.String"/>
+		<field name="cate_id" class="java.lang.Integer"/>
+		<field name="docu_fecha_docx" class="java.lang.String"/>
+		<field name="docu_data" class="java.lang.String"/>
+		<field name="tido_version" class="java.lang.Integer"/>
+		<field name="docu_metadata" class="java.lang.String"/>
+		<field name="docu_ruta" class="java.lang.String"/>
+		<field name="docu_hora" class="java.sql.Timestamp"/>
+		<field name="propietario" class="java.lang.String"/>
+		<field name="personalizado" class="java.lang.Boolean"/>
+		<field name="docu_mini_titulo" class="java.lang.String"/>
+		<field name="docu_mini_resumen" class="java.lang.String"/>
+		<field name="docu_search" class="java.lang.Object"/>
+		<field name="campo" class="java.lang.String"/>
+		<variable name="ind" class="java.lang.Integer" calculation="Count">
+			<variableExpression><![CDATA[$F{docu_titulo}]]></variableExpression>
+		</variable>
+		<variable name="prueba" class="java.lang.String">
+			<variableExpression><![CDATA["<p><b>1</b><b>DNI</b><i>00830221</i></p>"]]></variableExpression>
+		</variable>
+		<group name="tido_id">
+			<groupExpression><![CDATA[$F{tido_id}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="query" class="java.lang.String"/>
+	<parameter name="entidad" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select distinct(tipo_documento.tido_nombre), tipo_documento.tido_id from tipo_documento
+inner join documento on documento.tido_id = tipo_documento.tido_id
+where tipo_documento.tido_estado = true  $P!{query}]]>
+	</queryString>
+	<field name="tido_nombre" class="java.lang.String"/>
+	<field name="tido_id" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="65" splitType="Stretch">
+			<componentElement>
+				<reportElement x="12" y="1" width="534" height="64" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="161eb85e-fa43-4c98-9d7d-68808ec6b2fd"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="resumen" uuid="0aa3b68b-a11b-444b-91bb-3c5013f24bc7">
+						<datasetParameter name="query">
+							<datasetParameterExpression><![CDATA[$P{query}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="tido_id">
+							<datasetParameterExpression><![CDATA[$F{tido_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="tido_nombre">
+							<datasetParameterExpression><![CDATA[$F{tido_nombre}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:columnGroup width="534" uuid="f9b32c1d-d3ea-4714-922e-38777fe15795">
+						<jr:groupHeader groupName="tido_id">
+							<jr:cell style="resumen" height="17" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="534" height="17" uuid="a1a9d19d-5fae-40af-b003-976520a03a38"/>
+									<textElement verticalAlignment="Middle" markup="html">
+										<font size="8"/>
+										<paragraph leftIndent="4"/>
+									</textElement>
+									<textFieldExpression><![CDATA["<b>TIPO DE DOCUMENTO: </b>"+$P{tido_nombre}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:column width="30" uuid="ebbd0289-693d-43d0-91d5-fc69a5b2397d">
+							<jr:tableHeader style="resumen" height="25" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="30" height="25" uuid="a981341c-dfc3-40dc-b460-6ff90a78970b"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="8" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Nro]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:detailCell style="puntines" height="22" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="30" height="22" uuid="9acfdfc5-df5a-451b-90ff-0af72c207d21"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{ind}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="185" uuid="d35f42ab-cfae-41ea-a586-a03a8daa40b7">
+							<jr:tableHeader style="resumen" height="25" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="185" height="25" uuid="4b728f0a-257d-431d-8b5c-3dc064927ec0"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="8" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Ref. Documento Subido]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:detailCell style="puntines" height="22" rowSpan="1">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="185" height="22" isPrintWhenDetailOverflows="true" uuid="b47602e6-a01a-436c-977b-785b61e07965"/>
+									<textElement verticalAlignment="Middle">
+										<font size="7"/>
+										<paragraph leftIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{docu_titulo}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="73" uuid="d47f3609-d986-47f9-93c8-5dfa87ab95e0">
+							<jr:tableHeader style="resumen" height="25" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="73" height="25" uuid="be0e0ec4-01cc-46d8-b19b-2e64b8d82ce8"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="8" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Fecha y Hora]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:detailCell style="puntines" height="22" rowSpan="1">
+								<textField pattern="dd/MM/yyyy h.mm a">
+									<reportElement x="0" y="0" width="73" height="22" uuid="9feef7b0-30d9-4f80-8072-85d056abbf44"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7"/>
+										<paragraph leftIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{docu_hora}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="246" uuid="9d884b1e-77c1-4dc8-96d8-65005e225988">
+							<jr:tableHeader style="resumen" height="25" rowSpan="1">
+								<staticText>
+									<reportElement x="1" y="0" width="245" height="25" uuid="2fd483a7-0b29-440d-b2b7-bdfd84292885"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="8" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Datos Extras]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:detailCell style="puntines" height="22" rowSpan="1">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="246" height="22" isPrintWhenDetailOverflows="true" uuid="b3491fcc-8b33-468d-9495-5511ae417ad6"/>
+									<textElement verticalAlignment="Middle" markup="html">
+										<font size="7"/>
+										<paragraph leftIndent="4"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{campo}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

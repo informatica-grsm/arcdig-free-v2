@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_x_detalle" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="32" bottomMargin="20" uuid="4b5d4432-d9f5-47a4-9520-b3a503327480">
+	<property name="ireport.zoom" value="1.1000000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="resumen">
+		<box>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="derecha">
+		<box>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="puntines" isBlankWhenNull="false" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" isPdfEmbedded="false">
+		<box>
+			<pen lineWidth="0.25" lineStyle="Dashed" lineColor="#333333"/>
+			<topPen lineWidth="0.0" lineStyle="Dashed" lineColor="#333333"/>
+			<leftPen lineWidth="0.0" lineStyle="Dashed" lineColor="#333333"/>
+			<bottomPen lineWidth="0.25" lineStyle="Dashed" lineColor="#666666"/>
+			<rightPen lineWidth="0.0" lineStyle="Dashed" lineColor="#333333"/>
+		</box>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="resumen" uuid="61882b87-0bb1-44e7-bac3-edab52ea36c1">
+		<parameter name="query" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select documento.docu_id,docu_titulo, docu_hora, propietario, docu_resumen,
+case when string_agg(cast(etiqueta.etiq_nombre as varchar), ' ; ')  is null then 'NO TIENE' else string_agg(cast(etiqueta.etiq_nombre as varchar), ' ; ') end etiqueta,
+tipo_documento.tido_nombre, catalogo.cata_nombre
+from documento
+left join mine_type on documento.docu_mime_types = mine_type.mine_nombre
+left join documento_etiqueta on documento_etiqueta.docu_id = documento.docu_id
+left join etiqueta on etiqueta.etiq_id = documento_etiqueta.etiq_id
+left join tipo_documento on documento.tido_id = tipo_documento.tido_id
+left join categoria on categoria.cate_id = documento.cate_id
+left join catalogo on catalogo.cata_id = documento.cata_id
+where documento.docu_estado = true $P!{query}
+group by documento.docu_id, docu_titulo, docu_hora, propietario, docu_resumen, tido_nombre, cata_nombre, docu_fecha
+order by documento.docu_fecha desc, documento.docu_hora desc]]>
+		</queryString>
+		<field name="docu_id" class="java.lang.Integer"/>
+		<field name="docu_titulo" class="java.lang.String"/>
+		<field name="docu_hora" class="java.sql.Timestamp"/>
+		<field name="propietario" class="java.lang.String"/>
+		<field name="docu_resumen" class="java.lang.String"/>
+		<field name="etiqueta" class="java.lang.String"/>
+		<field name="tido_nombre" class="java.lang.String"/>
+		<field name="cata_nombre" class="java.lang.String"/>
+		<variable name="ind" class="java.lang.Integer" calculation="Count">
+			<variableExpression><![CDATA[$F{docu_id}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="query" class="java.lang.String"/>
+	<parameter name="entidad" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select docu_id from documento
+where documento.docu_estado = false
+limit 1 offset 0]]>
+	</queryString>
+	<field name="docu_id" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="1" width="800" height="14" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="161eb85e-fa43-4c98-9d7d-68808ec6b2fd"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="resumen" uuid="d5c7fc97-6a91-4dfe-910e-e7351d9e5d10">
+						<datasetParameter name="query">
+							<datasetParameterExpression><![CDATA[$P{query}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:columnGroup width="442" uuid="f9b32c1d-d3ea-4714-922e-38777fe15795">
+						<jr:column width="30" uuid="ebbd0289-693d-43d0-91d5-fc69a5b2397d">
+							<jr:tableHeader style="resumen" height="25" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="30" height="25" uuid="a981341c-dfc3-40dc-b460-6ff90a78970b"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Nro]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:detailCell style="puntines" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="30" height="29" uuid="9acfdfc5-df5a-451b-90ff-0af72c207d21"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{ind}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="155" uuid="d35f42ab-cfae-41ea-a586-a03a8daa40b7">
+							<jr:tableHeader style="resumen" height="25" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="155" height="25" uuid="4b728f0a-257d-431d-8b5c-3dc064927ec0"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Ref. Documento Subido]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:detailCell style="puntines" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="155" height="29" uuid="7490d2c3-b758-41d1-94c1-88c84e2f036b"/>
+									<textElement verticalAlignment="Middle">
+										<font size="7"/>
+										<paragraph leftIndent="4"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{docu_titulo}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="61" uuid="d47f3609-d986-47f9-93c8-5dfa87ab95e0">
+							<jr:tableHeader style="resumen" height="25" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="61" height="25" uuid="be0e0ec4-01cc-46d8-b19b-2e64b8d82ce8"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Fecha y Hora]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:detailCell style="puntines" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="61" height="29" uuid="dfe5444b-211e-44cc-83fd-d05b290e9e7b"/>
+									<textElement verticalAlignment="Middle">
+										<font size="7"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{docu_hora}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="196" uuid="9d884b1e-77c1-4dc8-96d8-65005e225988">
+							<jr:tableHeader style="resumen" height="25" rowSpan="1">
+								<staticText>
+									<reportElement x="1" y="0" width="195" height="25" uuid="2fd483a7-0b29-440d-b2b7-bdfd84292885"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Breve Resumen Subido]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:detailCell style="puntines" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="196" height="29" uuid="d71c9268-4f05-49a6-817f-14516358ba5f"/>
+									<textElement verticalAlignment="Middle">
+										<font size="7"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{docu_resumen}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+					<jr:column width="122" uuid="60dd6e07-2eef-48b2-a4ca-32d2fb783965">
+						<jr:tableHeader style="resumen" height="25" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="122" height="25" uuid="50ac6901-d0fa-4cc5-b22b-bc2e338f6e99"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Etiquetas]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter height="0" rowSpan="1"/>
+						<jr:columnHeader height="0" rowSpan="1"/>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell style="puntines" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="122" height="29" uuid="b5dfe526-5f98-4936-ae1e-bcd38d03f5eb"/>
+								<textElement verticalAlignment="Middle">
+									<font size="7"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{etiqueta}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="112" uuid="809a76a0-3590-454c-ae65-d9ad45db5c6b">
+						<jr:tableHeader style="resumen" height="25" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="112" height="25" uuid="cb415101-fbd8-4942-8a56-2d006c0139b0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tipo Documento]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter height="0" rowSpan="1"/>
+						<jr:columnHeader height="0" rowSpan="1"/>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell style="puntines" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="112" height="30" uuid="da7cd474-d24c-4acd-9ee3-2a793f5b0111"/>
+								<textElement verticalAlignment="Middle">
+									<font size="7"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{tido_nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="125" uuid="cf0631dd-95fa-47e8-bb12-59b01717d945">
+						<jr:tableHeader style="resumen" height="25" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="125" height="25" uuid="65fba0d7-eacf-45c0-ada3-0edcffc141d7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Catalogo]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter height="0" rowSpan="1"/>
+						<jr:columnHeader height="0" rowSpan="1"/>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell style="puntines" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="125" height="30" uuid="5abcc670-50c8-4a3f-ae4c-31df2509c894"/>
+								<textElement verticalAlignment="Middle">
+									<font size="7"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{cata_nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

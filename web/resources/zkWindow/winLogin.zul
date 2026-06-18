@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window  id="formLogin" width="500px" position="middle,center" title="ARCDIG v2.0 - Autenticación" 
+             apply="gob.peam.arcdig.view.WinLogin">
+        <image width="120px" src="/resources/img/secury.png" style="float:left; margin-top:20px; margin-left:20px"  />
+        <grid width="300px" style="float:right;" id="form">
+            <columns>
+                <column label="" width="120px" />
+                <column label="" />
+            </columns>
+            <rows>
+                <row>
+                    <label value="Usuario:(*)" />
+                    <textbox id="usuario" width="140px"></textbox>
+                </row>                
+                <row>
+                    <label value="Password:(*)" />
+                    <textbox id="password" width="140px" type="password"></textbox>
+                </row>                
+                <row>
+                    <label value="Validación:(*)" />
+                    <vbox>
+                        <image id="captcha"  src="/captcha.jpg"/>
+                        <textbox value="" id="txtcaptcha" width="140px"></textbox>
+                    </vbox>
+                </row>                
+                <row style="text-align:center">
+                    <label value="" />
+                    <button autodisable="self" label ="Conectar" id="aceptar" />
+                </row>
+            </rows>
+        </grid>
+        
+        <popup  id="notificacion" zclass="tooltip" sclass="right tooltip-error cal">
+            <span zclass="tooltip-arrow"/>
+            <label zclass="tooltip-inner" id="errorMsn"/>
+        </popup>
+        
+    </window>
+    
+</zk>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Metadata">
+    <resultMap id="MetadataMap" type="Metadata">
+        <result property="id" column="meta_id" />
+        <result property="campo" column="meta_descripcion" />              
+        <result property="manual" column="meta_manual" />              
+        <result property="detalle" column="meta_valores" />              
+        <result property="estado" column="meta_estado" />
+        <result property="tipoDato" column="tipo_dato"/>
+        <result property="defecto" column="defecto"/>
+        <result property="obligado" column="obligado"/>
+        <result property="secuencia" column="secuencia"/>
+        
+        
+    </resultMap>
+    
+    <resultMap id="TipoMetadataMap" type="TipoMetadata">
+        <result property="tidoId" column="tido_id"/>
+        <result property="id" column="meta_id"/>              
+        <result property="timeEstado" column="catd_estado"/>              
+        <result property="tidoVersion" column="tido_version"/>
+        <result property="tipoDato" column="tipo_dato"/>
+        <result property="defecto" column="defecto"/>
+        <result property="obligado" column="obligado"/>          
+        <result property="secuencia" column="secuencia"/>
+        
+    </resultMap>
+    
+    <select id="getListMetadata" parameterType="HashMap" resultMap="MetadataMap">
+        select * from metadata
+        inner join campos_tipo_documento on metadata.meta_id = campos_tipo_documento.meta_id
+        where tido_id = #{tidoId}        
+    </select>
+    
+    <select id="getListCamposTipoDoc" parameterType="HashMap" resultMap="MetadataMap">
+        select * from campos_tipo_documento as a, metadata as m
+        where a.tido_id = #{tidoId} and a.meta_id = m.meta_id
+        order by a.secuencia ASC       
+    </select>        
+    
+    <select id="getListMetadataCombo" resultMap="MetadataMap">
+        select * from metadata
+        order by meta_descripcion asc
+    </select>
+    
+    <select id="getList" resultMap="MetadataMap" parameterType="String">
+        select * from metadata
+        where meta_descripcion ilike #{c}
+        order by meta_descripcion asc
+    </select>
+
+    <delete id="deleteTipoMeta"  parameterType="Integer">
+        delete from campos_tipo_documento
+        where tido_id = #{tidoId}
+    </delete>
+
+    <insert id="insertTipoMeta" parameterType="TipoMetadata" >
+        INSERT INTO campos_tipo_documento(tido_id, meta_id, catd_estado, 
+        tido_version, tipo_dato, defecto, obligado, secuencia)
+        VALUES (#{tidoId}, #{id}, #{timeEstado}, #{tidoVersion},
+        #{tipoDato}, #{defecto}, #{obligado}, #{secuencia});
+    </insert>
+    
+    <select id="getListTipoMetada" parameterType="Integer" resultMap="TipoMetadataMap" >
+        select * from campos_tipo_documento
+        where tido_id = #{tidoId}
+        order by tido_id, secuencia ASC
+    </select>
+    
+    <insert id="insert" parameterType="MetaData">
+        <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+            select case when max(meta_id) is null then '1' else max(meta_id)+1 end id 
+            from metadata
+        </selectKey>
+        INSERT INTO metadata(
+        meta_id, meta_descripcion, meta_manual, meta_valores, meta_estado)
+        VALUES (#{id}, #{campo}, true, '', true);
+    </insert>
+    
+    <select id="getMaxId" resultType="Integer" >
+        select case when max(meta_id) is null then '1' else max(meta_id) end id 
+        from metadata
+    </select>
+    
+    <update id="update" parameterType="MetaData" >
+        UPDATE metadata
+        SET  meta_descripcion=#{campo}, meta_estado=#{estado}
+        WHERE meta_id = #{id}
+    </update>
+    
+    <delete id="delete" parameterType="MetaData" >
+        delete from metadata
+        where meta_id = #{id}
+    </delete>
+    
+    
+    <select id="getRepetido"  parameterType="MetaData" resultType="Integer">
+        select count(meta_id)::integer from metadata
+        where meta_descripcion = #{campo} 
+    </select>
+    
+    <select id="getRepetidoUpdate"  parameterType="MetaData" resultType="Integer">
+        select count(meta_id)::integer from metadata
+        where meta_descripcion = #{campo} and meta_id!=#{id}
+    </select>
+    
+    <select id="getTipoDato" parameterType="HashMap" resultMap="TipoMetadataMap">
+        select * from campos_tipo_documento
+        where tido_id = #{tidoId} and meta_id = #{id}
+    </select> 
+    
+    <select id="getId" parameterType="String" resultType="Integer">
+        select case when meta_id is null then '0' else meta_id  end from metadata 
+        where meta_descripcion = #{nombre}
+        limit 1 offset 0
+    </select> 
+    
+    <select id="getCampo" parameterType="String" resultType="String">
+        select meta_descripcion from metadata
+        where meta_id = cast(#{id} as integer)
+    </select> 
+    
+</mapper>
+

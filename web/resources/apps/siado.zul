@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns:n="native" xmlns="http://www.zkoss.org/2005/zul">
+    <style>
+        .z-datebox a{
+        height: 35px !important;                    
+        }
+        .z-datebox a i{
+        margin-top: 5px !important;  
+        float: left;
+        }
+        .z-datebox input{
+        height: 35px !important;
+        }
+
+        .z-timebox input{
+        height: 35px !important;
+        }
+
+        .z-timebox span{
+        height: 35px !important;
+        }
+    </style>
+    
+    <div apply='gob.peam.arcdig.view.AppSiado'>  
+        
+        <panel border="normal" sclass="conversation" >
+            <caption iconSclass="z-icon-signal" >
+              
+            </caption>
+            <panelchildren>
+                <div class="box box-info">      
+           
+            
+                    <popup id="popupBack"  style=" width:360px; height:105px;" >
+                        <grid>
+                            <columns>
+                                <column label="" width="30%" align="right" />
+                                <column label="" width="70%" align="left" />
+                            </columns>
+                            <rows>
+                                <row>
+                                    <label value="Nro de Tramite:"></label>
+                                    <textbox id="txtExpediente"></textbox>
+                                </row>
+                                <row>
+                                    <label />
+                                    <button id="btnVerificar">Verificar</button>
+                                </row>
+                            
+                            </rows> 
+                        </grid>
+                    </popup>
+               
+                    <div id="nDivlistaRegistro" visible="true">
+                        <vlayout  style="     border: 1px solid #f9dd34;    background: #ffef8f url(resources/images/ui-bg_highlight-soft_25_ffef8f_1x100.png) 50% top repeat-x;    color: #363636;   margin: 5px; padding: 10px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px;  -o-border-radius: 5px;  border-radius: 5px;">
+                            <hlayout>
+                                <n:i class="z-icon-info"></n:i>
+                                <label value="Lista de trámites documentarios registrados a la espera de firma digital o derivación, también aqui se puede aperturar un nuevo trámite documentario o responder un documento de mi bandeja de entrada en el boton 'Nuevo Registro'. " />
+                            </hlayout>
+                        </vlayout>
+                
+                        <listbox id="listSiado" width="100%"  emptyMessage="No hay Registros Encontrados"  multiple="true" checkmark="true"  nonselectableTags="button">
+                                <auxhead sclass="category-center">                        
+                                    <auxheader style="text-align:right"  colspan="9">
+                                        <bandbox width="550px" id="filtro" instant="true" placeholder="Buscar..." sclass="input-prepend" />
+                                    </auxheader>
+                                </auxhead>
+                                <auxhead sclass="category-center">
+                                    <auxheader colspan="9">
+                                        <button id="nuevo" iconSclass="z-icon-file">Nuevo</button>&#160;
+                                        <button id="sendMultiple"  iconSclass="z-icon-plane" >Envio Múltiple</button>&#160;
+                                        <!--<button id="eliminar" iconSclass="z-icon-trash-o">Borrar</button>&#160;     
+                                        <button id="update" iconSclass="z-icon-refresh">Actualizar</button>        
+                                        <button id="send" iconSclass="z-icon-plane">Enviar</button>-->              
+                                    </auxheader>
+                                </auxhead>
+                            <!--<auxhead sclass="category-center">
+                                <auxheader colspan="8" align="left">
+                                    <button id="nuevo" sclass="btn-success"   autodisable="self"  zclass="btn" iconSclass="z-icon-file">Nuevo Registro</button>
+                            
+                                </auxheader>
+                       
+                                <auxheader style="text-align:right"  colspan="5">
+                                    <bandbox width="550px" id="filtro" instant="true" placeholder="Buscar..." sclass="input-prepend" />
+                                </auxheader>
+                            </auxhead>-->
+                   
+                            <listhead sizable="true">
+                                <listheader hflex="min" label="" align="left"/>
+                                <listheader hflex="min" label="Titulo Habilitante" align="center" width="6%"/>
+                                 <listheader align="left" label="Nro Trámite" width="10%" />
+                                <listheader align="left" label="Fecha" width="10%" />
+                                <listheader align="left" label="Usuario de Envio" width="10%" />
+                                 <listheader align="left" label="Nro. Expediente" width="10%" />
+                                <listheader align="left" label="Password" width="20%" />
+                                <listheader align="left" label="Estado Tramite" width="15%" />
+                                <listheader label="Opción" width="150px"></listheader>
+                            </listhead>
+                        </listbox>
+                        <paging id="pagingData" pageSize="20" visible="true"/>
+                
+                    </div> 
+                    <popup style="width:250px" id="popup" ></popup>
+                    <div id="msnDivVentana" visible="false">
+                        <div class="box-body">
+                            <vlayout  style="background: #DC3545;border: 1px solid #B73545; color: #FFFFFF; margin: 5px; padding: 10px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px;  -o-border-radius: 5px;  border-radius: 5px;">
+                                <hlayout>
+                                    <n:i class="z-icon-info"></n:i>
+                                    <label id="lblMsg"  />
+                                </hlayout>
+                            </vlayout>
+                        </div>
+                    </div>               
+                
+                   
+                    <div id="nDivVentana" visible="false">    
+                        <div class="box-body">
+                            <div style="color:white;background-color:#00C0EF;font-style:italic;margin-top:10px; margin-bottom:20px; padding:5px;border:1px solid #00C0EF;border-bottom:0px; float:left; width:100%">
+                                <label style="font-size:14px;font-weight:bold;" >ENCABEZADO DE ENVIO: SELECCIONE LAS OPCIONES CORRECTAS</label>
+                            </div>
+                            <grid  style="width:100%;" >
+                                <columns>
+                                    <column label="" width="20%" />
+                                    <column label="" width="20%" />
+                                    <column label="" width="20%" />
+                                    <column label="" width="20%" />
+                                    <column label="" width="20%" />
+                                    
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <vlayout >
+                                            <label value="Serie documental:" /> 
+                                            <listbox id="nCmbSerie" mold="select" width="100%"></listbox>
+                                        </vlayout>
+                                        
+                                        <vlayout >
+                                            <label value="Sub Serie Documental:" /> 
+                                            <listbox id="nCmbSubSerie" mold="select" width="100%"></listbox>
+                                        </vlayout>
+                                        
+                                        <vlayout >
+                                            <label value="Titulo Habilitante: " /> 
+                                            <textbox id="nTxtTitulo"  class="form-control" maxlength="250" style="text-transform: uppercase" placeholder="" />
+                                            <label id="nTxtTituloError" />
+                                        </vlayout>
+                                        
+                                         <vlayout >
+                                            <label value="Titular:" /> 
+                                            <textbox id="nTxtTitular" ></textbox>
+                                        </vlayout>
+                                        
+                                        <vlayout >
+                                            <label value="Descripción " /> 
+                                            <textbox id="nTxtDescripcion1"  class="form-control" maxlength="250" style="text-transform: uppercase" placeholder="" />
+                                        </vlayout>
+                                        
+                                        
+                                 
+                                    </row>
+                                    <row>
+                                        <vlayout >
+                                            <label value="Mes Inicio" /> 
+                                            <listbox id="nCmbMesAnio" mold="select" >
+                                                <listitem value="01" label="Enero" selected="true"></listitem>
+                                                <listitem value="02" label="Febrero" ></listitem>
+                                                <listitem value="03" label="Marzo" ></listitem>
+                                                <listitem value="04" label="Abril" ></listitem>
+                                                <listitem value="05" label="Mayo" ></listitem>
+                                                <listitem value="06" label="Junio" ></listitem>
+                                                <listitem value="07" label="Julio" ></listitem>
+                                                <listitem value="08" label="Agosto" ></listitem>
+                                                <listitem value="09" label="Setiembre" ></listitem>
+                                                <listitem value="10" label="Octubre" ></listitem>
+                                                <listitem value="11" label="Noviembre" ></listitem>
+                                                <listitem value="12" label="Diciembre" ></listitem>
+                                            </listbox>
+                                        </vlayout>
+                                        
+                                        <vlayout >
+                                            <label value="Mes Fin" /> 
+                                            <listbox id="nCmbMesFin" mold="select" >
+                                                <listitem value="01" label="Enero" selected="true"></listitem>
+                                                <listitem value="02" label="Febrero" ></listitem>
+                                                <listitem value="03" label="Marzo" ></listitem>
+                                                <listitem value="04" label="Abril" ></listitem>
+                                                <listitem value="05" label="Mayo" ></listitem>
+                                                <listitem value="06" label="Junio" ></listitem>
+                                                <listitem value="07" label="Julio" ></listitem>
+                                                <listitem value="08" label="Agosto" ></listitem>
+                                                <listitem value="09" label="Setiembre" ></listitem>
+                                                <listitem value="10" label="Octubre" ></listitem>
+                                                <listitem value="11" label="Noviembre" ></listitem>
+                                                <listitem value="12" label="Diciembre" ></listitem>
+                                            </listbox>
+                                        </vlayout>
+                                         <vlayout >
+                                            <label value="Año Inicio: " /> 
+                                            <textbox id="nTxtAnhoInicio"  class="form-control" maxlength="250" style="text-transform: uppercase" placeholder="" />
+                                        </vlayout>
+                                        <vlayout >
+                                            <label value="Año fin: " /> 
+                                            <textbox id="nTxtAnhoFin"  class="form-control" maxlength="250" style="text-transform: uppercase" placeholder="" />
+                                        </vlayout>
+                                        
+                                         <vlayout >
+                                            <label value="Observación " /> 
+                                            <textbox id="nTxtObservacion1"  class="form-control" maxlength="250" style="text-transform: uppercase" placeholder="" />
+                                        </vlayout>
+                                        
+                                    </row>
+                                    
+                                    <row>
+                                       <vlayout >
+                                            <label value="Area - ubicación (Departamento) " /> 
+                                             <listbox id="nCmbTxtDepartamento" mold="select" width="100%">
+                                                 
+                                                 <listitem selected="true"  label="	SAN MARTIN	 - 	MOYOBAMBA	 - 	MOYOBAMBA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	MOYOBAMBA	 - 	CALZADA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	MOYOBAMBA	 - 	HABANA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	MOYOBAMBA	 - 	JEPELACIO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	MOYOBAMBA	 - 	SORITOR	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	MOYOBAMBA	 - 	YANTALO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	BELLAVISTA	 - 	BELLAVISTA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	BELLAVISTA	 - 	ALTO BIAVO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	BELLAVISTA	 - 	BAJO BIAVO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	BELLAVISTA	 - 	HUALLAGA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	BELLAVISTA	 - 	SAN PABLO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	BELLAVISTA	 - 	SAN RAFAEL	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	EL DORADO	 - 	SAN JOSE DE SISA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	EL DORADO	 - 	AGUA BLANCA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	EL DORADO	 - 	SAN MARTIN	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	EL DORADO	 - 	SANTA ROSA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	EL DORADO	 - 	SHATOJA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	HUALLAGA	 - 	SAPOSOA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	HUALLAGA	 - 	ALTO SAPOSOA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	HUALLAGA	 - 	EL ESLABON	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	HUALLAGA	 - 	PISCOYACU	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	HUALLAGA	 - 	SACANCHE	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	HUALLAGA	 - 	TINGO DE SAPOSOA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	LAMAS	 - 	LAMAS	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	LAMAS	 - 	ALONSO DE ALVARADO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	LAMAS	 - 	BARRANQUITA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	LAMAS	 - 	CAYNARACHI	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	LAMAS	 - 	CUÑUMBUQUI	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	LAMAS	 - 	PINTO RECODO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	LAMAS	 - 	RUMISAPA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	LAMAS	 - 	SAN ROQUE DE CUMBAZA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	LAMAS	 - 	SHANAO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	LAMAS	 - 	TABALOSOS	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	LAMAS	 - 	ZAPATERO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	MARISCAL CACERES	 - 	JUANJUI	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	MARISCAL CACERES	 - 	CAMPANILLA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	MARISCAL CACERES	 - 	HUICUNGO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	MARISCAL CACERES	 - 	PACHIZA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	MARISCAL CACERES	 - 	PAJARILLO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	PICOTA	 - 	PICOTA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	PICOTA	 - 	BUENOS AIRES	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	PICOTA	 - 	CASPISAPA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	PICOTA	 - 	PILLUANA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	PICOTA	 - 	PUCACACA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	PICOTA	 - 	SAN CRISTOBAL	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	PICOTA	 - 	SAN HILARION	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	PICOTA	 - 	SHAMBOYACU	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	PICOTA	 - 	TINGO DE PONASA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	PICOTA	 - 	TRES UNIDOS	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	RIOJA	 - 	RIOJA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	RIOJA	 - 	AWAJUN	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	RIOJA	 - 	ELIAS SOPLIN VARGAS	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	RIOJA	 - 	NUEVA CAJAMARCA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	RIOJA	 - 	PARDO MIGUEL	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	RIOJA	 - 	POSIC	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	RIOJA	 - 	SAN FERNANDO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	RIOJA	 - 	YORONGOS	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	RIOJA	 - 	YURACYACU	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	TARAPOTO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	ALBERTO LEVEAU	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	CACATACHI	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	CHAZUTA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	CHIPURANA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	EL PORVENIR	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	HUIMBAYOC	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	JUAN GUERRA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	LA BANDA DE SHILCAYO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	MORALES	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	PAPAPLAYA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	SAN ANTONIO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	SAUCE	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	SAN MARTIN	 - 	SHAPAJA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	TOCACHE	 - 	TOCACHE	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	TOCACHE	 - 	NUEVO PROGRESO	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	TOCACHE	 - 	POLVORA	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	TOCACHE	 - 	SHUNTE	" ></listitem>
+                                                 <listitem  label="	SAN MARTIN	 - 	TOCACHE	 - 	UCHIZA	" ></listitem>
+                                             </listbox>
+                                            <textbox visible='false' id="nTxtDepartamento"  class="form-control" maxlength="250" style="text-transform: uppercase" placeholder="" value="SAN MARTIN - MOYOBAMBA - MOYOBAMBA" />
+                                        </vlayout>
+                                        
+                                        <vlayout >
+                                            <label value="SECCION" /> 
+                                            <listbox id="nCmbSector" mold="select" width="100%"></listbox>
+                                        </vlayout>
+                                    </row>
+                                </rows>
+                            </grid>
+                            <div style="color:white;background-color:#00C0EF;font-style:italic;margin-top:10px; margin-bottom:20px; padding:5px;border:1px solid #00C0EF;border-bottom:0px; float:left; width:100%">
+                                <label style="font-size:14px;font-weight:bold;" >DETALLE DOCUMENTARIO</label>
+                            </div>
+                            
+                            <checkbox id="nChkRegente" label="Regente" ></checkbox>
+                            
+                            <button id="addExp">Agregar un expediente</button>
+                            <button id="addDoc">Agregar un documento </button>
+                            
+                            <listbox id="listDocumento" emptyMessage="No hay Registros Encontrados"  checkmark="true"  nonselectableTags="button">
+                                <listhead>
+                                    <listheader label="" width="30px"></listheader>
+                                    <listheader label="Opción" width="150px"></listheader>
+                                    <listheader label="Documento" width="300px" visible="false"> </listheader>
+                                    <listheader label="Tipo Documental" width="200px"></listheader>
+                                    <listheader label="SubTipo Documental" width="200px"></listheader>
+                                    <listheader label="Det. SubTipo Documental" width="200px"></listheader>
+                                    <listheader label="NumZafra" width="100px"></listheader>
+                                    <listheader label="Numero" width="200px"></listheader>
+                                    <listheader label="Descripción" width="200px"></listheader>
+                                    <listheader label="Observación" width="100px"></listheader>
+                                    <listheader label="Regente" width="100px"></listheader>
+                                    <listheader label="Año Aprobación" width="100px"></listheader>
+                                    <listheader label="Año fin" width="100px"></listheader>
+                                    <listheader label="Titular" width="150px"></listheader>
+                                    <listheader label="Fecha envio" visible="false"></listheader>
+                                    
+                                </listhead>
+                                <auxhead id="auxHead" visible="false">
+                                    <auxheader label="" width="30px"></auxheader>
+                                    <auxheader width="100px">
+                                        <button id='ok' iconSclass="z-icon-check"></button>
+                                        <button id='cancel' iconSclass="z-icon-ban"></button>
+                                    </auxheader>
+                                    <auxheader width="100px" >
+                                        <textbox id='docId' visible="false"></textbox>
+                                        <textbox width="100%" id='docDescripcion'></textbox>
+                                    </auxheader>
+                                    <auxheader width="200px">
+                                        <listbox id="nCmbTipoDoc" mold="select" width="100%"></listbox>
+                                    </auxheader>
+                                    <auxheader width="200px">
+                                        <listbox id="nCmbSubTipoDoc" mold="select" width="100%"></listbox>
+                                    </auxheader>
+                                    <auxheader width="200px">
+                                        <listbox id="nCmbDetSubTipoDoc" mold="select" width="100%"> </listbox>
+                                    </auxheader>
+                                    <auxheader width="100px">
+                                        <textbox width="100%" id='numZafra'></textbox>
+                                    </auxheader>
+                                    <auxheader width="100px">
+                                        <textbox width="100%" id='numero'></textbox>
+                                    </auxheader>
+                                    <auxheader width="100px">
+                                        <textbox width="100%" id='descripcion'></textbox>
+                                    </auxheader>
+                                    <auxheader width="100px">
+                                        <textbox width="100%" id='observacion'></textbox>
+                                    </auxheader>
+                                    <auxheader width="100px">
+                                        <textbox width="100%" id='regente'></textbox>
+                                    </auxheader>
+                                    <auxheader width="100px">
+                                        <textbox width="100%" id='anhoAprobacion'></textbox>
+                                    </auxheader>
+                                    <auxheader width="100px">
+                                        <textbox width="100%" id='anhoFin'></textbox>
+                                    </auxheader>
+                                    <auxheader width="100px">
+                                        <textbox width="100%" id='usuarioEnvio'></textbox>
+                                    </auxheader>
+                                    <auxheader width="100px" visible="false">
+                                        <textbox width="100%" id='fechaEnvio'></textbox>
+                                    </auxheader>
+                                    
+                                </auxhead>
+                            </listbox>
+                            
+                            <div style="color:white;background-color:#00C0EF;font-style:italic;margin-top:10px; margin-bottom:20px; padding:5px;border:1px solid #00C0EF;border-bottom:0px; float:left; width:100%">
+                                <button id='save'>Guardar</button>
+                                <button id='cancelar'>Cancelar</button>
+                            </div>
+                        </div> 
+                    </div>  
+                </div>
+            
+            </panelchildren>
+        </panel>
+        <popup id="popExpediente"  style=" width:760px; ">
+            <listbox id="gridDocuments" emptyMessage="No hay Registros Encontrados" mold="paging" pageSize="9"   checkmark="true"  nonselectableTags="">
+              <auxhead sclass="category-center">                        
+                  <auxheader style="text-align:right"  colspan="6">
+                      <bandbox width="550px" id="filtroDoc" instant="true" placeholder="Buscar..." sclass="input-prepend" />
+                  </auxheader>
+              </auxhead>
+              <listhead sizable="true">
+                  <listheader hflex="min" label="" align="center"/>
+                  <listheader hflex="min" label="Nro" align="center"/>
+                  <listheader hflex="min" label="Doc ID" align="center"/>
+                  <listheader label="Doc Titulo" align="center"/>
+                  <listheader  label="Propietario" align="left"/>
+                  <listheader label="Opción" width="50px"></listheader>
+              </listhead>
+            </listbox>
+            <!--<grid>
+                
+                columns>
+                    <column label="" width="30%" align="right" />
+                    <column label="" width="70%" align="left" />
+                </columns>
+                <rows>
+                    <row>
+                        <label value="ID: "></label>
+                        <textbox id="txtExpediente_"></textbox>
+                    </row>
+                    <row>
+                        <label />
+                        <button id="btnExpediente">Agregar</button>
+                    </row>
+                            
+                </rows>
+            </grid>-->
+        </popup>
+    
+    
+        <popup id="popDocumento"  style=" width:360px; height:105px;" >
+            <grid>
+                <columns>
+                    <column label="" width="30%" align="right" />
+                    <column label="" width="70%" align="left" />
+                </columns>
+                <rows>
+                    <row>
+                        <label value="ID: "></label>
+                        <textbox id="txtDoc"></textbox>
+                    </row>
+                    <row>
+                        <label />
+                        <button id="btnDoc">Agregar</button>
+                    </row>
+                            
+                </rows> 
+            </grid>
+        </popup>
+    </div>
+    
+</zk>

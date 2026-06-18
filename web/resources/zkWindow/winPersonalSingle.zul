@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"  xmlns:w="client">
+    <window id="winPersonal" title="Formulario para seleccionar Personal"  border="normal" width="800px"          
+            position="top,center" closable="true" 
+             apply="gob.peam.arcdig.view.WinPersonalSingle" >
+        <hlayout  style="padding:10px">
+            <listbox id="listPersonal" hflex="1" vflex="true" checkmark="true"  nonselectableTags="" rows="8">
+                <listhead>
+                    <listheader label="" width="30px"></listheader>
+                    <listheader label="D.N.I" width="80px"></listheader>
+                    <listheader label="" >
+                        <bandbox  id="filtro" placeholder="Buscar Personal..."  width="200px" instant="true"/>
+                    </listheader>
+                </listhead>
+            </listbox>
+            <vbox spacing="10px" width="24px">
+                <button autodisable="self" style="cursor:pointer" id="ok" iconSclass="z-icon-check"  sclass="btn btn-sm btn-success" />
+                <button autodisable="self" style="cursor:pointer" id="cancel" iconSclass="z-icon-ban" sclass="btn btn-sm btn-warning" />
+            </vbox>
+        </hlayout>
+    </window>
+</zk>
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"  xmlns:w="client">
+    <window id="winEtiqueta" title="Editar Etiquetas del Archivo"  border="normal" width="780px"          
+            position="top,center" closable="true" 
+             apply="gob.peam.arcdig.view.WinEtiqueta">
+        
+        
+        <hlayout  style="padding:10px">
+            <listbox id="candidateLb" hflex="1" vflex="true" multiple="true"  rows="10">
+                <listhead>
+                    <listheader label="" width="30px"></listheader>
+                    <listheader label="" width="280px">
+                        <bandbox  id="filtro" placeholder="Buscar Etiqueta..."   width="200px" instant="true"/>
+                    </listheader>
+                    
+                </listhead>
+               
+            </listbox>
+            <zscript><![CDATA[
+    String imgPath = "/resources/img";
+]]></zscript>
+            <vbox spacing="10px" width="24px">
+                
+                <image style="cursor:pointer; border:0px" id="chooseBtn" src="${imgPath}/rightarrow_g.png" />
+                <image style="cursor:pointer; border:0px" id="removeBtn" src="${imgPath}/leftarrow_g.png" />
+                
+            </vbox>
+            <listbox id="chosenLb" hflex="1" vflex="true" multiple="true" checkmark="true" rows="8">
+                <listhead>
+                    <listheader label="" width="30px"></listheader>
+                    
+                    <listheader label="Nombre Completo" width="280px"></listheader>
+                </listhead>
+
+            </listbox>
+            <vlayout   >
+                <button id="ok"  iconSclass="z-icon-check" autodisable="self"  sclass="btn btn-sm btn-primary"></button>
+                <button iconSclass="z-icon-ban" id="cancel" autodisable="self" sclass="btn btn-sm btn-warning"></button>
+                
+            </vlayout>
+            
+        </hlayout>
+        
+        
+    </window>
+</zk>
+

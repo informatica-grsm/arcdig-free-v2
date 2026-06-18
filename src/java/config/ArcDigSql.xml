@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <!--WebApp-->
+        <typeAlias alias="Usuario" type="gob.peam.arcdig.beans.Usuario" />
+        <typeAlias alias="Sesion" type="gob.peam.arcdig.beans.Sesion" />
+        <typeAlias alias="Dependencia" type="gob.peam.arcdig.beans.Dependencia" />
+        <typeAlias alias="Persona" type="gob.peam.arcdig.beans.Persona" />
+        <typeAlias alias="Grupo" type="gob.peam.arcdig.beans.Grupo" />
+        <typeAlias alias="Etiqueta" type="gob.peam.arcdig.beans.Etiqueta" /> 
+        <typeAlias alias="SubModulo" type="gob.peam.arcdig.beans.SubModulo" />
+        <typeAlias alias="Persona" type="gob.peam.arcdig.beans.Persona" />
+        <typeAlias alias="Entidad" type="gob.peam.arcdig.beans.Entidad" />
+        
+        <!--ArcDig-->
+        <typeAlias alias="MineType" type="gob.peam.arcdig.beans.MineType" />
+        <typeAlias alias="Documento" type="gob.peam.arcdig.beans.Documento" />
+        <typeAlias alias="EtiquetaDocu" type="gob.peam.arcdig.beans.EtiquetaDocu" />
+        <typeAlias alias="TipoDocumento" type="gob.peam.arcdig.beans.TipoDocumento" />
+        <typeAlias alias="Metadata" type="gob.peam.arcdig.beans.Metadata" />
+        <typeAlias alias="Repositorio" type="gob.peam.arcdig.beans.Repositorio" />
+        <typeAlias alias="Catalogo" type="gob.peam.arcdig.beans.Catalogo" />
+        <typeAlias alias="CatalogoUsuario" type="gob.peam.arcdig.beans.CatalogoUsuario" />
+        <typeAlias alias="Categoria" type="gob.peam.arcdig.beans.Categoria" />
+        <typeAlias alias="DocumentoUsuario" type="gob.peam.arcdig.beans.DocumentoUsuario" />
+        <typeAlias alias="TipoMetadata" type="gob.peam.arcdig.beans.TipoMetadata" />
+        <typeAlias alias="Permiso" type="gob.peam.arcdig.beans.Permiso" />
+        <typeAlias alias="RutaRapida" type="gob.peam.arcdig.beans.RutaRapida" />
+        <typeAlias alias="Carpeta" type="gob.peam.arcdig.beans.Carpeta" />
+        <typeAlias alias="Notificacion" type="gob.peam.arcdig.beans.Notificacion" />
+        <!--WebPersonal/WebRrhh -->
+        <!--Siado-->
+        <typeAlias alias="Siado" type="gob.peam.arcdig.beans.Siado" />
+        <typeAlias alias="SiadoDetalle" type="gob.peam.arcdig.beans.SiadoDetalle" />
+        <typeAlias alias="Serie" type="gob.peam.arcdig.beans.Serie" />
+        <typeAlias alias="Sector" type="gob.peam.arcdig.beans.Sector" />
+        <typeAlias alias="SubSerie" type="gob.peam.arcdig.beans.SubSerie" />
+        <typeAlias alias="TipoDoc" type="gob.peam.arcdig.beans.TipoDoc" />
+        <typeAlias alias="SubTipoDoc" type="gob.peam.arcdig.beans.SubTipoDoc" />
+        <typeAlias alias="DetSubTipoDoc" type="gob.peam.arcdig.beans.DetSubTipoDoc" />
+        <!--Siado-->
+             
+        <typeAlias alias="Personal" type="gob.peam.arcdig.beans.Personal" />
+    </typeAliases>
+    
+    <environments default="ArcDig">
+        <environment id="SISAI">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="org.postgresql.Driver"/>
+                <property name="url" value="jdbc:postgresql://172.16.100.25:5432/ArcDigAR"/>
+                <property name="username" value="postgres"/>
+                <property name="password" value=""/>
+            </dataSource>
+        </environment>
+        
+        <environment id="ArcDig">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="org.postgresql.Driver"/>
+                <property name="url" value="jdbc:postgresql://172.16.100.25:5433/ArcDigAR"/>
+                <property name="username" value="postgres"/>
+                <property name="password" value=""/>
+            </dataSource>
+        </environment>
+        
+        <environment id="WebPersonal">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="org.postgresql.Driver"/>
+                <property name="url" value="jdbc:postgresql://172.16.100.25:5432/ArcDigAR"/>
+                <property name="username" value="postgres"/>
+                <property name="password" value=""/>
+            </dataSource>
+        </environment>
+        
+    </environments>
+   
+    <mappers>
+        
+        <!--WebApp-->
+        <mapper resource="batis/Usuario.xml" />
+        <mapper resource="batis/Sesion.xml" />
+        <mapper resource="batis/Etiqueta.xml" />
+        <mapper resource="batis/Persona.xml" />
+        <mapper resource="batis/Entidad.xml" />
+        <mapper resource="batis/Dependencia.xml" />
+        
+        <!--ArcDig-->
+        <mapper resource="batis/MineType.xml" />
+        <mapper resource="batis/Documento.xml" />
+        <mapper resource="batis/EtiquetaDocu.xml" />
+        <mapper resource ="batis/TipoDocumento.xml" />
+        <mapper resource ="batis/MetaData.xml" />
+        <mapper resource ="batis/Repositorio.xml" />
+        <mapper resource ="batis/Catalogo.xml" />
+        <mapper resource ="batis/Categoria.xml" />
+        <mapper resource ="batis/Permiso.xml" />
+        <mapper resource ="batis/Notificacion.xml" />
+        <mapper resource ="batis/Grupo.xml" />
+        
+        <!--Siado-->
+        <mapper resource ="batis/Siado.xml" />
+        <mapper resource ="batis/SiadoDetalle.xml" />
+        <!--WebPersonal/WebRrhh -->
+        <mapper resource ="batis/Personal.xml" />
+        
+    </mappers>
+</configuration>
+

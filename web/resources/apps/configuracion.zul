@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    
+    <panel border="normal" apply="gob.peam.arcdig.view.Config">
+        <caption iconSclass="icon-pencil" style="float:left">
+            Cambie su contraseña periódicamente para evitar fraude o el robo de su cuenta.
+        </caption>
+        <panelchildren>
+            <hlayout>
+                <grid style="padding:20px">
+                    <columns>
+                        <column label="" width="40%" align="right" />
+                        <column label="" width="30%" align="center" />
+                        <column label="" width="30%" align="left" />
+                    </columns>
+                    <rows>
+                        <row>
+                            <label value="Actual Contraseña:(*)" />
+                            <textbox id="actual" width="220px"  type="password"/>
+                            <label id="usrError" />
+                        </row>
+                        <row>
+                            <label value="Nueva Contraseña:(*)" />
+                            <textbox id="password" width="220px"  type="password" />
+                            <label id="passError" />
+                        </row>
+                        <row>
+                            <label value="Repita Nueva Contraseña:(*)" />
+                            <textbox id="nuevo" width="220px"  type="password" />
+                            <label id="reeError" />
+                        </row>
+                
+                    </rows>
+                </grid>
+               
+               
+            </hlayout>
+        </panelchildren>
+        
+    </panel>
+    <hlayout style="float:right; margin-top:10px">
+        <button label="Cambiar" zclass="btn btn-primary" iconSclass="z-icon-save" id="aceptar"/>
+        <button label="Limpiar" zclass="btn btn-warning" iconSclass="z-icon-refresh" id="rechazar"/>
+        <label  value="" />
+    </hlayout>
+    
+</zk>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Repositorio">
+    <resultMap id="RepositorioMap" type="Repositorio">
+        <result property="id" column="carp_id" />
+        <result property="nombre" column="carp_nombre" />
+        <result property="estado" column="carp_estado" />
+        <result property="padre" column="carp_padre" />
+        <result property="nivel" column="carp_nivel" />
+    </resultMap>
+    
+    <resultMap id="RutasMap" type="RutaRapida">
+        <result property="ruta" column="ruta" />
+        <result property="cataId" column="cata_id" />
+        <result property="dni" column="dni" />
+    </resultMap>
+    
+    <select id="listarCarpetas" parameterType="java.util.HashMap" resultMap="RepositorioMap">
+        select * from carpeta where carp_nivel=#{nivel} and carp_padre=#{padre}
+    </select>
+
+    <select id="listarRutas" parameterType="String" resultMap="RutasMap">
+        select distinct(ruta), dni, cata_id from rutas_rapida 
+        where dni = #{dni}
+        limit 4 offset 0
+    </select>
+    
+    <insert id="insertRuta" parameterType="RutaRapida" >
+        INSERT INTO rutas_rapida(
+        ruta, cata_id, dni)
+        VALUES (#{ruta},#{cataId}, #{dni})
+    </insert>
+    
+</mapper>

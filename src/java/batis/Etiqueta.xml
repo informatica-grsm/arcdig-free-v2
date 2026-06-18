@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Etiqueta">
+    <resultMap id="EtiquetaMap" type="Etiqueta">
+        <result property="idEtiqueta" column="etiq_id" />
+        <result property="descripcion" column="etiq_descripcion" />              
+    </resultMap>
+    <resultMap id="SubModuloMap" type="SubModulo">
+        <id property="idSubModulo" column="sumo_id" />
+        <result property="nombre" column="sumo_nombre" />
+        <result property="url" column="sumo_url" />
+        <result property="estado" column="sumo_estado" />
+    </resultMap>
+    <resultMap id="menusPorUsuarioyModuloMap" type="Etiqueta">
+        <result property="idEtiqueta" column="etiq_id" />
+        <result property="descripcion" column="etiq_descripcion" /> 
+        <result property="icono" column="etiq_icon" /> 
+        <collection property="subModulos" column="etiq_id" javaType="ArrayList" ofType="SubModulo">
+            <id property="idSubModulo" column="sumo_id" />
+            <result property="nombre" column="sumo_nombre" />
+            <result property="url" column="sumo_url" />
+            <result property="estado" column="sumo_estado" />
+        </collection> 
+    </resultMap>  
+    <select id="seleccionarEtiqueta" resultMap="EtiquetaMap">
+        select * from administracion.etiqueta
+    </select>
+    <insert id="insertEtiqueta" parameterType="Etiqueta">
+        <selectKey keyProperty="idEtiqueta" resultType="int" order="BEFORE">
+            select cast(((case  when max(etiq_id) is null then 0 else max(etiq_id) end) +1) as int) from administracion.etiqueta
+        </selectKey>
+        INSERT INTO administracion.etiqueta(
+        etiq_id, etiq_descripcion)
+        VALUES (#{idEtiqueta},#{descripcion})
+    </insert>
+    <update id="updateEtiqueta" parameterType="Etiqueta">
+        UPDATE administracion.etiqueta
+        SET  etiq_descripcion=#{descripcion}
+        WHERE etiq_id=#{idEtiqueta}
+    </update>
+    <select id="existeEtiqueta" parameterType="String" resultMap="EtiquetaMap">
+        select * from administracion.etiqueta where etiq_descripcion=#{descripcion} 
+    </select>
+    <select id="buscarEtiquetaPorDescripcion" parameterType="String" resultMap="EtiquetaMap">
+        select * from administracion.etiqueta where etiq_descripcion=#{descripcion}
+    </select>
+    <select id="childrenEtiqueta" parameterType="Integer" resultMap="SubModuloMap">
+        select * from administracion.sub_modulo where etiq_id=#{id}
+    </select>
+    <delete id="deleteEtiqueta" parameterType="Integer">
+        DELETE FROM administracion.etiqueta
+        WHERE etiq_id=#{id}
+    </delete>
+    
+    <select id="buscarMenusPorUsuarioyModulo" parameterType="HashMap" resultMap="menusPorUsuarioyModuloMap">
+        select distinct permisos.sumo_id,sub_modulo.sumo_nombre,sub_modulo.sumo_url,permisos.perm_nuevo,permisos.perm_editar,permisos.perm_eliminar,permisos.perm_imprimir,permisos.perm_ver, sub_modulo.etiq_id,etiqueta.etiq_descripcion, etiq_icon
+        from administracion.permisos
+        inner join administracion.sub_modulo on sub_modulo.sumo_id=administracion.permisos.sumo_id
+        inner join administracion.etiqueta on etiqueta.etiq_id=sub_modulo.etiq_id
+        inner join administracion.modulo on modulo.modu_id=sub_modulo.modu_id
+        inner join administracion.roles on roles.role_id=permisos.role_id
+        inner join administracion.grupo_rol on grupo_rol.role_id=roles.role_id
+        inner join administracion.grupo on grupo.grup_id=grupo_rol.grup_id
+        inner join administracion.usuario on usuario.grup_id=grupo.grup_id
+        where administracion.usuario.usua_id=#{idUsuario} and administracion.modulo.modu_estado=true and administracion.sub_modulo.sumo_estado=true 
+        and administracion.modulo.modu_id='12' and administracion.permisos.perm_ver=true
+        order by administracion.etiqueta.etiq_descripcion asc
+    </select>
+    
+    <select id="getNavigator" parameterType="Integer" resultMap="menusPorUsuarioyModuloMap">
+        select * from administracion.sub_modulo t1
+        inner join administracion.etiqueta t2 on t1.etiq_id = t2.etiq_id
+        where t1.sumo_id = #{id}
+    </select>
+</mapper>

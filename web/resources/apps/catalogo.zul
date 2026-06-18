@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    
+    <panel border="normal" apply="gob.peam.arcdig.view.AppCatalogo">
+        <caption iconSclass="icon-pencil" style="float:left">
+            Configuración de Los Catalogos, que se usan para el guardado de los archivos del sistema.
+        </caption>
+        <panelchildren>
+            <hlayout>
+                <listbox id="listCatalogo" emptyMessage="No hay Registros Encontrados" mold="paging" pageSize="9"   checkmark="true"  nonselectableTags="">
+                    <auxhead sclass="category-center">
+                        <auxheader style="text-align:right"  colspan="6">
+                            <bandbox width="550px" id="filtro" instant="true" placeholder="Buscar..." sclass="input-prepend" />
+                        </auxheader>
+                    </auxhead>
+                    <auxhead sclass="category-center">
+                        <auxheader colspan="6">
+                            <button id="nuevo" iconSclass="z-icon-file">Nuevo</button>&#160;
+                            <button id="editar"  iconSclass="z-icon-pencil">Editar</button>&#160;
+                            <button id="eliminar" iconSclass="z-icon-trash-o">Borrar</button>&#160;
+                            <button id="acceso" iconSclass="z-icon-cog">Acceso</button>&#160;
+                            <button id="update" iconSclass="z-icon-refresh">Actualizar</button>
+                        </auxheader>
+                    </auxhead>
+                    <listhead sizable="true">
+                        <listheader hflex="min" label="" align="center"/>
+                        <listheader hflex="min" label="Nro" align="center"/>
+                        <listheader hflex="max" label="Nombre" align="left"/>
+                        <listheader hflex="max" label="Descripcion" align="left"/>
+                        <listheader hflex="max" label="Ruta(Carpeta)" align="left"/>
+                        <listheader hflex="min" label="Estado" align="center"/>
+                    </listhead>
+                </listbox>
+                <grid id="formulario" style="padding:20px" visible="false">
+                    <columns>
+                        <column label="" width="30%" align="right" />
+                        <column label="" width="50%" align="left" />
+                        <column label="" width="20%" align="left" />
+                    </columns>
+                    <rows>
+                        <row>
+                            <label value="Nombre :" />
+                            <textbox id="nombre" width="100%"  value="" />
+                            <label id="nombError" />
+                        </row>
+                        <row>
+                            <label value="Descripción :"/>
+                            <textbox id="descripcion" width="100%" value="" />
+                            <label id="desError" />
+                        </row>
+                        <row>
+                            <label value="Ruta :"/>
+                            <div>
+                                <label id="ruta" width="100%"/>
+                                <div>
+                                    <a id="rutear" iconSclass="z-icon-folder"> </a>
+                                </div>                              
+                            </div>
+                            <label id="rutError" />
+                        </row>
+                        <row>
+                            <label value="Estado :" />
+                            <checkbox id="estado" />
+                        </row>
+                    </rows>
+                </grid>
+            </hlayout>
+        </panelchildren>
+        
+    </panel>
+    <hlayout style="float:right; margin-top:10px" id="control" visible="false">
+        <button id="aceptar" label="Guardar" zclass="btn btn-primary" iconSclass="z-icon-save"/>
+        <button id="clear" label="Limpiar" zclass="btn btn-warning" iconSclass="z-icon-refresh"/>
+        <button id="cancelar" label="Cancelar" zclass="btn btn-danger" iconSclass="z-icon-reply"/>
+        <label  value="" />
+    </hlayout>
+    
+</zk>
